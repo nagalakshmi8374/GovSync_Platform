@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Syllabus Updates | SyllabusSync</title>
+
+    <!-- Google Font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet"
+    >
+
+    <!-- CSS -->
+   <link rel="stylesheet" href="{{ url_for('static', filename='updates.css') }}">
+</head>
+
+
+<body>
+
+    <!-- ================================
+         MAIN PAGE
+    ================================= -->
+
+    <main class="updates-page">
+
+
+        <!-- ================================
+             HEADER
+        ================================= -->
+
+        <header class="page-header">
+
+            <div class="header-left">
+
+                <button
+                    class="back-button"
+                    onclick="goDashboard()"
+                    aria-label="Back to Dashboard"
+                >
+                    ←
+                </button>
+
+                <div>
+
+                    <span class="page-label">
+                        SYLLABUS TRACKER
+                    </span>
+
+                    <h1>
+                        Syllabus Updates
+                    </h1>
+
+                    <p>
+                        Stay informed about the latest official syllabus changes.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="brand">
+
+                <div class="brand-icon">
+                    S
+                </div>
+
+                <div class="brand-name">
+                    Syllabus<span>Sync</span>
+                </div>
+
+            </div>
+
+        </header>
+
+
+
+        <!-- ================================
+             SUMMARY CARDS
+        ================================= -->
+
+        <section class="summary-grid">
+
+
+            <div class="summary-card">
+
+                <div class="summary-icon blue">
+                    ↻
+                </div>
+
+                <div>
+
+                    <span>
+                        TOTAL UPDATES
+                    </span>
+
+                    <h2>
+                        {{ total_updates }}
+                    </h2>
+
+                    <p>
+                        Syllabus changes tracked
+                    </p>
+
+                </div>
+
+            </div>
+
+
+
+            <div class="summary-card">
+
+                <div class="summary-icon purple">
+                    !
+                </div>
+
+                <div>
+
+                    <span>
+                        NEW UPDATES
+                    </span>
+
+                    <h2>
+                        {{ new_updates }}
+                    </h2>
+
+                    <p>
+                        Changes recently detected
+                    </p>
+
+                </div>
+
+            </div>
+
+
+
+            <div class="summary-card">
+
+                <div class="summary-icon orange">
+                    ✓
+                </div>
+
+                <div>
+
+                    <span>
+                        EXAMS UPDATED
+                    </span>
+
+                    <h2>
+                        {{ exams_updated }}
+                    </h2>
+
+                    <p>
+                        Exams with recent changes
+                    </p>
+
+                </div>
+
+            </div>
+
+
+        </section>
+
+
+
+        <!-- ================================
+             FILTER SECTION
+        ================================= -->
+
+        <section class="filter-section">
+
+
+            <div class="search-box">
+
+                <span>
+                    ⌕
+                </span>
+
+                <input
+                    type="text"
+                    id="searchInput"
+                    placeholder="Search exam updates..."
+                    onkeyup="searchUpdates()"
+                >
+
+            </div>
+
+
+
+            <div class="filter-buttons">
+
+                <button
+                    class="filter-btn active"
+                    onclick="filterUpdates('all', this)"
+                >
+                    All Exams
+                </button>
+
+                {% for exam in filter_exams %}
+                <button
+                    class="filter-btn"
+                    onclick="filterUpdates('{{ exam.code }}', this)"
+                >
+                    {{ exam.code }}
+                </button>
+                {% endfor %}
+
+            </div>
+
+        </section>
+
+
+
+        <!-- ================================
+             UPDATE SECTION
+        ================================= -->
+
+        <section class="updates-section">
+
+
+            <div class="section-heading">
+
+                <div>
+
+                    <h2>
+                        Latest Updates
+                    </h2>
+
+                    <p>
+                        Recently detected syllabus changes
+                    </p>
+
+                </div>
+
+                <span class="live-status">
+                    <i></i>
+                    Live Tracking
+                </span>
+
+            </div>
+
+
+
+            <!-- ================================
+                 SYLLABUS UPDATE CARDS (dynamic)
+            ================================= -->
+
+            {% if updates %}
+            {% for update in updates %}
+            <article
+                class="update-card{% if not update.is_new %} old-update{% endif %}"
+                data-exam="{{ update.exam_code or 'all' }}"
+            >
+
+                <div class="update-top">
+
+                    <div class="exam-info">
+
+                        <div class="exam-logo{% if update.exam_code %} {{ update.exam_code|lower }}{% endif %}">
+                            {{ update.exam_code or 'ALL' }}
+                        </div>
+
+                        <div>
+
+                            <h3>
+                                {{ update.exam_name }}
+                            </h3>
+
+                            <span>
+                                {{ update.updated_section or 'General Update' }}
+                            </span>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="update-date">
+
+                        {% if update.is_new %}
+                        <span class="new-badge">
+                            NEW UPDATE
+                        </span>
+                        {% else %}
+                        <span class="old-badge">
+                            PREVIOUS UPDATE
+                        </span>
+                        {% endif %}
+
+                        <p>
+                            {{ update.created_at.strftime('%B %d, %Y') if update.created_at else '' }}
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+
+                <div class="change-box">
+
+                    <div class="change-icon">
+                        {{ '↑' if update.is_new else '✓' }}
+                    </div>
+
+                    <div>
+
+                        <strong>
+                            {{ update.title }}
+                        </strong>
+
+                        <p>
+                            {{ update.description }}
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+
+                <div class="update-details">
+
+                    <div>
+
+                        <span>
+                            UPDATED SECTION
+                        </span>
+
+                        <strong>
+                            {{ update.updated_section or '—' }}
+                        </strong>
+
+                    </div>
+
+                    <div>
+
+                        <span>
+                            CHANGE TYPE
+                        </span>
+
+                        <strong>
+                            {{ update.change_type or '—' }}
+                        </strong>
+
+                    </div>
+
+                    <div>
+
+                        <span>
+                            STATUS
+                        </span>
+
+                        <strong class="status-updated">
+                            Updated
+                        </strong>
+
+                    </div>
+
+                </div>
+
+
+
+                <div class="card-bottom">
+
+                    <span>
+                        Official syllabus synchronization completed
+                    </span>
+
+                    <button
+                        class="details-button"
+                        onclick="viewUpdate('{{ update.exam_name }}')"
+                    >
+                        View Details →
+                    </button>
+
+                </div>
+
+            </article>
+            {% endfor %}
+            {% else %}
+            <p>
+                No syllabus updates yet. Check back soon.
+            </p>
+            {% endif %}
+
+
+
+            <!-- NO RESULTS -->
+
+            <div
+                class="no-results"
+                id="noResults"
+            >
+
+                <div>
+                    ⌕
+                </div>
+
+                <h3>
+                    No updates found
+                </h3>
+
+                <p>
+                    Try searching for another exam.
+                </p>
+
+            </div>
+
+
+        </section>
+
+
+
+        <!-- ================================
+             FOOTER
+        ================================= -->
+
+        <footer>
+
+            © 2026 SyllabusSync.
+            Stay updated. Stay prepared.
+
+        </footer>
+
+
+    </main>
+
+
+
+    <!-- ================================
+         JAVASCRIPT
+    ================================= -->
+
+    <script>
+
+        /* ================================
+           DASHBOARD
+        ================================= */
+
+        function goDashboard() {
+
+            window.location.href = "/dashboard";
+
+        }
+
+
+
+        /* ================================
+           FILTER
+        ================================= */
+
+        function filterUpdates(exam, button) {
+
+            const cards =
+                document.querySelectorAll(".update-card");
+
+            const buttons =
+                document.querySelectorAll(".filter-btn");
+
+            buttons.forEach(function(btn) {
+
+                btn.classList.remove("active");
+
+            });
+
+            button.classList.add("active");
+
+
+            let visibleCards = 0;
+
+
+            cards.forEach(function(card) {
+
+                const cardExam =
+                    card.getAttribute("data-exam");
+
+
+                if (
+                    exam === "all" ||
+                    cardExam === exam
+                ) {
+
+                    card.style.display = "block";
+
+                    visibleCards++;
+
+                } else {
+
+                    card.style.display = "none";
+
+                }
+
+            });
+
+
+            document.getElementById("noResults")
+                .style.display =
+                visibleCards === 0 ? "block" : "none";
+
+        }
+
+
+
+        /* ================================
+           SEARCH
+        ================================= */
+
+        function searchUpdates() {
+
+            const searchValue =
+                document
+                    .getElementById("searchInput")
+                    .value
+                    .toLowerCase()
+                    .trim();
+
+
+            const cards =
+                document.querySelectorAll(".update-card");
+
+
+            let visibleCards = 0;
+
+
+            cards.forEach(function(card) {
+
+                const content =
+                    card.textContent.toLowerCase();
+
+
+                if (content.includes(searchValue)) {
+
+                    card.style.display = "block";
+
+                    visibleCards++;
+
+                } else {
+
+                    card.style.display = "none";
+
+                }
+
+            });
+
+
+            document.getElementById("noResults")
+                .style.display =
+                visibleCards === 0 ? "block" : "none";
+
+        }
+
+
+
+        /* ================================
+           VIEW DETAILS
+        ================================= */
+
+        function viewUpdate(examName) {
+
+            alert(
+                "Opening syllabus update for " +
+                examName
+            );
+
+            /*
+                Later Flask can replace this with:
+
+                window.location.href =
+                "/syllabus-update/" + examName;
+            */
+
+        }
+
+    </script>
+
+
+</body>
+
+</html>

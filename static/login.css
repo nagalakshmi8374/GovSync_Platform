@@ -1,0 +1,1009 @@
+/* =========================================
+   RESET
+========================================= */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+
+html {
+    min-height: 100%;
+}
+
+.messages {
+    margin-bottom: 20px;
+}
+
+.message {
+    padding: 12px 15px;
+    border-radius: 8px;
+    font-size: 14px;
+    margin-bottom: 10px;
+}
+
+.message.success {
+    background: #e8f7ee;
+    color: #1d7a46;
+}
+
+.message.error {
+    background: #fdecec;
+    color: #c0392b;
+}
+body {
+
+    min-height: 100vh;
+
+    font-family: "Inter", sans-serif;
+
+    background: #f5f3ee;
+
+    color: #1f2933;
+
+    overflow-x: hidden;
+
+    overflow-y: auto;
+}
+
+
+
+/* =========================================
+   MAIN PAGE
+========================================= */
+
+.page-container {
+
+    width: 100%;
+
+    min-height: 100vh;
+
+    padding: 24px;
+
+    display: flex;
+
+    align-items: stretch;
+
+    justify-content: center;
+
+    gap: 24px;
+}
+
+
+
+/* =========================================
+   LEFT WELCOME CARD
+========================================= */
+
+.welcome-card {
+
+    width: 55%;
+
+    min-height: calc(100vh - 48px);
+
+    background: #163a35;
+
+    color: white;
+
+    border-radius: 28px;
+
+    padding: 42px 7%;
+
+    display: flex;
+
+    flex-direction: column;
+
+    justify-content: space-between;
+
+    position: relative;
+
+    overflow: hidden;
+
+    flex-shrink: 0;
+}
+
+
+
+/* =========================================
+   DECORATIVE CIRCLES
+========================================= */
+
+.welcome-card::before {
+
+    content: "";
+
+    position: absolute;
+
+    width: 420px;
+
+    height: 420px;
+
+    border: 1px solid rgba(117, 201, 190, 0.14);
+
+    border-radius: 50%;
+
+    right: -180px;
+
+    top: -120px;
+}
+
+
+.welcome-card::after {
+
+    content: "";
+
+    position: absolute;
+
+    width: 300px;
+
+    height: 300px;
+
+    border: 1px solid rgba(117, 201, 190, 0.10);
+
+    border-radius: 50%;
+
+    left: -170px;
+
+    bottom: -120px;
+}
+
+
+
+/* =========================================
+   BRAND
+========================================= */
+
+.brand,
+.mobile-brand {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 12px;
+
+    font-size: 21px;
+
+    font-weight: 800;
+
+    position: relative;
+
+    z-index: 2;
+}
+
+
+.brand-icon {
+
+    width: 42px;
+
+    height: 42px;
+
+    background: #0f766e;
+
+    border-radius: 11px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    font-size: 20px;
+
+    font-weight: 800;
+
+    flex-shrink: 0;
+
+    box-shadow:
+        0 8px 25px rgba(15, 118, 110, 0.30);
+}
+
+
+.highlight {
+
+    color: #75c9be;
+}
+
+
+
+/* =========================================
+   LEFT CONTENT
+========================================= */
+
+.welcome-content {
+
+    width: 100%;
+
+    max-width: 620px;
+
+    position: relative;
+
+    z-index: 2;
+}
+
+
+.small-title {
+
+    color: #75c9be;
+
+    font-size: 12px;
+
+    font-weight: 700;
+
+    letter-spacing: 2px;
+
+    margin-bottom: 18px;
+}
+
+
+.welcome-content h1 {
+
+    font-size: clamp(42px, 4vw, 62px);
+
+    line-height: 1.08;
+
+    letter-spacing: -2px;
+
+    margin-bottom: 24px;
+}
+
+
+.welcome-content h1 span {
+
+    color: #75c9be;
+}
+
+
+.description {
+
+    max-width: 540px;
+
+    color: #c0d1cd;
+
+    font-size: 15px;
+
+    line-height: 1.75;
+
+    margin-bottom: 32px;
+}
+
+
+
+/* =========================================
+   FEATURES
+========================================= */
+
+.features {
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 18px;
+}
+
+
+.feature {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 14px;
+}
+
+
+.feature-icon {
+
+    width: 32px;
+
+    height: 32px;
+
+    border-radius: 50%;
+
+    background: rgba(117, 201, 190, 0.12);
+
+    border: 1px solid rgba(117, 201, 190, 0.15);
+
+    color: #75c9be;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    font-size: 13px;
+
+    font-weight: 800;
+
+    flex-shrink: 0;
+}
+
+
+.feature-text {
+
+    min-width: 0;
+}
+
+
+.feature strong {
+
+    display: block;
+
+    font-size: 14px;
+
+    line-height: 1.3;
+}
+
+
+.feature p {
+
+    color: #91aaa5;
+
+    font-size: 12px;
+
+    margin-top: 4px;
+
+    line-height: 1.4;
+}
+
+
+
+/* =========================================
+   COPYRIGHT
+========================================= */
+
+.copyright {
+
+    color: #78908b;
+
+    font-size: 12px;
+
+    position: relative;
+
+    z-index: 2;
+    
+    transform: translateY(8px);
+}
+
+
+
+/* =========================================
+   RIGHT FORM CARD
+========================================= */
+
+.form-card {
+
+    width: 45%;
+
+    min-height: calc(100vh - 48px);
+
+    background: #f5f3ee;
+
+    border-radius: 28px;
+
+    padding: 50px 55px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    flex-direction: column;
+
+    flex-shrink: 0;
+}
+
+
+
+/* =========================================
+   FORM CONTAINER
+========================================= */
+
+.form-container {
+
+    width: 100%;
+
+    max-width: 420px;
+
+    display: none;
+}
+
+
+.form-container.active {
+
+    display: block;
+}
+
+
+
+/* =========================================
+   FORM HEADER
+========================================= */
+
+.form-header {
+
+    margin-bottom: 28px;
+}
+
+
+.form-header h2 {
+
+    color: #1f2933;
+
+    font-size: 31px;
+
+    font-weight: 700;
+
+    line-height: 1.2;
+
+    letter-spacing: -1px;
+
+    margin-bottom: 8px;
+}
+
+
+.form-header p {
+
+    color: #66736f;
+
+    font-size: 14px;
+
+    line-height: 1.5;
+}
+
+
+
+/* =========================================
+   INPUT GROUP
+========================================= */
+
+.input-group {
+
+    margin-bottom: 18px;
+}
+
+
+.input-group label {
+
+    display: block;
+
+    color: #34403d;
+
+    font-size: 13px;
+
+    font-weight: 600;
+
+    margin-bottom: 8px;
+}
+
+
+
+/* =========================================
+   INPUT BOX
+========================================= */
+
+.input-box {
+
+    width: 100%;
+
+    height: 50px;
+
+    background: #fcfbf7;
+
+    border: 1px solid #d7d4cb;
+
+    border-radius: 10px;
+
+    padding: 0 14px;
+
+    display: flex;
+
+    align-items: center;
+
+    transition: 0.2s;
+}
+
+
+.input-box:focus-within {
+
+    border-color: #0f766e;
+
+    box-shadow:
+        0 0 0 4px rgba(15, 118, 110, 0.08);
+}
+
+
+.input-icon {
+
+    width: 20px;
+
+    margin-right: 9px;
+
+    color: #8b9793;
+
+    font-size: 13px;
+
+    text-align: center;
+
+    flex-shrink: 0;
+}
+
+
+.input-box input {
+
+    width: 100%;
+
+    height: 100%;
+
+    border: none;
+
+    outline: none;
+
+    background: transparent;
+
+    color: #1f2933;
+
+    font-family: inherit;
+
+    font-size: 14px;
+}
+
+
+.input-box input::placeholder {
+
+    color: #a3ada9;
+}
+
+
+
+/* =========================================
+   PASSWORD LABEL
+========================================= */
+
+.password-label {
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+}
+
+
+.password-label a {
+
+    color: #0f766e;
+
+    text-decoration: none;
+
+    font-size: 12px;
+
+    font-weight: 600;
+}
+
+
+
+/* =========================================
+   SHOW PASSWORD
+========================================= */
+
+.show-password {
+
+    border: none;
+
+    outline: none;
+
+    background: transparent;
+
+    color: #0f766e;
+
+    font-family: inherit;
+
+    font-size: 12px;
+
+    font-weight: 600;
+
+    cursor: pointer;
+
+    padding: 5px 0 5px 8px;
+
+    flex-shrink: 0;
+}
+
+
+
+/* =========================================
+   REMEMBER
+========================================= */
+
+.remember {
+
+    margin-bottom: 22px;
+
+    color: #66736f;
+
+    font-size: 12px;
+}
+
+
+.remember label {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 8px;
+
+    cursor: pointer;
+}
+
+
+.remember input {
+
+    width: 13px;
+
+    height: 13px;
+
+    accent-color: #0f766e;
+}
+
+
+
+/* =========================================
+   TERMS
+========================================= */
+
+.terms {
+
+    margin-bottom: 20px;
+
+    color: #66736f;
+
+    font-size: 12px;
+}
+
+
+.terms label {
+
+    display: flex;
+
+    align-items: flex-start;
+
+    gap: 8px;
+
+    line-height: 1.5;
+
+    cursor: pointer;
+}
+
+
+.terms input {
+
+    width: 13px;
+
+    height: 13px;
+
+    margin-top: 2px;
+
+    accent-color: #0f766e;
+
+    flex-shrink: 0;
+}
+
+
+.terms a {
+
+    color: #0f766e;
+
+    text-decoration: none;
+
+    font-weight: 700;
+}
+
+
+
+/* =========================================
+   MAIN BUTTON
+========================================= */
+
+.main-button {
+
+    width: 100%;
+
+    height: 51px;
+
+    border: none;
+
+    border-radius: 10px;
+
+    background: #0f766e;
+
+    color: white;
+
+    font-family: inherit;
+
+    font-size: 14px;
+
+    font-weight: 700;
+
+    cursor: pointer;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    gap: 10px;
+
+    transition: 0.25s;
+}
+
+
+.main-button:hover {
+
+    background: #0b5f59;
+
+    transform: translateY(-1px);
+
+    box-shadow:
+        0 10px 25px rgba(15, 118, 110, 0.20);
+}
+
+
+.button-text {
+
+    line-height: 1;
+}
+
+
+.arrow {
+
+    font-size: 18px;
+
+    line-height: 1;
+}
+
+
+
+/* =========================================
+   DIVIDER
+========================================= */
+
+.divider {
+
+    width: 100%;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 14px;
+
+    margin: 24px 0;
+}
+
+
+.divider::before,
+.divider::after {
+
+    content: "";
+
+    height: 1px;
+
+    flex: 1;
+
+    background: #dedbd2;
+}
+
+
+.divider span {
+
+    color: #9aa39f;
+
+    font-size: 10px;
+
+    font-weight: 600;
+}
+
+
+
+/* =========================================
+   SWITCH TEXT
+========================================= */
+
+.switch-text {
+
+    text-align: center;
+
+    color: #66736f;
+
+    font-size: 13px;
+
+    line-height: 1.5;
+}
+
+
+.switch-text a {
+
+    color: #0f766e;
+
+    text-decoration: none;
+
+    font-weight: 700;
+}
+
+
+.switch-text a:hover {
+
+    color: #0b5f59;
+}
+
+
+
+/* =========================================
+   MOBILE BRAND
+========================================= */
+
+.mobile-brand {
+
+    display: none;
+}
+
+
+
+/* =========================================
+   TABLET
+========================================= */
+
+@media (max-width: 1050px) {
+
+    .page-container {
+
+        gap: 18px;
+
+        padding: 18px;
+    }
+
+
+    .welcome-card {
+
+        width: 52%;
+
+        min-height: calc(100vh - 36px);
+
+        padding: 38px 6%;
+    }
+
+
+    .form-card {
+
+        width: 48%;
+
+        min-height: calc(100vh - 36px);
+
+        padding: 40px 30px;
+    }
+
+
+    .welcome-content h1 {
+
+        font-size: 46px;
+    }
+
+}
+
+
+
+/* =========================================
+   SMALL SCREEN
+========================================= */
+
+@media (max-width: 900px) {
+
+    .page-container {
+
+        min-height: 100vh;
+
+        padding: 0;
+
+        display: block;
+    }
+
+
+    .welcome-card {
+
+        display: none;
+    }
+
+
+    .form-card {
+
+        width: 100%;
+
+        min-height: 100vh;
+
+        border-radius: 0;
+
+        padding: 40px 30px;
+    }
+
+
+    .form-container {
+
+        max-width: 450px;
+    }
+
+
+    .mobile-brand {
+
+        display: flex;
+
+        justify-content: center;
+
+        margin-bottom: 35px;
+    }
+
+}
+
+
+
+/* =========================================
+   MOBILE
+========================================= */
+
+@media (max-width: 480px) {
+
+    .form-card {
+
+        padding: 30px 22px;
+    }
+
+
+    .mobile-brand {
+
+        margin-bottom: 30px;
+    }
+
+
+    .form-header {
+
+        margin-bottom: 24px;
+    }
+
+
+    .form-header h2 {
+
+        font-size: 27px;
+    }
+
+
+    .form-header p {
+
+        font-size: 13px;
+    }
+
+
+    .input-group {
+
+        margin-bottom: 16px;
+    }
+
+
+    .input-box {
+
+        height: 49px;
+    }
+
+
+    .main-button {
+
+        height: 50px;
+    }
+
+}

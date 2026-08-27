@@ -1,0 +1,1133 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>My Exams | SyllabusSync</title>
+
+    <!-- Google Font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet"
+    >
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='my_exams.css') }}">
+</head>
+
+
+<body>
+
+    <!-- =========================================
+         MAIN PAGE
+    ========================================== -->
+
+    <div class="page-container">
+
+
+        <!-- =========================================
+             HEADER
+        ========================================== -->
+
+        <header class="top-header">
+
+            <div class="header-left">
+
+                <!-- Menu Button -->
+                <button
+                    class="menu-button"
+                    onclick="toggleMenu()"
+                >
+                    ☰
+                </button>
+
+                <div class="page-title">
+
+                    <h1>My Exams</h1>
+
+                    <p>
+                        Manage your government exam preparation
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <!-- Profile -->
+            <div class="profile">
+
+                <div class="profile-avatar">
+                    {{ user_name[0] | upper }}
+                </div>
+
+                <div class="profile-info">
+
+                    <strong>{{ user_name }}</strong>
+
+                    <span>
+                        Government Exam Aspirant
+                    </span>
+
+                </div>
+
+            </div>
+
+        </header>
+
+
+
+        <!-- =========================================
+             SIDE MENU
+        ========================================== -->
+
+        <aside
+            class="side-menu"
+            id="sideMenu"
+        >
+
+            <div class="menu-header">
+
+                <div class="brand-icon">
+                    S
+                </div>
+
+                <span>
+                    Syllabus<span>Sync</span>
+                </span>
+
+                <button
+                    class="close-menu"
+                    onclick="toggleMenu()"
+                >
+                    ×
+                </button>
+
+            </div>
+
+
+            <div class="menu-links">
+
+                <a href="/dashboard">
+                    <span>⌂</span>
+                    Dashboard
+                </a>
+
+                <a
+                    href="/myexams"
+                    class="active"
+                >
+                    <span>✓</span>
+                    My Exams
+                </a>
+
+                <a href="/syllabus">
+                    <span>▣</span>
+                    Syllabus
+                </a>
+
+                <a href="/progress">
+                    <span>↗</span>
+                    Progress
+                </a>
+
+                <a href="#">
+                    <span>◉</span>
+                    Profile
+                </a>
+
+                <a href="/settings">
+                    <span>⚙</span>
+                    Settings
+                </a>
+
+            </div>
+
+
+            <div class="menu-bottom">
+
+                <div class="menu-user">
+
+                    <div class="menu-avatar">
+                        
+                    </div>
+
+                    <div>
+
+                        <strong>
+                            {{ user_name[0] | upper }}
+                        </strong>
+
+                        <span>
+                            Government Exam Aspirant
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+                <button
+                    class="logout"
+                    onclick="logout()"
+                >
+                    ↪ &nbsp; Logout
+                </button>
+
+            </div>
+
+        </aside>
+
+
+
+        <!-- Overlay -->
+
+        <div
+            class="overlay"
+            id="overlay"
+            onclick="toggleMenu()"
+        ></div>
+
+
+
+        <!-- =========================================
+             MAIN CONTENT
+        ========================================== -->
+
+        <main class="main-content">
+
+
+            <!-- =====================================
+                 MY SELECTED EXAMS
+            ====================================== -->
+
+            <section class="exam-section">
+
+                <div class="section-heading">
+
+                    <div>
+
+                        <span class="section-label">
+                            YOUR PREPARATION
+                        </span>
+
+                        <h2>
+                            My Selected Exams
+                        </h2>
+
+                        <p>
+                            Exams you are currently preparing for.
+                        </p>
+
+                    </div>
+                        <button
+                                  type="button"
+                                 class="add-exam-button"
+                                   onclick="window.location.href='{{ url_for('preference') }}'">
+                                   <span>+</span>
+                                     Add Exam
+                                  </button>
+
+                </div>
+
+
+
+                <!-- Exam Cards -->
+
+
+
+<div class="exam-grid">
+
+    {% if exams %}
+
+        <!-- ==============================
+             FIRST 3 EXAMS
+        =============================== -->
+
+        {% for exam in exams[:3] %}
+
+            <div class="exam-card">
+
+                <div class="exam-card-top">
+
+                    <div class="exam-icon">
+                        {{ exam }}
+                    </div>
+
+                    <span class="status active-status">
+                        Preparing
+                    </span>
+
+                </div>
+
+
+                {% if exam == "UPSC" %}
+
+                    <h3>
+                        UPSC CSE
+                    </h3>
+
+                    <p class="exam-description">
+                        Civil Services Examination
+                    </p>
+
+                    <div class="exam-details">
+
+                        <div>
+                            <span>Subjects</span>
+                            <strong>6</strong>
+                        </div>
+
+                        <div>
+                            <span>Progress</span>
+                            <strong>56%</strong>
+                        </div>
+
+                    </div>
+
+
+                {% elif exam == "SSC" %}
+
+                    <h3>
+                        SSC CGL
+                    </h3>
+
+                    <p class="exam-description">
+                        Combined Graduate Level
+                    </p>
+
+                    <div class="exam-details">
+
+                        <div>
+                            <span>Subjects</span>
+                            <strong>4</strong>
+                        </div>
+
+                        <div>
+                            <span>Progress</span>
+                            <strong>48%</strong>
+                        </div>
+
+                    </div>
+
+
+                {% elif exam == "IBPS" %}
+
+                    <h3>
+                        IBPS PO
+                    </h3>
+
+                    <p class="exam-description">
+                        Probationary Officer
+                    </p>
+
+                    <div class="exam-details">
+
+                        <div>
+                            <span>Subjects</span>
+                            <strong>5</strong>
+                        </div>
+
+                        <div>
+                            <span>Progress</span>
+                            <strong>21%</strong>
+                        </div>
+
+                    </div>
+
+
+                {% elif exam == "RRB" %}
+
+                    <h3>
+                        RRB NTPC
+                    </h3>
+
+                    <p class="exam-description">
+                        Railway Recruitment Examination
+                    </p>
+
+                    <div class="exam-details">
+
+                        <div>
+                            <span>Subjects</span>
+                            <strong>5</strong>
+                        </div>
+
+                        <div>
+                            <span>Progress</span>
+                            <strong>31%</strong>
+                        </div>
+
+                    </div>
+
+
+                {% elif exam == "GATE" %}
+
+                    <h3>
+                        GATE
+                    </h3>
+
+                    <p class="exam-description">
+                        Graduate Aptitude Test in Engineering
+                    </p>
+
+                    <div class="exam-details">
+
+                        <div>
+                            <span>Subjects</span>
+                            <strong>8</strong>
+                        </div>
+
+                        <div>
+                            <span>Progress</span>
+                            <strong>20%</strong>
+                        </div>
+
+                    </div>
+
+
+                {% elif exam == "ESE" %}
+
+                    <h3>
+                        Engineering Services
+                    </h3>
+
+                    <p class="exam-description">
+                        Engineering Services Examination
+                    </p>
+
+                    <div class="exam-details">
+
+                        <div>
+                            <span>Subjects</span>
+                            <strong>7</strong>
+                        </div>
+
+                        <div>
+                            <span>Progress</span>
+                            <strong>15%</strong>
+                        </div>
+
+                    </div>
+
+
+                {% elif exam == "PSC" %}
+
+                    <h3>
+                        State PSC
+                    </h3>
+
+                    <p class="exam-description">
+                        State Public Service Commission
+                    </p>
+
+                    <div class="exam-details">
+
+                        <div>
+                            <span>Subjects</span>
+                            <strong>6</strong>
+                        </div>
+
+                        <div>
+                            <span>Progress</span>
+                            <strong>10%</strong>
+                        </div>
+
+                    </div>
+
+
+                {% elif exam == "DEFENCE" %}
+
+                    <h3>
+                        Defence Exams
+                    </h3>
+
+                    <p class="exam-description">
+                        CDS, AFCAT and Defence examinations
+                    </p>
+
+                    <div class="exam-details">
+
+                        <div>
+                            <span>Subjects</span>
+                            <strong>6</strong>
+                        </div>
+
+                        <div>
+                            <span>Progress</span>
+                            <strong>12%</strong>
+                        </div>
+
+                    </div>
+
+
+                {% else %}
+
+                    <h3>
+                        {{ exam }}
+                    </h3>
+
+                    <p class="exam-description">
+                        Government Competitive Examination
+                    </p>
+
+                    <div class="exam-details">
+
+                        <div>
+                            <span>Subjects</span>
+                            <strong>--</strong>
+                        </div>
+
+                        <div>
+                            <span>Progress</span>
+                            <strong>0%</strong>
+                        </div>
+
+                    </div>
+
+                {% endif %}
+
+
+                <div class="progress-bar">
+
+                    <div
+                        class="progress"
+                        style="width: 20%;"
+                    ></div>
+
+                </div>
+
+
+                <button class="view-button">
+                    View Syllabus
+                    <span>→</span>
+                </button>
+
+            </div>
+
+        {% endfor %}
+
+
+        <!-- ==================================
+             OTHER EXAMS
+        =================================== -->
+
+        {% if exams|length > 3 %}
+
+            <div
+                id="otherExams"
+                style="display:none;"
+            >
+
+                {% for exam in exams[3:] %}
+
+                    <div class="exam-card">
+
+                        <div class="exam-card-top">
+
+                            <div class="exam-icon">
+                                {{ exam }}
+                            </div>
+
+                            <span class="status active-status">
+                                Preparing
+                            </span>
+
+                        </div>
+
+
+                        {% if exam == "UPSC" %}
+
+                            <h3>
+                                UPSC CSE
+                            </h3>
+
+                            <p class="exam-description">
+                                Civil Services Examination
+                            </p>
+
+                        {% elif exam == "SSC" %}
+
+                            <h3>
+                                SSC CGL
+                            </h3>
+
+                            <p class="exam-description">
+                                Combined Graduate Level
+                            </p>
+
+                        {% elif exam == "IBPS" %}
+
+                            <h3>
+                                IBPS PO
+                            </h3>
+
+                            <p class="exam-description">
+                                Probationary Officer
+                            </p>
+
+                        {% elif exam == "RRB" %}
+
+                            <h3>
+                                RRB NTPC
+                            </h3>
+
+                            <p class="exam-description">
+                                Railway Recruitment Examination
+                            </p>
+
+                        {% elif exam == "GATE" %}
+
+                            <h3>
+                                GATE
+                            </h3>
+
+                            <p class="exam-description">
+                                Graduate Aptitude Test in Engineering
+                            </p>
+
+                        {% elif exam == "ESE" %}
+
+                            <h3>
+                                Engineering Services
+                            </h3>
+
+                            <p class="exam-description">
+                                Engineering Services Examination
+                            </p>
+
+                        {% elif exam == "PSC" %}
+
+                            <h3>
+                                State PSC
+                            </h3>
+
+                            <p class="exam-description">
+                                State Public Service Commission
+                            </p>
+
+                        {% elif exam == "DEFENCE" %}
+
+                            <h3>
+                                Defence Exams
+                            </h3>
+
+                            <p class="exam-description">
+                                CDS, AFCAT and Defence examinations
+                            </p>
+
+                        {% else %}
+
+                            <h3>
+                                {{ exam }}
+                            </h3>
+
+                            <p class="exam-description">
+                                Government Competitive Examination
+                            </p>
+
+                        {% endif %}
+
+
+                        <div class="exam-details">
+
+                            <div>
+                                <span>Subjects</span>
+                                <strong>--</strong>
+                            </div>
+
+                            <div>
+                                <span>Progress</span>
+                                <strong>0%</strong>
+                            </div>
+
+                        </div>
+
+
+                        <div class="progress-bar">
+
+                            <div
+                                class="progress"
+                                style="width:0%;"
+                            ></div>
+
+                        </div>
+
+
+                        <button class="view-button">
+                            View Syllabus
+                            <span>→</span>
+                        </button>
+
+                    </div>
+
+                {% endfor %}
+
+            </div>
+
+
+            <!-- ==============================
+                 OTHERS BUTTON
+            =============================== -->
+
+            <button
+                type="button"
+                class="others-button"
+                id="othersButton"
+                onclick="showOtherExams()"
+            >
+                Others
+                <span>
+                    +{{ exams|length - 3 }}
+                </span>
+            </button>
+
+        {% endif %}
+
+    {% else %}
+
+        <div class="no-exams">
+
+            <h3>
+                No exams selected
+            </h3>
+
+            <p>
+                Please select exams from the preference page.
+            </p>
+
+        </div>
+
+    {% endif %}
+
+</div>
+
+
+
+
+                <!-- <div class="exam-grid">
+        
+                    
+                     
+
+                                {% for exam in exams %}
+
+                                    {% if exam == "UPSC" %}
+
+                    <div class="exam-card">
+
+                        <div class="exam-card-top">
+                             
+                            <div class="exam-icon">
+                                UPSC
+                            </div>
+
+                            <span class="status active-status">
+                                Preparing
+                            </span>
+
+                        </div>
+
+
+                        <h3>
+                            UPSC Civil Services
+                        </h3>
+
+                        <p class="exam-description">
+                            Civil Services Examination
+                        </p>
+
+
+                        <div class="exam-details">
+
+                            <div>
+                                <span>Subjects</span>
+                                <strong>7</strong>
+                            </div>
+
+                            <div>
+                                <span>Progress</span>
+                                <strong>32%</strong>
+                            </div>
+
+                        </div>
+
+
+                        <div class="progress-bar">
+
+                            <div
+                                class="progress"
+                                style="width: 32%;"
+                            ></div>
+
+                        </div>
+
+
+                        <button class="view-button">
+                            View Syllabus
+                            <span>→</span>
+                        </button>
+
+                    </div>
+
+
+
+                    
+                      {% elif exam == "SSC" %}
+
+                    <div class="exam-card">
+
+                        <div class="exam-card-top">
+
+                            <div class="exam-icon">
+                                SSC
+                            </div>
+
+                            <span class="status active-status">
+                                Preparing
+                            </span>
+
+                        </div>
+
+
+                        <h3>
+                            SSC CGL
+                        </h3>
+
+                        <p class="exam-description">
+                            Combined Graduate Level
+                        </p>
+
+
+                        <div class="exam-details">
+
+                            <div>
+                                <span>Subjects</span>
+                                <strong>4</strong>
+                            </div>
+
+                            <div>
+                                <span>Progress</span>
+                                <strong>48%</strong>
+                            </div>
+
+                        </div>
+
+
+                        <div class="progress-bar">
+
+                            <div
+                                class="progress"
+                                style="width: 48%;"
+                            ></div>
+
+                        </div>
+
+
+                        <button class="view-button">
+                            View Syllabus
+                            <span>→</span>
+                        </button>
+
+                    </div>
+
+
+
+                    
+                     {% elif exam == "IBPS" %}
+
+                    <div class="exam-card">
+
+                        <div class="exam-card-top">
+
+                            <div class="exam-icon">
+                                IBPS
+                            </div>
+
+                            <span class="status active-status">
+                                Preparing
+                            </span>
+
+                        </div>
+
+
+                        <h3>
+                            IBPS PO
+                        </h3>
+
+                        <p class="exam-description">
+                            Probationary Officer
+                        </p>
+
+
+                        <div class="exam-details">
+
+                            <div>
+                                <span>Subjects</span>
+                                <strong>5</strong>
+                            </div>
+
+                            <div>
+                                <span>Progress</span>
+                                <strong>21%</strong>
+                            </div>
+
+                        </div>
+
+
+                        <div class="progress-bar">
+
+                            <div
+                                class="progress"
+                                style="width: 21%;"
+                            ></div>
+
+                        </div>
+                                     {% endif %}
+
+                                         {% endfor %}       
+
+                        <button class="view-button">
+                            View Syllabus
+                            <span>→</span>
+                        </button>
+
+                    </div>
+
+                </div> -->
+
+            </section>
+
+
+
+            <!-- =====================================
+                 RECOMMENDED EXAMS
+            ====================================== -->
+
+            <section class="recommended-section">
+
+                <div class="section-heading">
+
+                    <div>
+
+                        <span class="section-label">
+                            FOR YOU
+                        </span>
+
+                        <h2>
+                            Recommended Exams
+                        </h2>
+
+                        <p>
+                            Based on the exams you are preparing for.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+
+                <div class="recommended-grid">
+
+
+                    <!-- Recommended Card 1 -->
+
+                    <div class="recommended-card">
+
+                        <div class="recommend-icon">
+                            UPSC
+                        </div>
+
+                        <div class="recommend-content">
+
+                            <h3>
+                                Indian Forest Service
+                            </h3>
+
+                            <p>
+                                Recommended based on your UPSC preparation.
+                            </p>
+
+                            <div class="recommend-tags">
+
+                                <span>
+                                    UPSC
+                                </span>
+
+                                <span>
+                                    Graduate
+                                </span>
+
+                            </div>
+
+                        </div>
+
+                        <button class="add-button">
+                            + Add
+                        </button>
+
+                    </div>
+
+
+
+                    <!-- Recommended Card 2 -->
+
+                    <div class="recommended-card">
+
+                        <div class="recommend-icon">
+                            SSC
+                        </div>
+
+                        <div class="recommend-content">
+
+                            <h3>
+                                SSC CHSL
+                            </h3>
+
+                            <p>
+                                Similar syllabus and preparation pattern.
+                            </p>
+
+                            <div class="recommend-tags">
+
+                                <span>
+                                    SSC
+                                </span>
+
+                                <span>
+                                    Graduate
+                                </span>
+
+                            </div>
+
+                        </div>
+
+                        <button class="add-button">
+                            + Add
+                        </button>
+
+                    </div>
+
+
+
+                    <!-- Recommended Card 3 -->
+
+                    <div class="recommended-card">
+
+                        <div class="recommend-icon">
+                            RRB
+                        </div>
+
+                        <div class="recommend-content">
+
+                            <h3>
+                                RRB NTPC
+                            </h3>
+
+                            <p>
+                                Recommended based on your current preparation.
+                            </p>
+
+                            <div class="recommend-tags">
+
+                                <span>
+                                    Railway
+                                </span>
+
+                                <span>
+                                    Graduate
+                                </span>
+
+                            </div>
+
+                        </div>
+
+                        <button class="add-button">
+                            + Add
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+        </main>
+
+    </div>
+
+
+
+    <!-- =========================================
+         JAVASCRIPT
+    ========================================== -->
+
+    <script>
+
+        function toggleMenu() {
+
+            const menu =
+                document.getElementById("sideMenu");
+
+            const overlay =
+                document.getElementById("overlay");
+
+            menu.classList.toggle("open");
+
+            overlay.classList.toggle("show");
+
+        }
+
+
+        function logout() {
+
+            const confirmLogout =
+                confirm("Are you sure you want to logout?");
+
+            if (confirmLogout) {
+
+                window.location.href =
+                    "login.html";
+
+            }
+
+        }
+        function showOtherExams() {
+
+         const otherExams =
+        document.getElementById("otherExams");
+
+         const othersButton =
+        document.getElementById("othersButton");
+
+    if (otherExams.style.display === "none") {
+
+        otherExams.style.display = "contents";
+
+        othersButton.innerHTML =
+            "Hide Others";
+
+    } else {
+
+        otherExams.style.display = "none";
+
+        othersButton.innerHTML =
+            "Others +{{ exams|length - 3 }}";
+
+    }
+
+}
+
+    </script>
+
+
+</body>
+
+</html>

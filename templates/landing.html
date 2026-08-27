@@ -1,0 +1,357 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>SyllabusSync | Government Exam Preparation</title>
+
+    <!-- Google Font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet"
+    >
+
+    <!-- External CSS -->
+     <link rel="stylesheet" href="{{ url_for('static', filename='landing.css') }}">
+    
+</head>
+
+<body>
+
+    <!-- =========================
+         NAVIGATION BAR
+    ========================== -->
+
+    <nav class="navbar">
+
+        <div class="logo">
+
+            <div class="logo-icon">
+                S
+            </div>
+
+            <span>
+                Syllabus<span class="blue">Sync</span>
+            </span>
+
+        </div>
+
+
+        <div class="nav-links">
+
+            <a href="#home">
+                Home
+            </a>
+
+            <a href="#features">
+                Features
+            </a>
+        
+
+            <a href="#about">
+                About
+            </a>
+
+            <a href="/login" class="login-btn">
+                Login
+            </a>
+
+        </div>
+
+    </nav>
+
+
+    <!-- =========================
+         HERO / HOME
+    ========================== -->
+
+    <section class="hero" id="home">
+
+        <!-- LEFT CONTENT -->
+
+        <div class="hero-content">
+
+            <div class="badge">
+                ✦ SMART GOVERNMENT EXAM PREPARATION
+            </div>
+
+            <h1>
+                One Platform.<br>
+                <span>Every Syllabus.</span>
+            </h1>
+
+            <p>
+                Stay updated with the latest government exam
+                syllabi, track your preparation, and never miss
+                an important syllabus change again.
+            </p>
+
+
+            <!-- BUTTONS -->
+
+            <div class="hero-buttons">
+
+                <a href="/login" class="primary-btn">
+                    Get Started
+                    <span>→</span>
+                </a>
+
+                <a href="#features" class="secondary-btn">
+                    Explore Features
+                </a>
+
+            </div>
+
+        </div>
+
+
+        <!-- =========================
+             DASHBOARD PREVIEW
+        ========================== -->
+
+        <div class="hero-visual">
+
+            <div class="dashboard-card">
+
+                <div class="card-header">
+
+                    <div>
+
+                        <small>
+                            YOUR PREPARATION
+                        </small>
+
+                        <h3>
+                            UPSC Syllabus
+                        </h3>
+
+                    </div>
+
+                    <div class="status">
+                        Updated
+                    </div>
+
+                </div>
+
+
+                <!-- PROGRESS -->
+
+                <div class="progress-area">
+
+                    <div class="progress-text">
+
+                        <strong>
+                            68%
+                        </strong>
+
+                        <span>
+                            Completed
+                        </span>
+
+                    </div>
+
+
+                    <div class="progress-bar">
+
+                        <div class="progress"></div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- SUBJECTS -->
+
+                <div class="subjects">
+
+                    <div class="subject">
+
+                        <span>
+                            General Studies
+                        </span>
+
+                        <strong>
+                            82%
+                        </strong>
+
+                    </div>
+
+
+                    <div class="subject">
+
+                        <span>
+                            Current Affairs
+                        </span>
+
+                        <strong>
+                            64%
+                        </strong>
+
+                    </div>
+
+
+                    <div class="subject">
+
+                        <span>
+                            Optional Subject
+                        </span>
+
+                        <strong>
+                            58%
+                        </strong>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================
+         FEATURES
+    ========================== -->
+
+    <section class="features-section" id="features">
+
+        <div class="section-heading">
+
+            <p>
+                WHY SYLLABUSSYNC?
+            </p>
+
+            <h2>
+                Everything you need to stay
+                <span>syllabus-ready.</span>
+            </h2>
+
+        </div>
+
+
+        <div class="features-grid">
+
+            <div class="feature-card">
+
+                <div class="feature-icon">
+                    ↻
+                </div>
+
+                <h3>
+                    Updated Syllabus
+                </h3>
+
+                <p>
+                    Get the latest syllabus information
+                    whenever official changes occur.
+                </p>
+
+            </div>
+
+
+            <div class="feature-card">
+
+                <div class="feature-icon">
+                    ✓
+                </div>
+
+                <h3>
+                    Track Progress
+                </h3>
+
+                <p>
+                    Monitor your preparation and see
+                    how much of your syllabus is completed.
+                </p>
+
+            </div>
+
+
+            <div class="feature-card">
+
+                <div class="feature-icon">
+                    ◈
+                </div>
+
+                <h3>
+                    Multiple Exams
+                </h3>
+
+                <p>
+                    Access government exam syllabi
+                    from one centralized platform.
+                </p>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================
+         ABOUT
+    ========================== -->
+
+    <section class="about-section" id="about">
+
+        <div class="about-content">
+
+            <p class="section-label">
+                ABOUT THE PLATFORM
+            </p>
+
+            <h2>
+                Stop searching.
+                <span>Start preparing.</span>
+            </h2>
+
+            <p>
+                SyllabusSync brings government exam syllabi
+                together in one place. Instead of searching
+                multiple websites for syllabus information,
+                students can access, understand and track
+                their preparation from a single platform.
+            </p>
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================
+         FOOTER
+    ========================== -->
+
+    <footer>
+
+        <div class="logo">
+
+            <div class="logo-icon">
+                S
+            </div>
+
+            <span>
+                Syllabus<span class="blue">Sync</span>
+            </span>
+
+        </div>
+
+        <p>
+            © 2026 SyllabusSync. All rights reserved.
+        </p>
+
+    </footer>
+
+</body>
+
+</html>

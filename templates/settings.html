@@ -1,0 +1,903 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Settings | SyllabusSync</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect"
+          href="https://fonts.gstatic.com"
+          crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+          rel="stylesheet">
+<link rel="stylesheet" href="{{ url_for('static', filename='settings.css') }}">
+
+<!-- Minimal, additive styling for the new editable profile/password
+     fields below. Doesn't touch or override any existing rule in
+     settings.css. -->
+<style>
+    .settings-edit-input {
+        width: 100%;
+        padding: 8px 10px;
+        border: 1px solid #d8d8e0;
+        border-radius: 8px;
+        font-family: inherit;
+        font-size: 14px;
+        margin-top: 4px;
+    }
+</style>
+</head>
+
+<body>
+
+<div class="settings-page">
+
+    <!-- TOP BAR -->
+    <header class="top-bar">
+
+        <a href="/dashboard" class="back-button">
+            <span class="back-icon">←</span>
+            <span>Back to Dashboard</span>
+        </a>
+
+    </header>
+
+
+    <!-- MAIN CONTENT -->
+    <main class="settings-container">
+
+        <!-- PAGE HEADER -->
+        <div class="page-header">
+
+            <p class="page-label">
+                ACCOUNT SETTINGS
+            </p>
+
+            <h1>
+                Settings
+            </h1>
+
+            <p class="page-description">
+                Manage your profile, preferences and
+                notification settings.
+            </p>
+
+        </div>
+
+
+        <!-- PROFILE -->
+        <section class="settings-card">
+
+            <div class="card-header">
+
+                <div class="card-icon profile-icon">
+                    👤
+                </div>
+
+                <div>
+                    <h2>Profile</h2>
+
+                    <p>
+                        Manage your personal information.
+                    </p>
+                </div>
+
+            </div>
+
+
+            <div class="profile-content">
+
+                <div class="profile-avatar" id="settingsAvatar">
+                    {{ profile.full_name[0]|upper }}
+                </div>
+
+
+                <div class="profile-details">
+
+                    <div class="profile-row">
+
+                        <div>
+                            <span class="field-label">
+                                Full Name
+                            </span>
+
+                            <strong id="settingsNameDisplay">
+                                {{ profile.full_name }}
+                            </strong>
+                            <input
+                                type="text"
+                                id="settingsNameInput"
+                                class="settings-edit-input"
+                                value="{{ profile.full_name }}"
+                                style="display:none;"
+                            >
+                        </div>
+
+
+                        <div>
+                            <span class="field-label">
+                                Email Address
+                            </span>
+
+                            <strong id="settingsEmailDisplay">
+                                {{ profile.email }}
+                            </strong>
+                            <input
+                                type="email"
+                                id="settingsEmailInput"
+                                class="settings-edit-input"
+                                value="{{ profile.email }}"
+                                style="display:none;"
+                            >
+                        </div>
+
+
+                        <div>
+                            <span class="field-label">
+                                Phone Number
+                            </span>
+
+                            <strong id="settingsPhoneDisplay">
+                                {{ profile.phone_number or 'Not set' }}
+                            </strong>
+                            <input
+                                type="tel"
+                                id="settingsPhoneInput"
+                                class="settings-edit-input"
+                                value="{{ profile.phone_number }}"
+                                style="display:none;"
+                            >
+                        </div>
+
+
+                        <div>
+                            <span class="field-label">
+                                Preparation Type
+                            </span>
+
+                            <strong id="settingsPrepDisplay">
+                                {{ profile.preparation_type }}
+                            </strong>
+                            <select
+                                id="settingsPrepInput"
+                                class="settings-edit-input"
+                                style="display:none;"
+                            >
+                                <option value="Government Exams" {% if profile.preparation_type == 'Government Exams' %}selected{% endif %}>
+                                    Government Exams
+                                </option>
+                                <option value="Competitive Exams" {% if profile.preparation_type == 'Competitive Exams' %}selected{% endif %}>
+                                    Competitive Exams
+                                </option>
+                                <option value="Multiple Exams" {% if profile.preparation_type == 'Multiple Exams' %}selected{% endif %}>
+                                    Multiple Exams
+                                </option>
+                            </select>
+                        </div>
+
+                    </div>
+
+
+                    <!-- CHANGE PASSWORD (hidden unless opened from
+                         the Account section below) -->
+
+                    <div class="profile-row" id="passwordFields" style="display:none;">
+
+                        <div>
+                            <span class="field-label">
+                                Current Password
+                            </span>
+                            <input
+                                type="password"
+                                id="currentPasswordInput"
+                                class="settings-edit-input"
+                                autocomplete="current-password"
+                            >
+                        </div>
+
+                        <div>
+                            <span class="field-label">
+                                New Password
+                            </span>
+                            <input
+                                type="password"
+                                id="newPasswordInput"
+                                class="settings-edit-input"
+                                autocomplete="new-password"
+                            >
+                        </div>
+
+                        <div>
+                            <span class="field-label">
+                                Confirm New Password
+                            </span>
+                            <input
+                                type="password"
+                                id="confirmPasswordInput"
+                                class="settings-edit-input"
+                                autocomplete="new-password"
+                            >
+                        </div>
+
+                    </div>
+
+
+                    <button class="edit-button" type="button" id="profileEditBtn" onclick="editSettingsProfile()">
+                        Edit Profile
+                    </button>
+
+                    <button class="edit-button" type="button" id="profileSaveBtn" onclick="saveSettingsProfile()" style="display:none;">
+                        Save Changes
+                    </button>
+
+                    <button class="edit-button" type="button" id="profileCancelBtn" onclick="cancelSettingsProfile()" style="display:none;">
+                        Cancel
+                    </button>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- APPEARANCE -->
+        <section class="settings-card">
+
+            <div class="card-header">
+
+                <div class="card-icon appearance-icon">
+                    ◐
+                </div>
+
+                <div>
+                    <h2>Appearance</h2>
+
+                    <p>
+                        Choose how SyllabusSync looks for you.
+                    </p>
+                </div>
+
+            </div>
+
+
+            <div class="appearance-options">
+
+                <!-- LIGHT MODE -->
+                <label class="theme-option{{ ' active' if settings.theme == 'light' else '' }}">
+
+                    <input type="radio"
+                           name="theme"
+                           value="light"
+                           {% if settings.theme == 'light' %}checked{% endif %}>
+
+                    <div class="theme-content">
+
+                        <span class="theme-symbol">
+                            ☀
+                        </span>
+
+                        <div>
+
+                            <strong>
+                                Light Mode
+                            </strong>
+
+                            <p>
+                                Clean and bright interface
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                    <span class="radio-circle"></span>
+
+                </label>
+
+
+                <!-- DARK MODE -->
+                <label class="theme-option{{ ' active' if settings.theme == 'dark' else '' }}">
+
+                    <input type="radio"
+                           name="theme"
+                           value="dark"
+                           {% if settings.theme == 'dark' %}checked{% endif %}>
+
+                    <div class="theme-content">
+
+                        <span class="theme-symbol dark-symbol">
+                            ☾
+                        </span>
+
+                        <div>
+
+                            <strong>
+                                Dark Mode
+                            </strong>
+
+                            <p>
+                                Easier on the eyes at night
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                    <span class="radio-circle"></span>
+
+                </label>
+
+            </div>
+
+        </section>
+
+
+        <!-- NOTIFICATIONS -->
+        <section class="settings-card">
+
+            <div class="card-header">
+
+                <div class="card-icon notification-icon">
+                    🔔
+                </div>
+
+                <div>
+                    <h2>Notifications</h2>
+
+                    <p>
+                        Choose which updates you want to receive.
+                    </p>
+                </div>
+
+            </div>
+
+
+            <div class="setting-list">
+
+                <div class="setting-row">
+
+                    <div class="setting-info">
+
+                        <strong>
+                            Syllabus Updates
+                        </strong>
+
+                        <p>
+                            Get notified when an exam syllabus
+                            is updated.
+                        </p>
+
+                    </div>
+
+
+                    <label class="switch">
+
+                        <input type="checkbox" {% if settings.notify_syllabus_updates %}checked{% endif %} onchange="saveSetting('notify_syllabus_updates', this.checked)">
+
+                        <span class="slider"></span>
+
+                    </label>
+
+                </div>
+
+
+                <div class="setting-row">
+
+                    <div class="setting-info">
+
+                        <strong>
+                            Exam Reminders
+                        </strong>
+
+                        <p>
+                            Receive reminders about upcoming
+                            examinations.
+                        </p>
+
+                    </div>
+
+
+                    <label class="switch">
+
+                        <input type="checkbox" {% if settings.notify_exam_reminders %}checked{% endif %} onchange="saveSetting('notify_exam_reminders', this.checked)">
+
+                        <span class="slider"></span>
+
+                    </label>
+
+                </div>
+
+
+                <div class="setting-row">
+
+                    <div class="setting-info">
+
+                        <strong>
+                            Preparation Reminders
+                        </strong>
+
+                        <p>
+                            Receive reminders to continue
+                            your preparation.
+                        </p>
+
+                    </div>
+
+
+                    <label class="switch">
+
+                        <input type="checkbox" {% if settings.notify_preparation_reminders %}checked{% endif %} onchange="saveSetting('notify_preparation_reminders', this.checked)">
+
+                        <span class="slider"></span>
+
+                    </label>
+
+                </div>
+
+
+                <div class="setting-row">
+
+                    <div class="setting-info">
+
+                        <strong>
+                            Recommended Exams
+                        </strong>
+
+                        <p>
+                            Get suggestions for relevant
+                            government exams.
+                        </p>
+
+                    </div>
+
+
+                    <label class="switch">
+
+                        <input type="checkbox" {% if settings.notify_recommended_exams %}checked{% endif %} onchange="saveSetting('notify_recommended_exams', this.checked)">
+
+                        <span class="slider"></span>
+
+                    </label>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+    <!-- PREFERENCES -->
+<section class="settings-card">
+
+    <div class="card-header">
+
+        <div class="card-icon preference-icon">
+            ⚙
+        </div>
+
+        <div>
+            <h2>Preferences</h2>
+
+            <p>
+                Customize your preparation experience.
+            </p>
+        </div>
+
+    </div>
+
+
+    <div class="preference-grid">
+
+        <!-- EXAM CATEGORY -->
+        <div class="preference-item">
+
+            <label for="examCategory">
+                Preferred Exam Category
+            </label>
+
+            <select id="examCategory" name="examCategory" onchange="saveSetting('exam_category', this.value)">
+
+                <option value="all" {% if settings.exam_category == 'all' %}selected{% endif %}>
+                    All Government Exams
+                </option>
+
+                <option value="upsc" {% if settings.exam_category == 'upsc' %}selected{% endif %}>
+                    UPSC
+                </option>
+
+                <option value="ssc" {% if settings.exam_category == 'ssc' %}selected{% endif %}>
+                    SSC
+                </option>
+
+                <option value="banking" {% if settings.exam_category == 'banking' %}selected{% endif %}>
+                    Banking
+                </option>
+
+                <option value="railway" {% if settings.exam_category == 'railway' %}selected{% endif %}>
+                    Railway
+                </option>
+
+                <option value="state" {% if settings.exam_category == 'state' %}selected{% endif %}>
+                    State Government
+                </option>
+
+            </select>
+
+        </div>
+
+
+        <!-- LANGUAGE -->
+        <div class="preference-item">
+
+            <label for="language">
+                Preferred Language
+            </label>
+
+            <select id="language" name="language" onchange="saveSetting('language', this.value)">
+
+                <option value="english" {% if settings.language == 'english' %}selected{% endif %}>
+                    English
+                </option>
+
+                <option value="telugu" {% if settings.language == 'telugu' %}selected{% endif %}>
+                    Telugu
+                </option>
+
+                <option value="hindi" {% if settings.language == 'hindi' %}selected{% endif %}>
+                    Hindi
+                </option>
+
+            </select>
+
+        </div>
+
+
+        <!-- UPDATE FREQUENCY -->
+        <div class="preference-item">
+
+            <label for="frequency">
+                Update Frequency
+            </label>
+
+            <select id="frequency" name="frequency" onchange="saveSetting('update_frequency', this.value)">
+
+                <option value="important" {% if settings.update_frequency == 'important' %}selected{% endif %}>
+                    Important Updates Only
+                </option>
+
+                <option value="daily" {% if settings.update_frequency == 'daily' %}selected{% endif %}>
+                    Daily
+                </option>
+
+                <option value="weekly" {% if settings.update_frequency == 'weekly' %}selected{% endif %}>
+                    Weekly
+                </option>
+
+            </select>
+
+        </div>
+
+    </div>
+
+</section>
+        <!-- ACCOUNT -->
+        <section class="settings-card account-card">
+
+            <div class="card-header">
+
+                <div class="card-icon account-icon">
+                    🔐
+                </div>
+
+                <div>
+                    <h2>Account</h2>
+
+                    <p>
+                        Manage your account security.
+                    </p>
+                </div>
+
+            </div>
+
+
+            <div class="account-options">
+
+                <button type="button"
+                        class="account-button"
+                        onclick="openPasswordChange()">
+
+                    <span>
+                        Change Password
+                    </span>
+
+                    <span>
+                        →
+                    </span>
+
+                </button>
+
+
+                <button type="button"
+                        class="account-button logout-button"
+                        onclick="logout()">
+
+                    <span>
+                        Logout
+                    </span>
+
+                    <span>
+                        →
+                    </span>
+
+                </button>
+
+            </div>
+
+        </section>
+
+    </main>
+
+</div>
+
+
+<script>
+
+    /* ================================
+       THEME SELECTION
+    ================================= */
+
+    const themeOptions =
+        document.querySelectorAll(".theme-option");
+
+
+    themeOptions.forEach(option => {
+
+        option.addEventListener("click", function () {
+
+            themeOptions.forEach(item => {
+                item.classList.remove("active");
+            });
+
+            this.classList.add("active");
+
+            const radio =
+                this.querySelector("input");
+
+            radio.checked = true;
+
+            saveSetting("theme", radio.value);
+
+        });
+
+    });
+
+
+    /* ================================
+       LOGOUT
+    ================================= */
+
+    function logout() {
+
+        const confirmLogout =
+            confirm("Are you sure you want to logout?");
+
+        if (confirmLogout) {
+
+            window.location.href = "/logout";
+
+        }
+
+    }
+
+
+    /* ================================
+       PROFILE EDIT / SAVE / CANCEL
+    ================================= */
+
+    let passwordMode = false;
+
+    function editSettingsProfile() {
+
+        document.getElementById("settingsNameDisplay").style.display = "none";
+        document.getElementById("settingsNameInput").style.display = "block";
+
+        document.getElementById("settingsEmailDisplay").style.display = "none";
+        document.getElementById("settingsEmailInput").style.display = "block";
+
+        document.getElementById("settingsPhoneDisplay").style.display = "none";
+        document.getElementById("settingsPhoneInput").style.display = "block";
+
+        document.getElementById("settingsPrepDisplay").style.display = "none";
+        document.getElementById("settingsPrepInput").style.display = "block";
+
+        document.getElementById("profileEditBtn").style.display = "none";
+        document.getElementById("profileSaveBtn").style.display = "inline-block";
+        document.getElementById("profileCancelBtn").style.display = "inline-block";
+    }
+
+
+    function openPasswordChange() {
+
+        passwordMode = true;
+
+        editSettingsProfile();
+
+        document.getElementById("passwordFields").style.display = "flex";
+    }
+
+
+    function cancelSettingsProfile() {
+
+        document.getElementById("settingsNameDisplay").style.display = "inline";
+        document.getElementById("settingsNameInput").style.display = "none";
+        document.getElementById("settingsNameInput").value =
+            document.getElementById("settingsNameDisplay").textContent.trim();
+
+        document.getElementById("settingsEmailDisplay").style.display = "inline";
+        document.getElementById("settingsEmailInput").style.display = "none";
+        document.getElementById("settingsEmailInput").value =
+            document.getElementById("settingsEmailDisplay").textContent.trim();
+
+        document.getElementById("settingsPhoneDisplay").style.display = "inline";
+        document.getElementById("settingsPhoneInput").style.display = "none";
+
+        document.getElementById("settingsPrepDisplay").style.display = "inline";
+        document.getElementById("settingsPrepInput").style.display = "none";
+
+        document.getElementById("passwordFields").style.display = "none";
+        document.getElementById("currentPasswordInput").value = "";
+        document.getElementById("newPasswordInput").value = "";
+        document.getElementById("confirmPasswordInput").value = "";
+
+        passwordMode = false;
+
+        document.getElementById("profileEditBtn").style.display = "inline-block";
+        document.getElementById("profileSaveBtn").style.display = "none";
+        document.getElementById("profileCancelBtn").style.display = "none";
+    }
+
+
+    async function saveSettingsProfile() {
+
+        const fullName =
+            document.getElementById("settingsNameInput").value.trim();
+
+        const email =
+            document.getElementById("settingsEmailInput").value.trim();
+
+        const phone =
+            document.getElementById("settingsPhoneInput").value.trim();
+
+        const preparationType =
+            document.getElementById("settingsPrepInput").value;
+
+        if (fullName === "" || email === "") {
+
+            alert("Please enter your name and email.");
+            return;
+        }
+
+
+        let profileResult;
+
+        try {
+
+            const response = await fetch("/api/update-profile", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    full_name: fullName,
+                    email: email,
+                    phone_number: phone,
+                    preparation_type: preparationType
+                })
+            });
+
+            profileResult = await response.json();
+
+        } catch (err) {
+
+            alert("Could not update profile. Please try again.");
+            return;
+        }
+
+        if (!profileResult.success) {
+
+            alert(profileResult.message || "Could not update profile.");
+            return;
+        }
+
+        document.getElementById("settingsNameDisplay").textContent = profileResult.full_name;
+        document.getElementById("settingsEmailDisplay").textContent = profileResult.email;
+        document.getElementById("settingsPhoneDisplay").textContent = profileResult.phone_number || "Not set";
+        document.getElementById("settingsPrepDisplay").textContent = profileResult.preparation_type;
+
+        const avatar =
+            profileResult.full_name.charAt(0).toUpperCase();
+
+        document.getElementById("settingsAvatar").textContent = avatar;
+
+
+        // If the password fields were opened and filled in, update
+        // the password too.
+
+        if (passwordMode) {
+
+            const currentPassword =
+                document.getElementById("currentPasswordInput").value;
+
+            const newPassword =
+                document.getElementById("newPasswordInput").value;
+
+            const confirmPassword =
+                document.getElementById("confirmPasswordInput").value;
+
+            if (currentPassword !== "" || newPassword !== "" || confirmPassword !== "") {
+
+                try {
+
+                    const response = await fetch("/api/update-password", {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json"
+                        },
+                        body: JSON.stringify({
+                            current_password: currentPassword,
+                            new_password: newPassword,
+                            confirm_password: confirmPassword
+                        })
+                    });
+
+                    const passwordResult = await response.json();
+
+                    if (!passwordResult.success) {
+
+                        alert(passwordResult.message || "Could not update password.");
+
+                    } else {
+
+                        alert("Password updated successfully.");
+                    }
+
+                } catch (err) {
+
+                    alert("Could not update password. Please try again.");
+                }
+            }
+        }
+
+        cancelSettingsProfile();
+    }
+
+
+    /* ================================
+       SAVE A NOTIFICATION / PREFERENCE
+    ================================= */
+
+    function saveSetting(key, value) {
+
+        fetch("/api/update-setting", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                key: key,
+                value: value
+            })
+        }).catch(function (err) {
+            console.error("Could not save setting:", key, err);
+        });
+    }
+
+</script>
+
+</body>
+</html>

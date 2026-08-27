@@ -1,0 +1,680 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Login | SyllabusSync</title>
+
+    <!-- Google Font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet"
+    >
+
+    <!-- CSS -->
+   <link rel="stylesheet" href="{{ url_for('static', filename='login.css') }}">
+
+</head>
+
+
+<body>
+
+
+    <!-- =========================================
+         MAIN PAGE
+    ========================================== -->
+
+    <div class="page-container">
+
+
+        <!-- =====================================
+             LEFT WELCOME CARD
+        ====================================== -->
+
+        <section class="welcome-card">
+               {% with messages = get_flashed_messages(with_categories=true) %}
+
+    {% if messages %}
+
+        <div class="messages">
+
+            {% for category, message in messages %}
+
+                <div class="message {{ category }}">
+                    {{ message }}
+                </div>
+
+            {% endfor %}
+
+        </div>
+
+    {% endif %}
+
+{% endwith %}
+
+            <!-- BRAND -->
+
+            <div class="brand">
+
+                <div class="brand-icon">
+                    S
+                </div>
+
+                <span>
+                    Syllabus<span class="highlight">Sync</span>
+                </span>
+
+            </div>
+
+
+            <!-- WELCOME CONTENT -->
+
+            <div class="welcome-content">
+
+                <p class="small-title">
+                    GOVERNMENT EXAM PREPARATION
+                </p>
+
+
+                <h1>
+                    Stay updated.
+                    <br>
+                    <span>Stay prepared.</span>
+                </h1>
+
+
+                <p class="description">
+                    Access the latest government exam syllabi,
+                    track your preparation, and stay synchronized
+                    with official syllabus updates.
+                </p>
+
+
+                <!-- FEATURES -->
+
+                <div class="features">
+
+
+                    <div class="feature">
+
+                        <div class="feature-icon">
+                            ✓
+                        </div>
+
+                        <div class="feature-text">
+
+                            <strong>
+                                Updated Syllabus
+                            </strong>
+
+                            <p>
+                                Stay informed about syllabus changes.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="feature">
+
+                        <div class="feature-icon">
+                            ✓
+                        </div>
+
+                        <div class="feature-text">
+
+                            <strong>
+                                Track Progress
+                            </strong>
+
+                            <p>
+                                Monitor your preparation percentage.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="feature">
+
+                        <div class="feature-icon">
+                            ✓
+                        </div>
+
+                        <div class="feature-text">
+
+                            <strong>
+                                Multiple Exams
+                            </strong>
+
+                            <p>
+                                Access syllabi from one platform.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                </div>
+
+            </div>
+
+
+            <!-- COPYRIGHT -->
+
+            <div class="copyright">
+                © 2026 SyllabusSync
+            </div>
+
+
+        </section>
+
+
+
+        <!-- =====================================
+             RIGHT FORM CARD
+        ====================================== -->
+
+        <section class="form-card">
+
+
+            <!-- MOBILE BRAND -->
+
+            <div class="mobile-brand">
+
+                <div class="brand-icon">
+                    S
+                </div>
+
+                <span>
+                    Syllabus<span class="highlight">Sync</span>
+                </span>
+
+            </div>
+
+
+
+            <!-- =================================
+                 LOGIN FORM
+            ================================== -->
+
+            <div class="form-container login-form active">
+
+
+                <div class="form-header">
+
+                    <h2>
+                        Welcome back
+                    </h2>
+
+                    <p>
+                        Sign in to continue your preparation.
+                    </p>
+
+                </div>
+
+
+                <form method="POST" action="{{ url_for('login') }}">
+
+
+                    <!-- EMAIL -->
+
+                    <div class="input-group">
+
+                        <label for="login-email">
+                            Email Address
+                        </label>
+
+                        <div class="input-box">
+
+                            <span class="input-icon">
+                                ✉
+                            </span>
+
+                            <input
+                                type="email"
+                                id="login-email"
+                                name="email"
+                                placeholder="Enter your email"
+                                required
+                            >
+
+                        </div>
+
+                    </div>
+
+
+
+                    <!-- PASSWORD -->
+
+                    <div class="input-group">
+
+                        <div class="password-label">
+
+                            <label for="login-password">
+                                Password
+                            </label>
+
+                            <a href="#">
+                                Forgot password?
+                            </a>
+
+                        </div>
+
+
+                        <div class="input-box">
+
+                            <span class="input-icon">
+                                ●
+                            </span>
+
+                            <input
+                                type="password"
+                                id="login-password"
+                                name="password"
+                                placeholder="Enter your password"
+                                required
+                            >
+
+                            <button
+                                type="button"
+                                class="show-password"
+                                onclick="togglePassword('login-password', this)"
+                            >
+                                Show
+                            </button>
+
+                        </div>
+
+                    </div>
+
+
+
+                    <!-- REMEMBER -->
+
+                    <div class="remember">
+
+                        <label>
+
+                            <input type="checkbox">
+
+                            <span>
+                                Remember me
+                            </span>
+
+                        </label>
+
+                    </div>
+
+
+
+                    <!-- LOGIN BUTTON -->
+
+                    <button
+                        type="submit"
+                        class="main-button"
+                    >
+
+                        <span class="button-text">
+                            Sign In
+                        </span>
+
+                        <span class="arrow">
+                            →
+                        </span>
+
+                    </button>
+
+
+                </form>
+
+
+
+                <!-- DIVIDER -->
+
+                <div class="divider">
+                    <span>OR</span>
+                </div>
+
+
+
+                <!-- REGISTER LINK -->
+
+                <p class="switch-text">
+
+                    Don't have an account?
+
+                    <a
+                        href="#"
+                        onclick="showRegister(); return false;"
+                    >
+                        Create an account
+                    </a>
+
+                </p>
+
+
+            </div>
+
+
+
+            <!-- =================================
+                 REGISTER FORM
+            ================================== -->
+
+            <div class="form-container register-form">
+
+
+                <div class="form-header">
+
+                    <h2>
+                        Create an account
+                    </h2>
+
+                    <p>
+                        Start your preparation journey with SyllabusSync.
+                    </p>
+
+                </div>
+
+
+                <form method="POST" action="{{ url_for('register') }}">
+                    <input
+    
+
+                    <!-- FULL NAME -->
+
+                    <div class="input-group">
+
+                        <label for="full_name">
+                            Full Name
+                        </label>
+
+                        <div class="input-box">
+
+                            <span class="input-icon">
+                                ●
+                            </span>
+
+                            <input
+                                type="text"
+                                id="full_name"
+                                name="full_name"
+                                placeholder="Enter your full name"
+                                required
+                            >
+<
+                        </div>
+
+                    </div>
+
+
+
+                    <!-- EMAIL -->
+
+                    <div class="input-group">
+
+                        <label for="register-email">
+                            Email Address
+                        </label>
+
+                        <div class="input-box">
+
+                            <span class="input-icon">
+                                ✉
+                            </span>
+
+                            <input
+                                type="email"
+                                id="register-email"
+                                name="email"
+                                placeholder="Enter your email"
+                                required
+                            >
+
+
+                        </div>
+
+                    </div>
+
+
+
+                    <!-- PASSWORD -->
+
+                    <div class="input-group">
+
+                        <label for="register-password">
+                            Password
+                        </label>
+
+                        <div class="input-box">
+
+                            <span class="input-icon">
+                                ●
+                            </span>
+
+                            <input
+                                type="password"
+                                id="register-password"
+                                name="password"
+                                placeholder="Enter your password"
+                                required
+                            >
+
+                            <button
+                                type="button"
+                                class="show-password"
+                                onclick="togglePassword('register-password', this)"
+                            >
+                                Show
+                            </button>
+
+                        </div>
+
+                    </div>
+
+
+
+                    <!-- CONFIRM PASSWORD -->
+
+                    <div class="input-group">
+
+                        <label for="confirm_password">
+                            Confirm Password
+                        </label>
+
+                        <div class="input-box">
+
+                            <span class="input-icon">
+                                ●
+                            </span>
+
+                            <input
+                                type="password"
+                                id="confirm_password"
+                                name="confirm_password"
+                                placeholder="Confirm your password"
+                                required
+                            >
+
+                            <button
+                                type="button"
+                                class="show-password"
+                                onclick="togglePassword('confirm-password', this)"
+                            >
+                                Show
+                            </button>
+
+                        </div>
+
+                    </div>
+
+
+
+                    <!-- TERMS -->
+
+                    <div class="terms">
+
+                        <label>
+
+                            <input
+                                type="checkbox"
+                                required
+                            >
+
+                            <span>
+
+                                I agree to the
+
+                                <a href="#">
+                                    Terms & Conditions
+                                </a>
+
+                            </span>
+
+                        </label>
+
+                    </div>
+
+
+
+                    <!-- REGISTER BUTTON -->
+
+                    <button
+                        type="submit"
+                        class="main-button"
+                    >
+
+                        <span class="button-text">
+                            Create Account
+                        </span>
+
+                        <span class="arrow">
+                            →
+                        </span>
+
+                    </button>
+
+
+                </form>
+
+
+
+                <!-- DIVIDER -->
+
+                <div class="divider">
+                    <span>OR</span>
+                </div>
+
+
+
+                <!-- LOGIN LINK -->
+
+                <p class="switch-text">
+
+                    Already have an account?
+
+                    <a
+                        href="#"
+                        onclick="showLogin(); return false;"
+                    >
+                        Sign in
+                    </a>
+
+                </p>
+
+
+            </div>
+
+
+        </section>
+
+    </div>
+
+
+
+    <!-- =========================================
+         JAVASCRIPT
+    ========================================== -->
+
+    <script>
+
+
+        /* ===============================
+           SHOW REGISTER
+        =============================== */
+
+        function showRegister() {
+
+            document
+                .querySelector(".login-form")
+                .classList.remove("active");
+
+            document
+                .querySelector(".register-form")
+                .classList.add("active");
+
+        }
+
+
+
+        /* ===============================
+           SHOW LOGIN
+        =============================== */
+
+        function showLogin() {
+
+            document
+                .querySelector(".register-form")
+                .classList.remove("active");
+
+            document
+                .querySelector(".login-form")
+                .classList.add("active");
+
+        }
+
+
+
+        /* ===============================
+           SHOW / HIDE PASSWORD
+        =============================== */
+
+        function togglePassword(inputId, button) {
+
+            const password =
+                document.getElementById(inputId);
+
+
+            if (password.type === "password") {
+
+                password.type = "text";
+
+                button.textContent = "Hide";
+
+            } else {
+
+                password.type = "password";
+
+                button.textContent = "Show";
+
+            }
+
+        }
+
+    </script>
+
+
+</body>
+
+</html>

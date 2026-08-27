@@ -1,0 +1,1130 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Dashboard | SyllabusSync</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet"
+    >
+
+  <link rel="stylesheet" href="{{ url_for('static', filename='dashboard.css') }}">
+</head>
+
+<body>
+
+    <!-- ================================
+         MAIN CONTENT
+    ================================= -->
+
+    <main class="main-content">
+
+        <!-- HEADER -->
+
+        <header class="top-header">
+
+            <!-- THREE HORIZONTAL LINES -->
+
+            <button
+                class="menu-button"
+                onclick="openMenu()"
+                aria-label="Open menu"
+            >
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+
+
+            <!-- BRAND -->
+
+            <div class="header-brand">
+
+                <div class="small-brand-icon">
+                    S
+                </div>
+
+                <div class="header-brand-name">
+                    Syllabus<span>Sync</span>
+                </div>
+
+            </div>
+
+
+            <!-- RIGHT -->
+
+            <div class="header-right">
+
+               <a href=notifications.html>
+                <button class="notification">
+                    🔔
+                    <i></i>
+                </button>
+   
+   
+   </a>
+
+                <!-- PROFILE -->
+
+                <div
+                    class="profile"
+                    onclick="openProfile()"
+                >
+
+                    <div class="profile-avatar" id="headerAvatar">
+    {{ session["user_name"][0]|upper }}
+</div>
+                    <div class="profile-info">
+
+                        <strong id="headerName">
+                            {{ session["user_name"] }}
+                        </strong>
+
+                        <span>
+                            Aspirant
+                        </span>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </header>
+
+
+        <!-- ================================
+             WELCOME
+        ================================= -->
+
+        <section class="welcome-section">
+
+            <div>
+
+                <span class="welcome-label">
+                    YOUR PREPARATION DASHBOARD
+                </span>
+
+                <h1>
+                    Welcome back,
+                    <span id="welcomeName">
+                        {{ session["user_name"] }}.
+                    </span>
+                </h1>
+
+                <p>
+                    Stay synchronized with your syllabus
+                    and keep your preparation on track.
+                </p>
+
+            </div>
+
+
+            <div class="date-card">
+
+                <span>
+                    TODAY
+                </span>
+
+                <strong>
+                     {{ today.strftime('%B %d, %Y') }}
+                </strong>
+
+            </div>
+
+        </section>
+
+
+        <!-- ================================
+             STATISTICS
+        ================================= -->
+
+        <section class="stats-grid">
+
+            <div class="stat-card">
+
+                <div class="stat-heading">
+
+                    <span>
+                        MY EXAMS
+                    </span>
+
+                    <div class="stat-icon">
+                        ✓
+                    </div>
+
+                </div>
+
+                <h2>
+                    {{ exam_count }}
+                </h2>
+
+                <p>
+                    Exams you're preparing for
+                </p>
+
+            </div>
+
+
+            <div class="stat-card">
+
+                <div class="stat-heading">
+
+                    <span>
+                        COMPLETED
+                    </span>
+
+                    <div class="stat-icon">
+                        %
+                    </div>
+
+                </div>
+
+                <h2>
+                    {{ overall_progress }}%
+                </h2>
+
+                <div class="mini-bar">
+                    <div style="width:{{ overall_progress }}%;"></div>
+                </div>
+
+                <p>
+                    Overall preparation
+                </p>
+
+            </div>
+
+
+            <div class="stat-card">
+
+                <div class="stat-heading">
+
+                    <span>
+                        SYLLABUS
+                    </span>
+
+                    <div class="stat-icon">
+                        ✓
+                    </div>
+
+                </div>
+
+                <h2>
+                    {{ topics_completed }}
+                </h2>
+
+                <p>
+                    Topics completed
+                </p>
+
+            </div>
+
+
+            <div class="stat-card">
+
+                <div class="stat-heading">
+
+                    <span>
+                        UPDATES
+                    </span>
+
+                    <div class="stat-icon">
+                        !
+                    </div>
+
+                </div>
+
+                <h2>
+                    {{ updates_count }}
+                </h2>
+
+                <p>
+                    Recent syllabus updates
+                </p>
+
+            </div>
+
+        </section>
+
+
+        <!-- ================================
+             MAIN DASHBOARD
+        ================================= -->
+
+        <section class="dashboard-grid">
+
+            <!-- MY EXAMS -->
+
+            <div class="card">
+
+                <div class="card-header">
+
+                    <div>
+
+                        <h2>
+                            My Exams
+                        </h2>
+
+                        <p>
+                            Your selected government exams
+                        </p>
+
+                    </div>
+
+                    <a href="my_exams.html">
+                        View all
+                    </a>
+
+                </div>
+
+
+                <div class="exam-list">
+
+                    {% if exams %}
+                    {% for exam in exams %}
+                    <div class="exam-row">
+
+                        <div class="exam-name">
+
+                            <div class="exam-logo">
+                                {{ exam.exam_code }}
+                            </div>
+
+                            <div>
+
+                                <h3>
+                                    {{ exam.exam_name }}
+                                </h3>
+
+                                <p>
+                                    Updated recently
+                                </p>
+
+                            </div>
+
+                        </div>
+
+
+                        <div>
+
+                            <div class="progress-label">
+
+                                <span>
+                                    Progress
+                                </span>
+
+                                <strong>
+                                    {{ exam.progress }}%
+                                </strong>
+
+                            </div>
+
+                            <div class="progress-bar">
+
+                                <div style="width:{{ exam.progress }}%;"></div>
+
+                            </div>
+
+                        </div>
+
+
+                        <button
+                            class="open-btn"
+                            onclick="window.location.href='{{ url_for('syllabus') }}?exam={{ exam.exam_code }}'"
+                        >
+                            Open
+                        </button>
+
+                    </div>
+                    {% endfor %}
+                    {% else %}
+                    <p>
+                        You haven't selected any exams yet.
+                        <a href="{{ url_for('preference') }}">Choose your exams</a>
+                    </p>
+                    {% endif %}
+
+                </div>
+
+            </div>
+
+
+            <!-- OVERALL PROGRESS -->
+
+            <div class="card">
+
+                <div class="card-header">
+
+                    <div>
+
+                        <h2>
+                            Overall Progress
+                        </h2>
+
+                        <p>
+                            Across all selected exams
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="progress-circle">
+
+                    <div class="circle-center">
+
+                        <strong>
+                            {{ overall_progress }}%
+                        </strong>
+
+                        <span>
+                            Completed
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+                <div class="progress-info-list">
+
+                    <div>
+
+                        <span>
+                            <i class="completed-dot"></i>
+                            Completed
+                        </span>
+
+                        <strong>
+                            {{ overall_progress }}%
+                        </strong>
+
+                    </div>
+
+
+                    <div>
+
+                        <span>
+                            <i class="remaining-dot"></i>
+                            Remaining
+                        </span>
+
+                        <strong>
+                            {{ 100 - overall_progress }}%
+                        </strong>
+
+                    </div>
+
+                </div>
+
+<a href="{{ url_for('progress') }}">
+                <button class="details-btn">
+                    View Detailed Progress
+                </button>
+                </a>
+
+            </div>
+
+        </section>
+
+
+        <!-- ================================
+             RECENT UPDATES
+        ================================= -->
+
+        <section class="card updates-card">
+
+            <div class="card-header">
+
+                <div>
+
+                    <h2>
+                        Recently Syllabus Updates
+                    </h2>
+
+                    <p>
+                        Stay informed about the latest official changes
+                    </p>
+
+                </div>
+
+                <a href="{{ url_for('updates') }}">
+                    View all
+                </a>
+
+            </div>
+
+            {% if recent_updates %}
+            {% for update in recent_updates %}
+            <div class="update-row">
+
+                <div class="update-icon">
+                    ↑
+                </div>
+
+                <div class="update-text">
+
+                    <h3>
+                        {{ update.exam_name }}: {{ update.title }}
+                    </h3>
+
+                    <p>
+                        {{ update.description }}
+                    </p>
+
+                </div>
+
+                <span>
+                    {{ update.time_text }}
+                </span>
+
+            </div>
+            {% endfor %}
+            {% else %}
+            <p>
+                No syllabus updates yet. Check back soon.
+            </p>
+            {% endif %}
+
+        </section>
+
+
+        <!-- ================================
+             QUICK ACTIONS
+        ================================= -->
+
+        <section class="quick-section">
+
+            <h2>
+                Quick Actions
+            </h2>
+
+
+            <div class="quick-grid">
+
+               <!-- ADD EXAM -->
+<a href="{{ url_for('preference') }}" class="quick-card">
+
+    <div class="quick-icon">
+        +
+    </div>
+
+    <div>
+
+        <h3>
+            Add Exam
+        </h3>
+
+        <p>
+            Add another exam to your preparation
+        </p>
+
+    </div>
+
+    <span>
+        →
+    </span>
+
+</a>
+
+
+                <a href="{{ url_for('progress') }}" class="quick-card">
+
+                    <div class="quick-icon">
+                        ✓
+                    </div>
+
+                    <div>
+
+                        <h3>
+                            Track Progress
+                        </h3>
+
+                        <p>
+                            Update your preparation progress
+                        </p>
+
+                    </div>
+
+                    <span>
+                        →
+                    </span>
+
+                </a>
+
+
+                <a href="{{ url_for('updates') }}" class="quick-card">
+
+                    <div class="quick-icon">
+                        ↻
+                    </div>
+
+                    <div>
+
+                        <h3>
+                            Check Updates
+                        </h3>
+
+                        <p>
+                            View latest syllabus changes
+                        </p>
+
+                    </div>
+
+                    <span>
+                        →
+                    </span>
+
+                </a>
+
+            </div>
+
+        </section>
+
+
+        <footer>
+            © 2026 SyllabusSync. Stay updated. Stay prepared.
+        </footer>
+
+    </main>
+
+
+    <!-- ================================
+         SIDE MENU
+    ================================= -->
+
+    <aside
+        class="side-menu"
+        id="sideMenu"
+    >
+
+        <div class="menu-header">
+
+            <div class="brand">
+
+                <div class="brand-icon">
+                    S
+                </div>
+
+                <div class="brand-name">
+                    Syllabus<span>Sync</span>
+                </div>
+
+            </div>
+
+
+            <button
+                class="close-menu"
+                onclick="closeMenu()"
+            >
+                ×
+            </button>
+
+        </div>
+
+
+        <nav class="menu-navigation">
+
+            <span class="menu-title">
+                MAIN
+            </span>
+
+            <a href="/dashboard" class="menu-item active">
+                <span>⌂</span>
+                Dashboard
+            </a>
+
+            <a href="/myexams" class="menu-item">
+                <span>✓</span>
+                My Exams
+            </a>
+
+            <a href="/syllabus" class="menu-item">
+                <span>▣</span>
+                Syllabus
+            </a>
+
+            <a href="/progress" class="menu-item">
+                <span>↗</span>
+                Progress
+            </a>
+
+
+            <span class="menu-title account-title">
+                ACCOUNT
+            </span>
+
+
+            <a
+                href="javascript:void(0)"
+                class="menu-item"
+                onclick="openProfile(); closeMenu();"
+            >
+                <span>◉</span>
+                Profile
+            </a>
+
+            <a href="/settings" class="menu-item">
+                <span>⚙</span>
+                Settings
+            </a>
+
+        </nav>
+
+
+
+
+<!-- USER + LOGOUT -->
+
+<div class="menu-bottom">
+
+    <div class="menu-user">
+
+        <div class="menu-avatar" id="menuAvatar">
+    {{ session["user_name"][0]|upper }}
+</div>
+
+        <div>
+            <strong id="menuName">
+                {{ session["user_name"] }}
+            </strong>
+
+            <span>
+                Government Exam Aspirant
+            </span>
+        </div>
+
+    </div>
+
+
+    <!-- LOGOUT -->
+
+    <button
+        type="button"
+        class="logout"
+        onclick="logout()"
+    >
+        ↪ &nbsp; Logout
+    </button>
+
+</div>
+
+
+</div>
+    </aside>
+
+
+    <!-- MENU OVERLAY -->
+
+    <div
+        class="overlay"
+        id="overlay"
+        onclick="closeMenu()"
+    ></div>
+
+
+    <!-- ================================
+         PROFILE PANEL
+    ================================= -->
+
+    <div
+        class="profile-overlay"
+        id="profileOverlay"
+    >
+
+        <div class="profile-panel">
+
+            <div class="profile-panel-header">
+
+                <div>
+
+                    <span class="profile-label">
+                        ACCOUNT
+                    </span>
+
+                    <h2>
+                        My Profile
+                    </h2>
+
+                    <p>
+                        Manage your personal information
+                    </p>
+
+                </div>
+
+
+                <button
+                    class="profile-close"
+                    onclick="closeProfile()"
+                >
+                    ×
+                </button>
+
+            </div>
+
+
+            <div class="profile-main">
+
+                <div
+                    class="large-profile-avatar"
+                    id="profileAvatar"
+                >
+                    S
+                </div>
+
+
+                <div class="profile-user-info">
+
+                    <h3 id="displayName">
+                    {{ session["user_name"] }}
+                    </h3>
+
+                    <p id="displayEmail">
+                      {{ session["user_email"] }}
+                    </p>
+
+                    <span class="profile-status">
+                        Active Student
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <!-- PROFILE DETAILS -->
+
+            <div class="profile-details">
+
+                <div class="profile-detail">
+
+                    <label for="nameInput">
+                        Full Name
+                    </label>
+
+                    <input
+                        type="text"
+                        id="nameInput"
+                        value="{{ profile.full_name }}"
+                        disabled
+                    >
+
+                </div>
+
+
+                <div class="profile-detail">
+
+                    <label for="emailInput">
+                        Email Address
+                    </label>
+
+                    <input
+                        type="email"
+                        id="emailInput"
+                        value="{{ profile.email }}"
+                        disabled
+                    >
+
+                </div>
+
+
+                <div class="profile-detail">
+
+                    <label for="phoneInput">
+                        Phone Number
+                    </label>
+
+                    <input
+                        type="tel"
+                        id="phoneInput"
+                        value="{{ profile.phone_number }}"
+                        disabled
+                    >
+
+                </div>
+
+
+                <!-- PREPARATION TYPE
+                     SAME PLACE + SELECTABLE -->
+
+                <div class="profile-detail">
+
+                    <label for="preparationInput">
+                        Preparation Type
+                    </label>
+
+                    <select id="preparationInput" disabled>
+
+                        <option value="Government Exams" {% if profile.preparation_type == 'Government Exams' %}selected{% endif %}>
+                            Government Exams
+                        </option>
+
+                        <option value="Competitive Exams" {% if profile.preparation_type == 'Competitive Exams' %}selected{% endif %}>
+                            Competitive Exams
+                        </option>
+
+                        <option value="Multiple Exams" {% if profile.preparation_type == 'Multiple Exams' %}selected{% endif %}>
+                            Multiple Exams
+                        </option>
+
+                    </select>
+
+                </div>
+
+            </div>
+
+
+            <!-- PROFILE BUTTONS -->
+
+            <div class="profile-actions">
+
+                <button
+                    class="cancel-profile"
+                    id="cancelButton"
+                    onclick="cancelEdit()"
+                    style="display:none;"
+                >
+                    Cancel
+                </button>
+
+
+                <button
+                    class="edit-profile"
+                    id="editButton"
+                    onclick="editProfile()"
+                >
+                    Edit Profile
+                </button>
+
+
+                <button
+                    class="save-profile"
+                    id="saveButton"
+                    onclick="saveProfile()"
+                    style="display:none;"
+                >
+                    Save Changes
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- ================================
+         JAVASCRIPT
+    ================================= -->
+
+    <script>
+
+        /* MENU */
+
+        function openMenu() {
+
+            document
+                .getElementById("sideMenu")
+                .classList.add("open");
+
+            document
+                .getElementById("overlay")
+                .classList.add("show");
+        }
+
+
+        function closeMenu() {
+
+            document
+                .getElementById("sideMenu")
+                .classList.remove("open");
+
+            document
+                .getElementById("overlay")
+                .classList.remove("show");
+        }
+
+
+        /* PROFILE */
+
+        function openProfile() {
+
+            document
+                .getElementById("profileOverlay")
+                .classList.add("show");
+        }
+
+
+        function closeProfile() {
+
+            document
+                .getElementById("profileOverlay")
+                .classList.remove("show");
+        }
+
+
+        /* EDIT PROFILE */
+
+        function editProfile() {
+
+            document.getElementById("nameInput").disabled = false;
+            document.getElementById("emailInput").disabled = false;
+            document.getElementById("phoneInput").disabled = false;
+            document.getElementById("preparationInput").disabled = false;
+
+            document.getElementById("editButton").style.display = "none";
+            document.getElementById("saveButton").style.display = "block";
+            document.getElementById("cancelButton").style.display = "block";
+        }
+
+
+        /* SAVE PROFILE */
+
+        async function saveProfile() {
+
+            const name =
+                document.getElementById("nameInput").value.trim();
+
+            const email =
+                document.getElementById("emailInput").value.trim();
+
+            const phone =
+                document.getElementById("phoneInput").value.trim();
+
+            const preparationType =
+                document.getElementById("preparationInput").value;
+
+            if (name === "") {
+
+                alert("Please enter your name.");
+                return;
+            }
+
+            if (email === "") {
+
+                alert("Please enter your email.");
+                return;
+            }
+
+
+            let result;
+
+            try {
+
+                const response = await fetch("/api/update-profile", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        full_name: name,
+                        email: email,
+                        phone_number: phone,
+                        preparation_type: preparationType
+                    })
+                });
+
+                result = await response.json();
+
+            } catch (err) {
+
+                alert("Could not update profile. Please try again.");
+                return;
+            }
+
+            if (!result.success) {
+
+                alert(result.message || "Could not update profile.");
+                return;
+            }
+
+
+            document.getElementById("displayName").textContent = result.full_name;
+            document.getElementById("displayEmail").textContent = result.email;
+
+            document.getElementById("headerName").textContent = result.full_name;
+            document.getElementById("welcomeName").textContent = result.full_name + ".";
+            document.getElementById("menuName").textContent = result.full_name;
+
+
+            const avatar =
+                result.full_name.charAt(0).toUpperCase();
+
+            document.getElementById("profileAvatar").textContent = avatar;
+            document.getElementById("headerAvatar").textContent = avatar;
+            document.getElementById("menuAvatar").textContent = avatar;
+
+
+            disableProfileInputs();
+
+            document.getElementById("editButton").style.display = "block";
+            document.getElementById("saveButton").style.display = "none";
+            document.getElementById("cancelButton").style.display = "none";
+        }
+
+
+        /* CANCEL */
+
+        function cancelEdit() {
+
+            disableProfileInputs();
+
+            document.getElementById("editButton").style.display = "block";
+            document.getElementById("saveButton").style.display = "none";
+            document.getElementById("cancelButton").style.display = "none";
+        }
+
+
+        /* DISABLE */
+
+        function disableProfileInputs() {
+
+            document.getElementById("nameInput").disabled = true;
+            document.getElementById("emailInput").disabled = true;
+            document.getElementById("phoneInput").disabled = true;
+            document.getElementById("preparationInput").disabled = true;
+        }
+
+
+        /* LOGOUT */
+
+        function logout() {
+
+            const confirmLogout =
+                confirm("Are you sure you want to logout?");
+
+            if (confirmLogout) {
+
+                window.location.href = "/logout";
+            }
+        }
+
+
+        /* CLOSE PROFILE OUTSIDE CLICK */
+
+        document
+            .getElementById("profileOverlay")
+            .addEventListener(
+                "click",
+                function(event) {
+
+                    if (event.target === this) {
+                        closeProfile();
+                    }
+
+                }
+            );
+
+    </script>
+
+</body>
+</html>

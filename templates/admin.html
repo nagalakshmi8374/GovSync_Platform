@@ -1,0 +1,2736 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Admin | SyllabusSync</title>
+
+    <link rel="preconnect"
+          href="https://fonts.googleapis.com">
+
+    <link rel="preconnect"
+          href="https://fonts.gstatic.com"
+          crossorigin>
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet">
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='admin.css') }}">
+
+</head>
+
+
+<body>
+
+
+<!-- =====================================================
+     SIDEBAR
+===================================================== -->
+
+<aside class="sidebar"
+       id="sidebar">
+
+
+    <!-- SIDEBAR TOP -->
+
+    <div class="sidebar-top">
+
+        <div class="brand">
+
+            <div class="brand-icon">
+                S
+            </div>
+
+            <div class="brand-name">
+                Syllabus<span>Sync</span>
+            </div>
+
+        </div>
+
+
+        <button
+            class="close-sidebar"
+            onclick="closeSidebar()"
+            aria-label="Close menu">
+
+            ×
+
+        </button>
+
+    </div>
+
+
+
+    <!-- NAVIGATION -->
+
+    <nav class="navigation">
+
+
+        <div class="nav-title">
+            MAIN
+        </div>
+
+
+        <button
+            class="nav-item active"
+            onclick="showSection('dashboard', this)">
+
+            <span>⌂</span>
+            Dashboard
+
+        </button>
+
+
+        <button
+            class="nav-item"
+            onclick="showSection('exams', this)">
+
+            <span>▣</span>
+            Manage Exams
+
+        </button>
+
+
+        <button
+            class="nav-item"
+            onclick="showSection('syllabus', this)">
+
+            <span>📄</span>
+            Syllabus
+
+        </button>
+
+
+        <button
+            class="nav-item"
+            onclick="showSection('changes', this)">
+
+            <span>↻</span>
+            Syllabus Changes
+
+        </button>
+
+
+        <button
+            class="nav-item"
+            onclick="showSection('updates', this)">
+
+            <span>↗</span>
+            Updates
+
+        </button>
+
+
+        <button
+            class="nav-item"
+            onclick="showSection('notifications', this)">
+
+            <span>🔔</span>
+            Notifications
+
+        </button>
+
+
+        <div class="nav-title account-title">
+            MANAGEMENT
+        </div>
+
+
+        <button
+            class="nav-item"
+            onclick="showSection('users', this)">
+
+            <span>◉</span>
+            Users
+
+        </button>
+
+
+        <button
+            class="nav-item"
+            onclick="showSection('activity', this)">
+
+            <span>◷</span>
+            Activity Log
+
+        </button>
+
+
+        <div class="nav-title account-title">
+            ACCOUNT
+        </div>
+
+
+        <button
+            class="nav-item"
+            onclick="showSection('profile', this)">
+
+            <span>●</span>
+            Profile
+
+        </button>
+
+
+        <button
+            class="nav-item"
+            onclick="showSection('settings', this)">
+
+            <span>⚙</span>
+            Settings
+
+        </button>
+
+
+    </nav>
+
+
+
+    <!-- SIDEBAR BOTTOM -->
+
+    <div class="sidebar-bottom">
+
+
+        <div class="admin-user">
+
+            <div class="admin-avatar">
+                A
+            </div>
+
+            <div class="admin-user-info">
+
+                <strong>
+                    Admin
+                </strong>
+
+                <span>
+                    Administrator
+                </span>
+
+            </div>
+
+        </div>
+
+
+        <button
+            class="logout-button"
+            onclick="logout()">
+
+            <span>↪</span>
+
+            Logout
+
+        </button>
+
+
+    </div>
+
+
+</aside>
+
+
+
+<!-- SIDEBAR OVERLAY -->
+
+<div
+    class="sidebar-overlay"
+    id="sidebarOverlay"
+    onclick="closeSidebar()">
+</div>
+
+
+
+<!-- =====================================================
+     MAIN CONTENT
+===================================================== -->
+
+<main class="main-content">
+
+
+    <!-- HEADER -->
+
+    <header class="top-header">
+
+
+        <button
+            class="menu-button"
+            onclick="openSidebar()"
+            aria-label="Open menu">
+
+            <span></span>
+            <span></span>
+            <span></span>
+
+        </button>
+
+
+        <div class="header-title">
+
+            <span>
+                ADMIN PANEL
+            </span>
+
+            <h1>
+                SyllabusSync
+            </h1>
+
+        </div>
+
+
+        <div class="header-right">
+
+
+            <button
+                class="notification-button"
+                onclick="showNotification()">
+
+                🔔
+
+                <i></i>
+
+            </button>
+
+
+            <div class="header-profile">
+
+                <div class="header-avatar">
+                    A
+                </div>
+
+                <div>
+
+                    <strong>
+                        Admin
+                    </strong>
+
+                    <span>
+                        Administrator
+                    </span>
+
+                </div>
+
+            </div>
+
+
+        </div>
+
+
+    </header>
+
+
+
+    <!-- =================================================
+         DASHBOARD
+    ================================================= -->
+
+    <section
+        class="page-section active-section"
+        id="dashboard">
+
+
+        <div class="welcome-area">
+
+
+            <div>
+
+                <span class="section-label">
+                    ADMIN CONTROL CENTER
+                </span>
+
+                <h2>
+                    Welcome, Admin
+                </h2>
+
+                <p>
+                    Manage exams, syllabus,
+                    updates and users from one place.
+                </p>
+
+            </div>
+
+
+            <div class="date-box">
+
+                <span>
+                    TODAY
+                </span>
+
+                <strong>
+                    August 13, 2026
+                </strong>
+
+            </div>
+
+
+        </div>
+
+
+
+        <!-- STATISTICS -->
+
+        <div class="stats-grid">
+
+
+            <div class="stat-card">
+
+                <div class="stat-top">
+
+                    <span>
+                        TOTAL USERS
+                    </span>
+
+                    <div class="stat-icon">
+                        ◉
+                    </div>
+
+                </div>
+
+                <h3>
+                    1,248
+                </h3>
+
+                <p>
+                    Registered aspirants
+                </p>
+
+            </div>
+
+
+
+            <div class="stat-card">
+
+                <div class="stat-top">
+
+                    <span>
+                        ACTIVE EXAMS
+                    </span>
+
+                    <div class="stat-icon">
+                        ✓
+                    </div>
+
+                </div>
+
+                <h3>
+                    12
+                </h3>
+
+                <p>
+                    Currently available
+                </p>
+
+            </div>
+
+
+
+            <div class="stat-card">
+
+                <div class="stat-top">
+
+                    <span>
+                        SYLLABUS FILES
+                    </span>
+
+                    <div class="stat-icon">
+                        📄
+                    </div>
+
+                </div>
+
+                <h3>
+                    24
+                </h3>
+
+                <p>
+                    Uploaded documents
+                </p>
+
+            </div>
+
+
+
+            <div class="stat-card">
+
+                <div class="stat-top">
+
+                    <span>
+                        PENDING UPDATES
+                    </span>
+
+                    <div class="stat-icon">
+                        !
+                    </div>
+
+                </div>
+
+                <h3>
+                    3
+                </h3>
+
+                <p>
+                    Waiting for review
+                </p>
+
+            </div>
+
+
+        </div>
+
+
+
+        <!-- QUICK ACTIONS -->
+
+        <div class="content-card">
+
+
+            <div class="card-header">
+
+                <div>
+
+                    <h2>
+                        Quick Actions
+                    </h2>
+
+                    <p>
+                        Frequently used administration tools
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="action-grid">
+
+
+                <button
+                    class="action-card"
+                    onclick="showSectionById('syllabus')">
+
+                    <div class="action-icon">
+                        ↑
+                    </div>
+
+                    <div>
+
+                        <h3>
+                            Upload Syllabus
+                        </h3>
+
+                        <p>
+                            Add official syllabus PDF
+                        </p>
+
+                    </div>
+
+                    <span>
+                        →
+                    </span>
+
+                </button>
+
+
+
+                <button
+                    class="action-card"
+                    onclick="showSectionById('changes')">
+
+                    <div class="action-icon">
+                        ↻
+                    </div>
+
+                    <div>
+
+                        <h3>
+                            Review Changes
+                        </h3>
+
+                        <p>
+                            Check detected syllabus changes
+                        </p>
+
+                    </div>
+
+                    <span>
+                        →
+                    </span>
+
+                </button>
+
+
+
+                <button
+                    class="action-card"
+                    onclick="showSectionById('notifications')">
+
+                    <div class="action-icon">
+                        🔔
+                    </div>
+
+                    <div>
+
+                        <h3>
+                            Send Notification
+                        </h3>
+
+                        <p>
+                            Notify students about updates
+                        </p>
+
+                    </div>
+
+                    <span>
+                        →
+                    </span>
+
+                </button>
+
+
+            </div>
+
+
+        </div>
+
+
+
+        <!-- RECENT ACTIVITY -->
+
+        <div class="dashboard-bottom">
+
+
+            <div class="content-card">
+
+                <div class="card-header">
+
+                    <div>
+
+                        <h2>
+                            Recent Activity
+                        </h2>
+
+                        <p>
+                            Latest administrator actions
+                        </p>
+
+                    </div>
+
+                    <button
+                        class="view-button"
+                        onclick="showSectionById('activity')">
+
+                        View all
+
+                    </button>
+
+                </div>
+
+
+                <div class="recent-list">
+
+
+                    <div class="recent-item">
+
+                        <div class="recent-icon">
+                            ✓
+                        </div>
+
+                        <div>
+
+                            <h3>
+                                SSC CGL syllabus uploaded
+                            </h3>
+
+                            <p>
+                                New official PDF added.
+                            </p>
+
+                            <span>
+                                2 hours ago
+                            </span>
+
+                        </div>
+
+                    </div>
+
+
+
+                    <div class="recent-item">
+
+                        <div class="recent-icon">
+                            ↻
+                        </div>
+
+                        <div>
+
+                            <h3>
+                                RRB NTPC changes detected
+                            </h3>
+
+                            <p>
+                                New syllabus version requires review.
+                            </p>
+
+                            <span>
+                                5 hours ago
+                            </span>
+
+                        </div>
+
+                    </div>
+
+
+
+                    <div class="recent-item">
+
+                        <div class="recent-icon">
+                            🔔
+                        </div>
+
+                        <div>
+
+                            <h3>
+                                Notification published
+                            </h3>
+
+                            <p>
+                                Students were notified about an update.
+                            </p>
+
+                            <span>
+                                Yesterday
+                            </span>
+
+                        </div>
+
+                    </div>
+
+
+                </div>
+
+
+            </div>
+
+
+        </div>
+
+
+    </section>
+
+
+
+    <!-- =================================================
+         MANAGE EXAMS
+    ================================================= -->
+
+    <section
+        class="page-section"
+        id="exams">
+
+
+        <div class="page-heading">
+
+            <div>
+
+                <span>
+                    EXAM MANAGEMENT
+                </span>
+
+                <h2>
+                    Manage Exams
+                </h2>
+
+                <p>
+                    Add, update and manage government examinations.
+                </p>
+
+            </div>
+
+
+            <button
+                class="primary-button"
+                onclick="addExam()">
+
+                + Add Exam
+
+            </button>
+
+        </div>
+
+
+
+        <div class="table-card">
+
+
+            <div class="table-header">
+
+                <div>
+
+                    <h2>
+                        Available Exams
+                    </h2>
+
+                    <span>
+                        12 active examinations
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <div class="table-wrapper">
+
+                <table>
+
+                    <thead>
+
+                        <tr>
+
+                            <th>
+                                Exam
+                            </th>
+
+                            <th>
+                                Category
+                            </th>
+
+                            <th>
+                                Version
+                            </th>
+
+                            <th>
+                                Status
+                            </th>
+
+                            <th>
+                                Action
+                            </th>
+
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody>
+
+
+                        <tr>
+
+                            <td>
+                                <strong>
+                                    UPSC Civil Services
+                                </strong>
+                            </td>
+
+                            <td>
+                                Civil Services
+                            </td>
+
+                            <td>
+                                2026
+                            </td>
+
+                            <td>
+                                <span class="status active">
+                                    Active
+                                </span>
+                            </td>
+
+                            <td>
+                                <button class="small-button">
+                                    Manage
+                                </button>
+                            </td>
+
+                        </tr>
+
+
+
+                        <tr>
+
+                            <td>
+                                <strong>
+                                    SSC CGL
+                                </strong>
+                            </td>
+
+                            <td>
+                                SSC
+                            </td>
+
+                            <td>
+                                2026
+                            </td>
+
+                            <td>
+                                <span class="status active">
+                                    Active
+                                </span>
+                            </td>
+
+                            <td>
+                                <button class="small-button">
+                                    Manage
+                                </button>
+                            </td>
+
+                        </tr>
+
+
+
+                        <tr>
+
+                            <td>
+                                <strong>
+                                    RRB NTPC
+                                </strong>
+                            </td>
+
+                            <td>
+                                Railway
+                            </td>
+
+                            <td>
+                                2026
+                            </td>
+
+                            <td>
+                                <span class="status active">
+                                    Active
+                                </span>
+                            </td>
+
+                            <td>
+                                <button class="small-button">
+                                    Manage
+                                </button>
+                            </td>
+
+                        </tr>
+
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+
+        </div>
+
+
+    </section>
+
+
+
+    <!-- =================================================
+         SYLLABUS MANAGEMENT
+    ================================================= -->
+
+    <section
+        class="page-section"
+        id="syllabus">
+
+
+        <div class="page-heading">
+
+            <div>
+
+                <span>
+                    DOCUMENT MANAGEMENT
+                </span>
+
+                <h2>
+                    Syllabus Management
+                </h2>
+
+                <p>
+                    Upload and manage official examination syllabus documents.
+                </p>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- UPLOAD CARD -->
+
+        <div class="upload-card">
+
+
+            <div class="upload-icon">
+                ↑
+            </div>
+
+
+            <h2>
+                Upload Official Syllabus
+            </h2>
+
+
+            <p>
+                Upload the latest official PDF for an examination.
+            </p>
+
+
+            <div class="upload-form">
+
+
+                <div class="form-group">
+
+                    <label>
+                        Select Examination
+                    </label>
+
+                    <select id="examSelect">
+
+                        <option>
+                            Select Exam
+                        </option>
+
+                        <option>
+                            UPSC Civil Services
+                        </option>
+
+                        <option>
+                            SSC CGL
+                        </option>
+
+                        <option>
+                            RRB NTPC
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+
+                <div class="form-group">
+
+                    <label>
+                        Syllabus PDF
+                    </label>
+
+                    <input
+                        type="file"
+                        id="syllabusFile"
+                        accept=".pdf">
+
+                </div>
+
+
+
+                <button
+                    class="primary-button"
+                    onclick="uploadSyllabus()">
+
+                    Upload PDF
+
+                </button>
+
+
+            </div>
+
+
+        </div>
+
+
+
+        <!-- SYLLABUS TABLE -->
+
+        <div class="table-card syllabus-table-card">
+
+
+            <div class="table-header">
+
+                <div>
+
+                    <h2>
+                        Uploaded Syllabus
+                    </h2>
+
+                    <span>
+                        Manage existing syllabus versions
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <div class="table-wrapper">
+
+                <table>
+
+                    <thead>
+
+                        <tr>
+
+                            <th>
+                                Exam
+                            </th>
+
+                            <th>
+                                File
+                            </th>
+
+                            <th>
+                                Version
+                            </th>
+
+                            <th>
+                                Uploaded
+                            </th>
+
+                            <th>
+                                Status
+                            </th>
+
+                            <th>
+                                Action
+                            </th>
+
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody>
+
+
+                        <tr>
+
+                            <td>
+                                <strong>
+                                    SSC CGL
+                                </strong>
+                            </td>
+
+                            <td>
+                                SSC_CGL_2026.pdf
+                            </td>
+
+                            <td>
+                                v3
+                            </td>
+
+                            <td>
+                                Aug 12, 2026
+                            </td>
+
+                            <td>
+                                <span class="status active">
+                                    Published
+                                </span>
+                            </td>
+
+                            <td>
+                                <button class="small-button">
+                                    View
+                                </button>
+                            </td>
+
+                        </tr>
+
+
+
+                        <tr>
+
+                            <td>
+                                <strong>
+                                    RRB NTPC
+                                </strong>
+                            </td>
+
+                            <td>
+                                RRB_NTPC_2026.pdf
+                            </td>
+
+                            <td>
+                                v2
+                            </td>
+
+                            <td>
+                                Aug 10, 2026
+                            </td>
+
+                            <td>
+                                <span class="status pending">
+                                    Review
+                                </span>
+                            </td>
+
+                            <td>
+                                <button
+                                    class="small-button"
+                                    onclick="showSectionById('changes')">
+
+                                    Review
+
+                                </button>
+                            </td>
+
+                        </tr>
+
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+
+        </div>
+
+
+    </section>
+
+
+
+    <!-- =================================================
+         SYLLABUS CHANGES
+    ================================================= -->
+
+    <section
+        class="page-section"
+        id="changes">
+
+
+        <div class="page-heading">
+
+            <div>
+
+                <span>
+                    VERSION CONTROL
+                </span>
+
+                <h2>
+                    Syllabus Changes
+                </h2>
+
+                <p>
+                    Review changes detected between syllabus versions.
+                </p>
+
+            </div>
+
+        </div>
+
+
+
+        <div class="change-summary">
+
+
+            <div class="change-box">
+
+                <strong>
+                    3
+                </strong>
+
+                <span>
+                    Pending Reviews
+                </span>
+
+            </div>
+
+
+            <div class="change-box">
+
+                <strong>
+                    8
+                </strong>
+
+                <span>
+                    Topics Added
+                </span>
+
+            </div>
+
+
+            <div class="change-box">
+
+                <strong>
+                    2
+                </strong>
+
+                <span>
+                    Topics Removed
+                </span>
+
+            </div>
+
+
+            <div class="change-box">
+
+                <strong>
+                    5
+                </strong>
+
+                <span>
+                    Topics Modified
+                </span>
+
+            </div>
+
+
+        </div>
+
+
+
+        <div class="change-list">
+
+
+            <div class="change-card">
+
+
+                <div class="change-card-top">
+
+                    <div>
+
+                        <span class="exam-badge">
+                            RRB NTPC
+                        </span>
+
+                        <h3>
+                            New syllabus version detected
+                        </h3>
+
+                    </div>
+
+                    <span class="change-date">
+                        Aug 13, 2026
+                    </span>
+
+                </div>
+
+
+                <div class="version-row">
+
+                    <div>
+
+                        <span>
+                            Previous Version
+                        </span>
+
+                        <strong>
+                            v1
+                        </strong>
+
+                    </div>
+
+
+                    <div class="arrow">
+                        →
+                    </div>
+
+
+                    <div>
+
+                        <span>
+                            New Version
+                        </span>
+
+                        <strong>
+                            v2
+                        </strong>
+
+                    </div>
+
+                </div>
+
+
+                <div class="change-details">
+
+                    <div class="added">
+                        + 4 topics added
+                    </div>
+
+                    <div class="removed">
+                        − 1 topic removed
+                    </div>
+
+                    <div class="modified">
+                        ~ 2 topics modified
+                    </div>
+
+                </div>
+
+
+                <div class="change-actions">
+
+                    <button
+                        class="secondary-button"
+                        onclick="viewChanges()">
+
+                        View Changes
+
+                    </button>
+
+
+                    <button
+                        class="primary-button"
+                        onclick="publishUpdate()">
+
+                        Approve & Publish
+
+                    </button>
+
+                </div>
+
+
+            </div>
+
+
+
+            <div class="change-card">
+
+
+                <div class="change-card-top">
+
+                    <div>
+
+                        <span class="exam-badge">
+                            SSC CGL
+                        </span>
+
+                        <h3>
+                            Syllabus review required
+                        </h3>
+
+                    </div>
+
+                    <span class="change-date">
+                        Aug 12, 2026
+                    </span>
+
+                </div>
+
+
+                <div class="version-row">
+
+                    <div>
+
+                        <span>
+                            Previous Version
+                        </span>
+
+                        <strong>
+                            v2
+                        </strong>
+
+                    </div>
+
+
+                    <div class="arrow">
+                        →
+                    </div>
+
+
+                    <div>
+
+                        <span>
+                            New Version
+                        </span>
+
+                        <strong>
+                            v3
+                        </strong>
+
+                    </div>
+
+                </div>
+
+
+                <div class="change-details">
+
+                    <div class="added">
+                        + 3 topics added
+                    </div>
+
+                    <div class="removed">
+                        − 1 topic removed
+                    </div>
+
+                    <div class="modified">
+                        ~ 3 topics modified
+                    </div>
+
+                </div>
+
+
+                <div class="change-actions">
+
+                    <button
+                        class="secondary-button"
+                        onclick="viewChanges()">
+
+                        View Changes
+
+                    </button>
+
+
+                    <button
+                        class="primary-button"
+                        onclick="publishUpdate()">
+
+                        Approve & Publish
+
+                    </button>
+
+                </div>
+
+
+            </div>
+
+
+        </div>
+
+
+    </section>
+
+
+
+    <!-- =================================================
+         UPDATES
+    ================================================= -->
+
+    <section
+        class="page-section"
+        id="updates">
+
+
+        <div class="page-heading">
+
+            <div>
+
+                <span>
+                    SYSTEM UPDATES
+                </span>
+
+                <h2>
+                    Syllabus Updates
+                </h2>
+
+                <p>
+                    Published syllabus changes visible to students.
+                </p>
+
+            </div>
+
+
+            <button
+                class="primary-button"
+                onclick="publishUpdate()">
+
+                + Publish Update
+
+            </button>
+
+        </div>
+
+
+
+        <div class="updates-list">
+
+
+            <div class="update-card">
+
+                <div class="update-mark">
+                    ↑
+                </div>
+
+
+                <div class="update-content">
+
+                    <div class="update-top">
+
+                        <h3>
+                            SSC CGL syllabus updated
+                        </h3>
+
+                        <span>
+                            2 days ago
+                        </span>
+
+                    </div>
+
+
+                    <p>
+                        New topics and modifications were
+                        added to the official syllabus.
+                    </p>
+
+
+                    <div class="update-meta">
+                        SSC CGL · Version 3
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+            <div class="update-card">
+
+                <div class="update-mark">
+                    ↑
+                </div>
+
+
+                <div class="update-content">
+
+                    <div class="update-top">
+
+                        <h3>
+                            UPSC Civil Services syllabus reviewed
+                        </h3>
+
+                        <span>
+                            5 days ago
+                        </span>
+
+                    </div>
+
+
+                    <p>
+                        Latest official syllabus information
+                        has been synchronized.
+                    </p>
+
+
+                    <div class="update-meta">
+                        UPSC CSE · Version 2
+                    </div>
+
+                </div>
+
+            </div>
+
+
+        </div>
+
+
+    </section>
+
+
+
+    <!-- =================================================
+         NOTIFICATIONS
+    ================================================= -->
+
+    <section
+        class="page-section"
+        id="notifications">
+
+
+        <div class="page-heading">
+
+            <div>
+
+                <span>
+                    COMMUNICATION
+                </span>
+
+                <h2>
+                    Notifications
+                </h2>
+
+                <p>
+                    Send important syllabus information to students.
+                </p>
+
+            </div>
+
+        </div>
+
+
+
+        <div class="notification-layout">
+
+
+            <div class="notification-form-card">
+
+
+                <h2>
+                    Create Notification
+                </h2>
+
+                <p>
+                    Send a notification to students about an update.
+                </p>
+
+
+                <div class="form-group">
+
+                    <label>
+                        Notification Title
+                    </label>
+
+                    <input
+                        type="text"
+                        id="notificationTitle"
+                        placeholder="Example: SSC CGL syllabus updated">
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label>
+                        Select Exam
+                    </label>
+
+                    <select id="notificationExam">
+
+                        <option>
+                            All Exams
+                        </option>
+
+                        <option>
+                            UPSC Civil Services
+                        </option>
+
+                        <option>
+                            SSC CGL
+                        </option>
+
+                        <option>
+                            RRB NTPC
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label>
+                        Message
+                    </label>
+
+                    <textarea
+                        id="notificationMessage"
+                        rows="6"
+                        placeholder="Write notification message..."></textarea>
+
+                </div>
+
+
+                <button
+                    class="primary-button"
+                    onclick="sendNotification()">
+
+                    Send Notification
+
+                </button>
+
+
+            </div>
+
+
+
+            <div class="notification-history">
+
+
+                <div class="content-card">
+
+                    <div class="card-header">
+
+                        <div>
+
+                            <h2>
+                                Recent Notifications
+                            </h2>
+
+                            <p>
+                                Previously sent messages
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="notification-item">
+
+                        <div class="notification-item-icon">
+                            🔔
+                        </div>
+
+                        <div>
+
+                            <h3>
+                                SSC CGL syllabus updated
+                            </h3>
+
+                            <p>
+                                Sent to SSC CGL aspirants.
+                            </p>
+
+                            <span>
+                                2 days ago
+                            </span>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="notification-item">
+
+                        <div class="notification-item-icon">
+                            🔔
+                        </div>
+
+                        <div>
+
+                            <h3>
+                                RRB NTPC changes available
+                            </h3>
+
+                            <p>
+                                New syllabus version published.
+                            </p>
+
+                            <span>
+                                5 days ago
+                            </span>
+
+                        </div>
+
+                    </div>
+
+
+                </div>
+
+
+            </div>
+
+
+        </div>
+
+
+    </section>
+
+
+
+    <!-- =================================================
+         USERS
+    ================================================= -->
+
+    <section
+        class="page-section"
+        id="users">
+
+
+        <div class="page-heading">
+
+            <div>
+
+                <span>
+                    USER MANAGEMENT
+                </span>
+
+                <h2>
+                    Users
+                </h2>
+
+                <p>
+                    View registered government exam aspirants.
+                </p>
+
+            </div>
+
+        </div>
+
+
+
+        <div class="table-card">
+
+
+            <div class="table-header">
+
+                <div>
+
+                    <h2>
+                        Registered Users
+                    </h2>
+
+                    <span>
+                        1,248 users
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <div class="table-wrapper">
+
+                <table>
+
+                    <thead>
+
+                        <tr>
+
+                            <th>
+                                User
+                            </th>
+
+                            <th>
+                                Email
+                            </th>
+
+                            <th>
+                                Exams
+                            </th>
+
+                            <th>
+                                Status
+                            </th>
+
+                            <th>
+                                Joined
+                            </th>
+
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody>
+
+
+                        <tr>
+
+                            <td>
+                                <strong>
+                                    Student One
+                                </strong>
+                            </td>
+
+                            <td>
+                                student1@email.com
+                            </td>
+
+                            <td>
+                                3 Exams
+                            </td>
+
+                            <td>
+                                <span class="status active">
+                                    Active
+                                </span>
+                            </td>
+
+                            <td>
+                                Aug 10, 2026
+                            </td>
+
+                        </tr>
+
+
+
+                        <tr>
+
+                            <td>
+                                <strong>
+                                    Student Two
+                                </strong>
+                            </td>
+
+                            <td>
+                                student2@email.com
+                            </td>
+
+                            <td>
+                                2 Exams
+                            </td>
+
+                            <td>
+                                <span class="status active">
+                                    Active
+                                </span>
+                            </td>
+
+                            <td>
+                                Aug 8, 2026
+                            </td>
+
+                        </tr>
+
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+
+        </div>
+
+
+    </section>
+
+
+
+    <!-- =================================================
+         ACTIVITY LOG
+    ================================================= -->
+
+    <section
+        class="page-section"
+        id="activity">
+
+
+        <div class="page-heading">
+
+            <div>
+
+                <span>
+                    AUDIT TRAIL
+                </span>
+
+                <h2>
+                    Activity Log
+                </h2>
+
+                <p>
+                    Track important administrator actions.
+                </p>
+
+            </div>
+
+        </div>
+
+
+
+        <div class="activity-card">
+
+
+            <div class="activity-entry">
+
+                <div class="activity-dot success">
+                    ✓
+                </div>
+
+                <div class="activity-info">
+
+                    <h3>
+                        Uploaded SSC CGL syllabus
+                    </h3>
+
+                    <p>
+                        Administrator uploaded SSC_CGL_2026.pdf.
+                    </p>
+
+                    <span>
+                        August 13, 2026 · 10:30 AM
+                    </span>
+
+                </div>
+
+            </div>
+
+
+
+            <div class="activity-entry">
+
+                <div class="activity-dot warning">
+                    ↻
+                </div>
+
+                <div class="activity-info">
+
+                    <h3>
+                        Syllabus changes detected
+                    </h3>
+
+                    <p>
+                        RRB NTPC version 2 requires review.
+                    </p>
+
+                    <span>
+                        August 13, 2026 · 09:45 AM
+                    </span>
+
+                </div>
+
+            </div>
+
+
+
+            <div class="activity-entry">
+
+                <div class="activity-dot success">
+                    ✓
+                </div>
+
+                <div class="activity-info">
+
+                    <h3>
+                        Published syllabus update
+                    </h3>
+
+                    <p>
+                        SSC CGL version 3 was published.
+                    </p>
+
+                    <span>
+                        August 12, 2026 · 05:20 PM
+                    </span>
+
+                </div>
+
+            </div>
+
+
+
+            <div class="activity-entry">
+
+                <div class="activity-dot info">
+                    🔔
+                </div>
+
+                <div class="activity-info">
+
+                    <h3>
+                        Notification sent
+                    </h3>
+
+                    <p>
+                        Notification sent to SSC CGL aspirants.
+                    </p>
+
+                    <span>
+                        August 12, 2026 · 05:30 PM
+                    </span>
+
+                </div>
+
+            </div>
+
+
+        </div>
+
+
+    </section>
+
+
+
+    <!-- =================================================
+         PROFILE
+    ================================================= -->
+
+    <section
+        class="page-section"
+        id="profile">
+
+
+        <div class="page-heading">
+
+            <div>
+
+                <span>
+                    ACCOUNT
+                </span>
+
+                <h2>
+                    Admin Profile
+                </h2>
+
+                <p>
+                    Manage administrator account information.
+                </p>
+
+            </div>
+
+        </div>
+
+
+
+        <div class="profile-card">
+
+
+            <div class="profile-avatar-large">
+                A
+            </div>
+
+
+            <h2>
+                Admin
+            </h2>
+
+
+            <p>
+                admin@syllabussync.com
+            </p>
+
+
+            <span class="admin-badge">
+                Administrator
+            </span>
+
+
+            <button
+                class="primary-button"
+                onclick="editProfile()">
+
+                Edit Profile
+
+            </button>
+
+
+        </div>
+
+
+    </section>
+
+
+
+    <!-- =================================================
+         SETTINGS
+    ================================================= -->
+
+    <section
+        class="page-section"
+        id="settings">
+
+
+        <div class="page-heading">
+
+            <div>
+
+                <span>
+                    SYSTEM
+                </span>
+
+                <h2>
+                    Settings
+                </h2>
+
+                <p>
+                    Manage administrator preferences.
+                </p>
+
+            </div>
+
+        </div>
+
+
+
+        <div class="settings-card">
+
+
+            <div class="setting-row">
+
+                <div>
+
+                    <h3>
+                        Notifications
+                    </h3>
+
+                    <p>
+                        Receive notifications about syllabus changes.
+                    </p>
+
+                </div>
+
+
+                <label class="switch">
+
+                    <input
+                        type="checkbox"
+                        checked>
+
+                    <span></span>
+
+                </label>
+
+            </div>
+
+
+
+            <div class="setting-row">
+
+                <div>
+
+                    <h3>
+                        Email Alerts
+                    </h3>
+
+                    <p>
+                        Receive important system alerts by email.
+                    </p>
+
+                </div>
+
+
+                <label class="switch">
+
+                    <input
+                        type="checkbox"
+                        checked>
+
+                    <span></span>
+
+                </label>
+
+            </div>
+
+
+
+            <div class="setting-row">
+
+                <div>
+
+                    <h3>
+                        Automatic Change Detection
+                    </h3>
+
+                    <p>
+                        Detect differences when a new syllabus is uploaded.
+                    </p>
+
+                </div>
+
+
+                <label class="switch">
+
+                    <input
+                        type="checkbox"
+                        checked>
+
+                    <span></span>
+
+                </label>
+
+            </div>
+
+
+        </div>
+
+
+    </section>
+
+
+
+    <!-- FOOTER -->
+
+    <footer>
+
+        © 2026 SyllabusSync.
+        Admin Control Center.
+
+    </footer>
+
+
+</main>
+
+
+
+<!-- =====================================================
+     JAVASCRIPT
+===================================================== -->
+
+<script>
+
+
+/* =====================================================
+   SIDEBAR
+===================================================== */
+
+function openSidebar() {
+
+    document
+        .getElementById("sidebar")
+        .classList.add("open");
+
+    document
+        .getElementById("sidebarOverlay")
+        .classList.add("show");
+
+}
+
+
+function closeSidebar() {
+
+    document
+        .getElementById("sidebar")
+        .classList.remove("open");
+
+    document
+        .getElementById("sidebarOverlay")
+        .classList.remove("show");
+
+}
+
+
+
+/* =====================================================
+   SHOW SECTION
+===================================================== */
+
+function showSection(sectionId, button) {
+
+
+    const sections =
+        document.querySelectorAll(".page-section");
+
+
+    sections.forEach(function(section) {
+
+        section.classList.remove("active-section");
+
+    });
+
+
+    const selected =
+        document.getElementById(sectionId);
+
+
+    if (selected) {
+
+        selected.classList.add("active-section");
+
+    }
+
+
+    const navItems =
+        document.querySelectorAll(".nav-item");
+
+
+    navItems.forEach(function(item) {
+
+        item.classList.remove("active");
+
+    });
+
+
+    if (button) {
+
+        button.classList.add("active");
+
+    }
+
+
+    closeSidebar();
+
+
+    window.scrollTo({
+
+        top: 0,
+
+        behavior: "smooth"
+
+    });
+
+}
+
+
+
+/* =====================================================
+   SHOW SECTION FROM QUICK ACTION
+===================================================== */
+
+function showSectionById(sectionId) {
+
+
+    const sections =
+        document.querySelectorAll(".page-section");
+
+
+    sections.forEach(function(section) {
+
+        section.classList.remove("active-section");
+
+    });
+
+
+    const selected =
+        document.getElementById(sectionId);
+
+
+    if (selected) {
+
+        selected.classList.add("active-section");
+
+    }
+
+
+    const navItems =
+        document.querySelectorAll(".nav-item");
+
+
+    navItems.forEach(function(item) {
+
+        item.classList.remove("active");
+
+    });
+
+
+    navItems.forEach(function(item) {
+
+        const text =
+            item.textContent.trim().toLowerCase();
+
+
+        if (
+            (sectionId === "syllabus" &&
+                text.includes("syllabus")) ||
+
+            (sectionId === "changes" &&
+                text.includes("changes")) ||
+
+            (sectionId === "notifications" &&
+                text.includes("notifications"))
+        ) {
+
+            item.classList.add("active");
+
+        }
+
+    });
+
+
+    closeSidebar();
+
+
+    window.scrollTo({
+
+        top: 0,
+
+        behavior: "smooth"
+
+    });
+
+}
+
+
+
+/* =====================================================
+   ADD EXAM
+===================================================== */
+
+function addExam() {
+
+    alert(
+        "Add Exam feature will be connected to Flask + MySQL later."
+    );
+
+}
+
+
+
+/* =====================================================
+   UPLOAD SYLLABUS
+===================================================== */
+
+function uploadSyllabus() {
+
+
+    const exam =
+        document.getElementById("examSelect").value;
+
+
+    const file =
+        document.getElementById("syllabusFile").files[0];
+
+
+    if (exam === "Select Exam") {
+
+        alert("Please select an examination.");
+
+        return;
+
+    }
+
+
+    if (!file) {
+
+        alert("Please select a PDF file.");
+
+        return;
+
+    }
+
+
+    if (file.type !== "application/pdf") {
+
+        alert("Please upload a PDF file only.");
+
+        return;
+
+    }
+
+
+    alert(
+        "PDF selected successfully.\n\n" +
+        "Later this will connect to Flask and extract the syllabus text automatically."
+    );
+
+}
+
+
+
+/* =====================================================
+   VIEW CHANGES
+===================================================== */
+
+function viewChanges() {
+
+    alert(
+        "Detailed syllabus comparison will be connected to the backend later."
+    );
+
+}
+
+
+
+/* =====================================================
+   PUBLISH UPDATE
+===================================================== */
+
+function publishUpdate() {
+
+    const confirmPublish =
+        confirm(
+            "Are you sure you want to publish this syllabus update?"
+        );
+
+
+    if (confirmPublish) {
+
+        alert(
+            "Update published successfully.\n\nStudents will receive a notification."
+        );
+
+    }
+
+}
+
+
+
+/* =====================================================
+   SEND NOTIFICATION
+===================================================== */
+
+function sendNotification() {
+
+
+    const title =
+        document
+            .getElementById("notificationTitle")
+            .value
+            .trim();
+
+
+    const message =
+        document
+            .getElementById("notificationMessage")
+            .value
+            .trim();
+
+
+    if (title === "") {
+
+        alert("Please enter notification title.");
+
+        return;
+
+    }
+
+
+    if (message === "") {
+
+        alert("Please enter notification message.");
+
+        return;
+
+    }
+
+
+    alert(
+        "Notification created successfully.\n\n" +
+        "This will later be stored in MySQL and shown to students."
+    );
+
+
+    document
+        .getElementById("notificationTitle")
+        .value = "";
+
+
+    document
+        .getElementById("notificationMessage")
+        .value = "";
+
+}
+
+
+
+/* =====================================================
+   NOTIFICATION ICON
+===================================================== */
+
+function showNotification() {
+
+    alert(
+        "You have 3 new administration notifications."
+    );
+
+}
+
+
+
+/* =====================================================
+   PROFILE
+===================================================== */
+
+function editProfile() {
+
+    alert(
+        "Admin profile editing will be connected to Flask + MySQL later."
+    );
+
+}
+
+
+
+/* =====================================================
+   LOGOUT
+===================================================== */
+
+function logout() {
+
+
+    const confirmLogout =
+        confirm(
+            "Are you sure you want to logout?"
+        );
+
+
+    if (confirmLogout) {
+
+        window.location.href = "login.html";
+
+    }
+
+}
+
+
+</script>
+
+
+</body>
+
+</html>

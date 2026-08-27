@@ -1,0 +1,724 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Select Your Exams | SyllabusSync</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet"
+    >
+
+  <link rel="stylesheet" href="{{ url_for('static', filename='preference.css') }}">
+</head>
+
+<body>
+
+    <div class="page">
+        <form
+    method="POST"
+        action="{{ url_for('preference') }}"
+        id="preferenceForm"
+>
+
+        <!-- =========================
+             TOP BAR
+        ========================== -->
+
+        <header class="topbar">
+
+            <div class="brand">
+
+                <div class="brand-icon">
+                    S
+                </div>
+
+                <div class="brand-name">
+                    Syllabus<span>Sync</span>
+                </div>
+
+            </div>
+
+
+            <div class="progress-area">
+
+                <div class="progress-text">
+
+                    <strong>Step 1 of 2</strong>
+
+                    <span>50%</span>
+
+                </div>
+
+                <div class="progress-line">
+
+                    <div class="progress-fill"></div>
+
+                </div>
+
+            </div>
+
+        </header>
+
+
+        <!-- =========================
+             HERO
+        ========================== -->
+
+        <section class="hero">
+
+            <div class="hero-badge">
+
+                <span class="badge-dot"></span>
+
+                PERSONALIZE YOUR PREPARATION
+
+            </div>
+
+
+            <h1>
+                What are you
+                <span>preparing for?</span>
+            </h1>
+
+
+            <p>
+                Select all the government exams you are preparing for.
+                You can choose multiple exams and manage them from one
+                personalized dashboard.
+            </p>
+
+        </section>
+
+
+        <!-- =========================
+             SELECTION SUMMARY
+        ========================== -->
+
+        <div class="selection-bar">
+
+            <div class="selection-left">
+
+                <div class="selection-icon">
+                    ✓
+                </div>
+
+                <div>
+
+                    <h3>Your exam preferences</h3>
+
+                    <p>
+                        Choose one or more exams to continue.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="selection-right">
+
+                <span id="selectedCount">0</span>
+
+                <small>exams selected</small>
+
+            </div>
+
+        </div>
+
+
+        <!-- =========================
+             SECTION HEADING
+        ========================== -->
+
+        <div class="section-heading">
+
+            <div>
+
+                <h2>
+                    Government Examinations
+                </h2>
+
+                <p>
+                    Select every exam you are interested in.
+                </p>
+
+            </div>
+
+
+            <span class="available">
+                Multiple selection available
+            </span>
+
+        </div>
+
+
+        <!-- =========================
+             EXAM GRID
+        ========================== -->
+
+        <div class="exam-grid">
+
+
+            <!-- UPSC -->
+
+            <label class="exam-card">
+
+                <input
+                    type="checkbox"
+                    name="exams"
+                    value="UPSC"
+                >
+
+                <div class="exam-content">
+
+                    <div class="card-top">
+
+                        <div class="exam-logo upsc">
+                            UPSC
+                        </div>
+
+                        <div class="check-circle">
+                            ✓
+                        </div>
+
+                    </div>
+
+
+                    <div class="card-content">
+
+                        <h3>
+                            UPSC CSE
+                        </h3>
+
+                        <p>
+                            Civil Services Examination
+                        </p>
+
+                    </div>
+
+
+                    <div class="card-footer">
+
+                        <span>
+                            Central Government
+                        </span>
+
+                        <span class="arrow">
+                            →
+                        </span>
+
+                    </div>
+
+                </div>
+
+            </label>
+
+
+            <!-- SSC -->
+
+            <label class="exam-card">
+
+                <input
+                    type="checkbox"
+                    name="exams"
+                    value="SSC"
+                >
+
+                <div class="exam-content">
+
+                    <div class="card-top">
+
+                        <div class="exam-logo ssc">
+                            SSC
+                        </div>
+
+                        <div class="check-circle">
+                            ✓
+                        </div>
+
+                    </div>
+
+
+                    <div class="card-content">
+
+                        <h3>
+                            SSC CGL
+                        </h3>
+
+                        <p>
+                            Combined Graduate Level
+                        </p>
+
+                    </div>
+
+
+                    <div class="card-footer">
+
+                        <span>
+                            Central Government
+                        </span>
+
+                        <span class="arrow">
+                            →
+                        </span>
+
+                    </div>
+
+                </div>
+
+            </label>
+
+
+            <!-- IBPS -->
+
+            <label class="exam-card">
+
+                <input
+                    type="checkbox"
+                    name="exams"
+                    value="IBPS"
+                >
+
+                <div class="exam-content">
+
+                    <div class="card-top">
+
+                        <div class="exam-logo ibps">
+                            IBPS
+                        </div>
+
+                        <div class="check-circle">
+                            ✓
+                        </div>
+
+                    </div>
+
+
+                    <div class="card-content">
+
+                        <h3>
+                            IBPS PO
+                        </h3>
+
+                        <p>
+                            Probationary Officer
+                        </p>
+
+                    </div>
+
+
+                    <div class="card-footer">
+
+                        <span>
+                            Banking
+                        </span>
+
+                        <span class="arrow">
+                            →
+                        </span>
+
+                    </div>
+
+                </div>
+
+            </label>
+
+
+            <!-- RRB -->
+
+            <label class="exam-card">
+
+                <input
+                    type="checkbox"
+                    name="exams"
+                    value="RRB"
+                >
+
+                <div class="exam-content">
+
+                    <div class="card-top">
+
+                        <div class="exam-logo rrb">
+                            RRB
+                        </div>
+
+                        <div class="check-circle">
+                            ✓
+                        </div>
+
+                    </div>
+
+
+                    <div class="card-content">
+
+                        <h3>
+                            RRB NTPC
+                        </h3>
+
+                        <p>
+                            Railway Recruitment Examination
+                        </p>
+
+                    </div>
+
+
+                    <div class="card-footer">
+
+                        <span>
+                            Indian Railways
+                        </span>
+
+                        <span class="arrow">
+                            →
+                        </span>
+
+                    </div>
+
+                </div>
+
+            </label>
+
+
+            <!-- GATE -->
+
+            <label class="exam-card">
+
+                <input
+                    type="checkbox"
+                    name="exams"
+                    value="GATE"
+                >
+
+                <div class="exam-content">
+
+                    <div class="card-top">
+
+                        <div class="exam-logo gate">
+                            GATE
+                        </div>
+
+                        <div class="check-circle">
+                            ✓
+                        </div>
+
+                    </div>
+
+
+                    <div class="card-content">
+
+                        <h3>
+                            GATE
+                        </h3>
+
+                        <p>
+                            Graduate Aptitude Test in Engineering
+                        </p>
+
+                    </div>
+
+
+                    <div class="card-footer">
+
+                        <span>
+                            Engineering
+                        </span>
+
+                        <span class="arrow">
+                            →
+                        </span>
+
+                    </div>
+
+                </div>
+
+            </label>
+
+
+            <!-- ESE -->
+
+            <label class="exam-card">
+
+                <input
+                    type="checkbox"
+                    name="exams"
+                    value="ESE"
+                >
+
+                <div class="exam-content">
+
+                    <div class="card-top">
+
+                        <div class="exam-logo ese">
+                            ESE
+                        </div>
+
+                        <div class="check-circle">
+                            ✓
+                        </div>
+
+                    </div>
+
+
+                    <div class="card-content">
+
+                        <h3>
+                            Engineering Services
+                        </h3>
+
+                        <p>
+                            Engineering Services Examination
+                        </p>
+
+                    </div>
+
+
+                    <div class="card-footer">
+
+                        <span>
+                            UPSC Engineering
+                        </span>
+
+                        <span class="arrow">
+                            →
+                        </span>
+
+                    </div>
+
+                </div>
+
+            </label>
+
+
+            <!-- STATE PSC -->
+
+            <label class="exam-card">
+
+                <input
+                    type="checkbox"
+                    name="exams"
+                    value="PSC"
+                >
+
+                <div class="exam-content">
+
+                    <div class="card-top">
+
+                        <div class="exam-logo psc">
+                            PSC
+                        </div>
+
+                        <div class="check-circle">
+                            ✓
+                        </div>
+
+                    </div>
+
+
+                    <div class="card-content">
+
+                        <h3>
+                            State PSC
+                        </h3>
+
+                        <p>
+                            State Public Service Commission
+                        </p>
+
+                    </div>
+
+
+                    <div class="card-footer">
+
+                        <span>
+                            State Government
+                        </span>
+
+                        <span class="arrow">
+                            →
+                        </span>
+
+                    </div>
+
+                </div>
+
+            </label>
+
+
+            <!-- DEFENCE -->
+
+            <label class="exam-card">
+
+                <input
+                    type="checkbox"
+                    name="exams"
+                    value="DEFENCE"
+                >
+
+                <div class="exam-content">
+
+                    <div class="card-top">
+
+                        <div class="exam-logo defence">
+                            DEF
+                        </div>
+
+                        <div class="check-circle">
+                            ✓
+                        </div>
+
+                    </div>
+
+
+                    <div class="card-content">
+
+                        <h3>
+                            Defence Exams
+                        </h3>
+
+                        <p>
+                            CDS, AFCAT and Defence examinations
+                        </p>
+
+                    </div>
+
+
+                    <div class="card-footer">
+
+                        <span>
+                            Defence
+                        </span>
+
+                        <span class="arrow">
+                            →
+                        </span>
+
+                    </div>
+
+                </div>
+
+            </label>
+
+        
+        </div>
+
+
+        <!-- =========================
+             BOTTOM
+        ========================== -->
+
+        <div class="bottom">
+
+            <div class="bottom-note">
+
+                <div class="info-icon">
+                    i
+                </div>
+
+                <p>
+                    You can change your exam preferences anytime
+                    from your exams.
+                </p>
+
+            </div>
+
+
+            <button
+
+            
+                type="submit"
+                class="continue-button"
+                id="continueButton"
+                disabled
+            >
+
+                Continue to My Exams
+
+                <span>
+                    →
+                </span>
+
+            </button>
+
+        </div>
+        </form>
+
+    </div>
+
+
+    <!-- =========================
+         JAVASCRIPT
+    ========================== -->
+    
+
+    <script>
+
+  const checkboxes =
+    document.querySelectorAll(
+        'input[name="exams"]'
+    );
+
+const selectedCount =
+    document.getElementById(
+        "selectedCount"
+    );
+
+const continueButton =
+    document.getElementById(
+        "continueButton"
+    );
+
+
+function updateSelection() {
+
+    const selected =
+        document.querySelectorAll(
+            'input[name="exams"]:checked'
+        );
+
+    selectedCount.textContent =
+        selected.length;
+
+    if (selected.length > 0) {
+
+        continueButton.disabled = false;
+
+        continueButton.classList.add(
+            "active"
+        );
+
+    } else {
+
+        continueButton.disabled = true;
+
+        continueButton.classList.remove(
+            "active"
+        );
+
+    }
+}
+
+
+checkboxes.forEach(function (checkbox) {
+
+    checkbox.addEventListener(
+        "change",
+        updateSelection
+    );
+
+});
+
+
+updateSelection();
+
+    </script>
+
+</body>
+
+</html>

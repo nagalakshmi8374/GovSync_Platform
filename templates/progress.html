@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Overall Progress | SyllabusSync</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet"
+    >
+
+ <link rel="stylesheet" href="{{ url_for('static', filename='progress.css') }}">
+</head>
+
+<body>
+
+    <!-- ================================
+         MAIN CONTENT
+    ================================= -->
+
+    <main class="main-content">
+
+        <!-- HEADER -->
+
+        <header class="top-header">
+
+            <div class="header-left">
+
+                <a href="/dashboard"
+                   class="back-button"
+                   title="Back to Dashboard">
+                    ←
+                </a>
+
+                <div>
+                    <span class="page-label">
+                        PREPARATION
+                    </span>
+
+                    <h1>
+                        Overall Progress
+                    </h1>
+                </div>
+
+            </div>
+
+
+            <div class="header-brand">
+
+                <div class="small-brand-icon">
+                    S
+                </div>
+
+                <div class="header-brand-name">
+                    Syllabus<span>Sync</span>
+                </div>
+
+            </div>
+
+        </header>
+
+
+        <!-- ================================
+             INTRO
+        ================================= -->
+
+        <section class="intro-section">
+
+            <div>
+
+                <span class="intro-label">
+                    YOUR PERFORMANCE
+                </span>
+
+                <h2>
+                    Track your preparation progress.
+                </h2>
+
+                <p>
+                    Monitor your syllabus completion across
+                    all the exams you are preparing for.
+                </p>
+
+            </div>
+
+        </section>
+
+
+        <!-- ================================
+             OVERALL SUMMARY
+        ================================= -->
+
+        <section class="summary-grid">
+
+            <!-- PROGRESS -->
+
+            <div class="progress-card">
+
+                <div class="card-title">
+
+                    <div>
+                        <span>
+                            OVERALL COMPLETION
+                        </span>
+
+                        <h2>
+                            Your Progress
+                        </h2>
+                    </div>
+
+                    <div class="title-icon">
+                        %
+                    </div>
+
+                </div>
+
+
+                <div class="progress-content">
+
+                    <div class="progress-circle">
+
+                        <div class="circle-center">
+
+                            <strong>
+                                {{ overall_progress }}%
+                            </strong>
+
+                            <span>
+                                Completed
+                            </span>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="progress-summary">
+
+                        <div class="summary-row">
+
+                            <span>
+                                Completed
+                            </span>
+
+                            <strong>
+                                {{ overall_progress }}%
+                            </strong>
+
+                        </div>
+
+
+                        <div class="summary-row">
+
+                            <span>
+                                Remaining
+                            </span>
+
+                            <strong>
+                                {{ topics_remaining_pct }}%
+                            </strong>
+
+                        </div>
+
+
+                        <div class="summary-bar">
+
+                            <div style="width:{{ overall_progress }}%;"></div>
+
+                        </div>
+
+
+                        <p>
+                            Keep going! You have completed
+                            {{ overall_progress }}% of your overall preparation.
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- STATISTICS -->
+
+            <div class="statistics-card">
+
+                <div class="card-title">
+
+                    <div>
+                        <span>
+                            PREPARATION STATISTICS
+                        </span>
+
+                        <h2>
+                            Your Activity
+                        </h2>
+                    </div>
+
+                    <div class="title-icon">
+                        ✓
+                    </div>
+
+                </div>
+
+
+                <div class="statistics-grid">
+
+                    <div class="stat-box">
+
+                        <span>
+                            MY EXAMS
+                        </span>
+
+                        <strong>
+                            {{ exam_count }}
+                        </strong>
+
+                        <p>
+                            Selected exams
+                        </p>
+
+                    </div>
+
+
+                    <div class="stat-box">
+
+                        <span>
+                            COMPLETED
+                        </span>
+
+                        <strong>
+                            {{ overall_progress }}%
+                        </strong>
+
+                        <p>
+                            Overall progress
+                        </p>
+
+                    </div>
+
+
+                    <div class="stat-box">
+
+                        <span>
+                            TOPICS
+                        </span>
+
+                        <strong>
+                            {{ topics_completed }}
+                        </strong>
+
+                        <p>
+                            Topics completed
+                        </p>
+
+                    </div>
+
+
+                    <div class="stat-box">
+
+                        <span>
+                            REMAINING
+                        </span>
+
+                        <strong>
+                            {{ topics_remaining_pct }}%
+                        </strong>
+
+                        <p>
+                            Preparation left
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- ================================
+             EXAM WISE PROGRESS
+        ================================= -->
+
+        <section class="card exam-progress-card">
+
+            <div class="section-header">
+
+                <div>
+
+                    <span class="section-label">
+                        EXAM WISE
+                    </span>
+
+                    <h2>
+                        Progress by Exam
+                    </h2>
+
+                    <p>
+                        See how your preparation is progressing
+                        for each selected exam.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="exam-progress-list">
+
+                {% if exams %}
+                {% for exam in exams %}
+                <div class="exam-progress-row">
+
+                    <div class="exam-details">
+
+                        <div class="exam-logo">
+                            {{ exam.exam_code }}
+                        </div>
+
+                        <div>
+
+                            <h3>
+                                {{ exam.exam_name }}
+                            </h3>
+
+                            <p>
+                                {{ exam.progress }}% of syllabus completed
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="exam-progress">
+
+                        <div class="progress-top">
+
+                            <span>
+                                Progress
+                            </span>
+
+                            <strong>
+                                {{ exam.progress }}%
+                            </strong>
+
+                        </div>
+
+                        <div class="large-progress-bar">
+
+                            <div style="width:{{ exam.progress }}%;"></div>
+
+                        </div>
+
+                    </div>
+
+
+                    <span class="progress-status">
+                        {{ exam.status }}
+                    </span>
+
+                </div>
+                {% endfor %}
+                {% else %}
+                <p>
+                    You haven't selected any exams yet.
+                    <a href="{{ url_for('preference') }}">Choose your exams</a>
+                </p>
+                {% endif %}
+
+            </div>
+
+        </section>
+
+
+        <!-- ================================
+             RECENT ACTIVITY
+        ================================= -->
+
+        <section class="bottom-grid">
+
+
+            <!-- RECENT PROGRESS -->
+
+            <div class="card activity-card">
+
+                <div class="section-header">
+
+                    <div>
+
+                        <span class="section-label">
+                            RECENT ACTIVITY
+                        </span>
+
+                        <h2>
+                            Recent Progress
+                        </h2>
+
+                    </div>
+
+                </div>
+
+
+                <div class="activity-list">
+
+                    {% if recent_activity %}
+                    {% for activity in recent_activity %}
+                    <div class="activity-item">
+
+                        <div class="activity-icon">
+                            ✓
+                        </div>
+
+                        <div>
+
+                            <h3>
+                                Completed: {{ activity.topic_name }}
+                            </h3>
+
+                            <p>
+                                {{ activity.exam_name }}
+                            </p>
+
+                        </div>
+
+                        <span>
+                            {{ activity.time_text }}
+                        </span>
+
+                    </div>
+                    {% endfor %}
+                    {% else %}
+                    <p>
+                        No recent activity yet. Start ticking off topics
+                        in your syllabus to see them here.
+                    </p>
+                    {% endif %}
+
+                </div>
+
+            </div>
+
+
+            <!-- PREPARATION INSIGHT -->
+
+            <div class="card insight-card">
+
+                <div class="insight-icon">
+                    ★
+                </div>
+
+                <span class="section-label">
+                    PREPARATION INSIGHT
+                </span>
+
+                <h2>
+                    Keep the momentum going.
+                </h2>
+
+                <p>
+                    You have completed {{ overall_progress }}% of your overall
+                    preparation. Continue studying consistently
+                    to improve your progress across all exams.
+                </p>
+
+
+                <div class="insight-progress">
+
+                    <div>
+
+                        <span>
+                            Overall Progress
+                        </span>
+
+                        <strong>
+                            {{ overall_progress }}%
+                        </strong>
+
+                    </div>
+
+                    <div class="small-progress-bar">
+
+                        <div style="width:{{ overall_progress }}%;"></div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- FOOTER -->
+
+        <footer>
+            © 2026 SyllabusSync. Stay updated. Stay prepared.
+        </footer>
+
+    </main>
+
+</body>
+
+</html>

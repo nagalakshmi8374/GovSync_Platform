@@ -1,0 +1,1013 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Syllabus | SyllabusSync</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet"
+    >
+
+     <link rel="stylesheet" href="{{ url_for('static', filename='syllabus.css') }}">
+</head>
+
+<body>
+
+    <!-- ================================
+         MAIN PAGE
+    ================================= -->
+
+    <main class="syllabus-page">
+
+        <!-- HEADER -->
+
+        <header class="page-header">
+
+            <div class="header-left">
+
+                <button
+                    class="back-button"
+                    onclick="window.location.href='{{ url_for('dashboard') }}'"
+                    aria-label="Back to Dashboard"
+                >
+                    ←
+                </button>
+
+                <div>
+
+                    <span class="page-label">
+                        EXAM PREPARATION
+                    </span>
+
+                    <h1>
+                        Syllabus
+                    </h1>
+
+                    <p>
+                        Explore your selected exam syllabus and track your preparation.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <!-- BRAND -->
+
+            <div class="brand">
+
+                <div class="brand-icon">
+                    S
+                </div>
+
+                <div class="brand-name">
+                    Syllabus<span>Sync</span>
+                </div>
+
+            </div>
+
+        </header>
+
+
+
+        <!-- ================================
+             EXAM SELECTOR
+        ================================= -->
+
+        <section class="exam-selector-card">
+
+            <div class="selector-left">
+
+                <div class="selector-icon">
+                    ✓
+                </div>
+
+                <div>
+
+                    <span class="selector-label">
+                        SELECTED EXAM
+                    </span>
+
+                    <h2>
+                        Choose an exam
+                    </h2>
+
+                    <p>
+                        View the complete syllabus for your selected exam.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="exam-select-wrapper">
+
+                <label for="examSelect">
+                    Exam
+                </label>
+
+                <select
+                    id="examSelect"
+                    onchange="changeExam()"
+                >
+
+                    {% for exam in exams %}
+                    <option
+                        value="{{ exam.exam_code }}"
+                        {% if exam.exam_code == selected_exam.exam_code %}selected{% endif %}
+                    >
+                        {{ exam.exam_name }}
+                    </option>
+                    {% endfor %}
+
+                </select>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- ================================
+             EXAM OVERVIEW
+        ================================= -->
+
+        <section class="overview-grid">
+
+            <div class="overview-card">
+
+                <div class="overview-top">
+
+                    <span>
+                        EXAM
+                    </span>
+
+                    <div class="overview-icon">
+                        ◈
+                    </div>
+
+                </div>
+
+                <h2 id="examName">
+                    {{ selected_exam.exam_name }}
+                </h2>
+
+                <p>
+                    {{ selected_exam.exam_code }}
+                </p>
+
+            </div>
+
+
+            <div class="overview-card">
+
+                <div class="overview-top">
+
+                    <span>
+                        SUBJECTS
+                    </span>
+
+                    <div class="overview-icon">
+                        ▣
+                    </div>
+
+                </div>
+
+                <h2 id="subjectCount">
+                    {{ subject_count }}
+                </h2>
+
+                <p>
+                    Main syllabus sections
+                </p>
+
+            </div>
+
+
+            <div class="overview-card">
+
+                <div class="overview-top">
+
+                    <span>
+                        TOPICS
+                    </span>
+
+                    <div class="overview-icon">
+                        #
+                    </div>
+
+                </div>
+
+                <h2 id="topicCount">
+                    {{ topic_count }}
+                </h2>
+
+                <p>
+                    Total topics available
+                </p>
+
+            </div>
+
+
+            <div class="overview-card">
+
+                <div class="overview-top">
+
+                    <span>
+                        PROGRESS
+                    </span>
+
+                    <div class="overview-icon">
+                        %
+                    </div>
+
+                </div>
+
+                <h2 id="overallProgress">
+                    {{ overall_progress }}%
+                </h2>
+
+                <div class="small-progress">
+
+                    <div
+                        id="overallProgressBar"
+                        style="width:{{ overall_progress }}%;"
+                    ></div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- ================================
+             SEARCH + FILTER
+        ================================= -->
+
+        <section class="tools-section">
+
+            <div class="search-box">
+
+                <span>
+                    ⌕
+                </span>
+
+                <input
+                    type="text"
+                    id="searchInput"
+                    placeholder="Search subjects or topics..."
+                    onkeyup="searchTopics()"
+                >
+
+            </div>
+
+
+            <div class="syllabus-tabs">
+
+                <button
+                    class="tab-button active"
+                    onclick="showTab('common', this)"
+                >
+                    Common Syllabus
+                </button>
+
+                <button
+                    class="tab-button"
+                    onclick="showTab('specific', this)"
+                >
+                    Exam Specific
+                </button>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- ================================
+             COMMON SYLLABUS
+        ================================= -->
+
+        <section
+            class="syllabus-section"
+            id="commonSection"
+        >
+
+            <div class="section-heading">
+
+                <div>
+
+                    <h2>
+                        Common Syllabus
+                    </h2>
+
+                    <p>
+                        Subjects commonly included across government examinations.
+                    </p>
+
+                </div>
+
+                <span class="topic-status">
+                    Common Topics
+                </span>
+
+            </div>
+
+
+
+            <div class="subject-grid">
+
+
+                <!-- REASONING -->
+
+                <article class="subject-card">
+
+                    <div class="subject-header">
+
+                        <div class="subject-icon reasoning">
+                            R
+                        </div>
+
+                        <div>
+
+                            <h3>
+                                {{ subjects['REASONING'].name }}
+                            </h3>
+
+                            <span>
+                                {{ subjects['REASONING'].topics|length }} Topics
+                            </span>
+
+                        </div>
+
+                        <div class="subject-progress">
+                            {{ subjects['REASONING'].progress }}%
+                        </div>
+
+                    </div>
+
+
+                    <div class="progress-line">
+
+                        <div style="width:{{ subjects['REASONING'].progress }}%;"></div>
+
+                    </div>
+
+
+                    <div class="topic-list">
+
+                        {% for topic in subjects['REASONING'].topics %}
+                        <label class="topic-item">
+
+                            <input
+                                type="checkbox"
+                                data-topic-id="{{ topic.id }}"
+                                {% if topic.completed %}checked{% endif %}
+                                onchange="updateProgress(this)"
+                            >
+
+                            <span>
+                                {{ topic.name }}
+                            </span>
+
+                        </label>
+                        {% endfor %}
+
+                    </div>
+
+
+                    <button
+                        class="view-topics"
+                        onclick="toggleTopics(this)"
+                    >
+                        View all topics →
+                    </button>
+
+                </article>
+
+
+
+                <!-- QUANTITATIVE -->
+
+                <article class="subject-card">
+
+                    <div class="subject-header">
+
+                        <div class="subject-icon maths">
+                            Q
+                        </div>
+
+                        <div>
+
+                            <h3>
+                                {{ subjects['QUANT'].name }}
+                            </h3>
+
+                            <span>
+                                {{ subjects['QUANT'].topics|length }} Topics
+                            </span>
+
+                        </div>
+
+                        <div class="subject-progress">
+                            {{ subjects['QUANT'].progress }}%
+                        </div>
+
+                    </div>
+
+
+                    <div class="progress-line">
+
+                        <div style="width:{{ subjects['QUANT'].progress }}%;"></div>
+
+                    </div>
+
+
+                    <div class="topic-list">
+
+                        {% for topic in subjects['QUANT'].topics %}
+                        <label class="topic-item">
+
+                            <input
+                                type="checkbox"
+                                data-topic-id="{{ topic.id }}"
+                                {% if topic.completed %}checked{% endif %}
+                                onchange="updateProgress(this)"
+                            >
+
+                            <span>
+                                {{ topic.name }}
+                            </span>
+
+                        </label>
+                        {% endfor %}
+
+                    </div>
+
+
+                    <button
+                        class="view-topics"
+                        onclick="toggleTopics(this)"
+                    >
+                        View all topics →
+                    </button>
+
+                </article>
+
+
+
+                <!-- ENGLISH -->
+
+                <article class="subject-card">
+
+                    <div class="subject-header">
+
+                        <div class="subject-icon english">
+                            E
+                        </div>
+
+                        <div>
+
+                            <h3>
+                                {{ subjects['ENGLISH'].name }}
+                            </h3>
+
+                            <span>
+                                {{ subjects['ENGLISH'].topics|length }} Topics
+                            </span>
+
+                        </div>
+
+                        <div class="subject-progress">
+                            {{ subjects['ENGLISH'].progress }}%
+                        </div>
+
+                    </div>
+
+
+                    <div class="progress-line">
+
+                        <div style="width:{{ subjects['ENGLISH'].progress }}%;"></div>
+
+                    </div>
+
+
+                    <div class="topic-list">
+
+                        {% for topic in subjects['ENGLISH'].topics %}
+                        <label class="topic-item">
+
+                            <input
+                                type="checkbox"
+                                data-topic-id="{{ topic.id }}"
+                                {% if topic.completed %}checked{% endif %}
+                                onchange="updateProgress(this)"
+                            >
+
+                            <span>
+                                {{ topic.name }}
+                            </span>
+
+                        </label>
+                        {% endfor %}
+
+                    </div>
+
+
+                    <button
+                        class="view-topics"
+                        onclick="toggleTopics(this)"
+                    >
+                        View all topics →
+                    </button>
+
+                </article>
+
+
+
+                <!-- GENERAL AWARENESS -->
+
+                <article class="subject-card">
+
+                    <div class="subject-header">
+
+                        <div class="subject-icon awareness">
+                            G
+                        </div>
+
+                        <div>
+
+                            <h3>
+                                {{ subjects['AWARENESS'].name }}
+                            </h3>
+
+                            <span>
+                                {{ subjects['AWARENESS'].topics|length }} Topics
+                            </span>
+
+                        </div>
+
+                        <div class="subject-progress">
+                            {{ subjects['AWARENESS'].progress }}%
+                        </div>
+
+                    </div>
+
+
+                    <div class="progress-line">
+
+                        <div style="width:{{ subjects['AWARENESS'].progress }}%;"></div>
+
+                    </div>
+
+
+                    <div class="topic-list">
+
+                        {% for topic in subjects['AWARENESS'].topics %}
+                        <label class="topic-item">
+
+                            <input
+                                type="checkbox"
+                                data-topic-id="{{ topic.id }}"
+                                {% if topic.completed %}checked{% endif %}
+                                onchange="updateProgress(this)"
+                            >
+
+                            <span>
+                                {{ topic.name }}
+                            </span>
+
+                        </label>
+                        {% endfor %}
+
+                    </div>
+
+
+                    <button
+                        class="view-topics"
+                        onclick="toggleTopics(this)"
+                    >
+                        View all topics →
+                    </button>
+
+                </article>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- ================================
+             EXAM SPECIFIC
+        ================================= -->
+
+        <section
+            class="syllabus-section"
+            id="specificSection"
+            style="display:none;"
+        >
+
+            <div class="section-heading">
+
+                <div>
+
+                    <h2>
+                        Exam Specific Syllabus
+                    </h2>
+
+                    <p id="specificDescription">
+                        Topics specific to {{ selected_exam.exam_name }}.
+                    </p>
+
+                </div>
+
+                <span class="topic-status">
+                    {{ selected_exam.exam_name }}
+                </span>
+
+            </div>
+
+
+            <div class="specific-card">
+
+                <div class="specific-icon">
+                    {{ selected_exam.exam_code }}
+                </div>
+
+                <div class="specific-content">
+
+                    <h3 id="specificTitle">
+                        {{ selected_exam.exam_name }} Specific Topics
+                    </h3>
+
+                    <p>
+                        These topics are specific to the selected examination
+                        and may not be common across all government exams.
+                    </p>
+
+
+                    <div class="specific-topics">
+
+                        <span>
+                            Computer Knowledge
+                        </span>
+
+                        <span>
+                            Data Interpretation
+                        </span>
+
+                        <span>
+                            Statistical Concepts
+                        </span>
+
+                        <span>
+                            Financial Awareness
+                        </span>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- ================================
+             SYNC INFO
+        ================================= -->
+
+        <section class="sync-card">
+
+            <div class="sync-icon">
+                ✓
+            </div>
+
+            <div>
+
+                <h3>
+                    Syllabus synchronized
+                </h3>
+
+                <p>
+                    This syllabus was last synchronized with the latest
+                    available update.
+                </p>
+
+            </div>
+
+            <span>
+                Last checked: Today
+            </span>
+
+        </section>
+
+
+
+        <!-- FOOTER -->
+
+        <footer>
+
+            © 2026 SyllabusSync.
+            Stay updated. Stay prepared.
+
+        </footer>
+
+    </main>
+
+
+
+    <!-- ================================
+         JAVASCRIPT
+    ================================= -->
+
+    <script>
+
+        /* CURRENT EXAM CONTEXT — comes from the server, used when
+           saving checkbox progress back to the database */
+
+        const CURRENT_USER_EXAM_ID = {{ selected_exam.id }};
+
+
+        /* DASHBOARD */
+
+        function goDashboard() {
+
+            window.location.href = "{{ url_for('dashboard') }}";
+
+        }
+
+
+
+        /* EXAM CHANGE
+           Progress is stored per (exam, topic), so switching exams
+           reloads the page with ?exam=<code> and the server renders
+           that exam's own checkbox states and progress numbers. */
+
+        function changeExam() {
+
+            const select =
+                document.getElementById("examSelect");
+
+            const selectedExam =
+                select.value;
+
+            window.location.href =
+                "{{ url_for('syllabus') }}?exam=" + encodeURIComponent(selectedExam);
+
+        }
+
+
+
+        /* TAB SWITCH */
+
+        function showTab(tab, button) {
+
+            const common =
+                document.getElementById("commonSection");
+
+            const specific =
+                document.getElementById("specificSection");
+
+
+            const buttons =
+                document.querySelectorAll(".tab-button");
+
+
+            buttons.forEach(function(btn) {
+
+                btn.classList.remove("active");
+
+            });
+
+
+            button.classList.add("active");
+
+
+            if (tab === "common") {
+
+                common.style.display = "block";
+
+                specific.style.display = "none";
+
+            }
+
+
+            if (tab === "specific") {
+
+                common.style.display = "none";
+
+                specific.style.display = "block";
+
+            }
+
+        }
+
+
+
+        /* SEARCH */
+
+        function searchTopics() {
+
+            const value =
+                document
+                    .getElementById("searchInput")
+                    .value
+                    .toLowerCase()
+                    .trim();
+
+
+            const cards =
+                document.querySelectorAll(".subject-card");
+
+
+            cards.forEach(function(card) {
+
+                const text =
+                    card.textContent.toLowerCase();
+
+
+                if (text.includes(value)) {
+
+                    card.style.display = "block";
+
+                } else {
+
+                    card.style.display = "none";
+
+                }
+
+            });
+
+        }
+
+
+
+        /* VIEW TOPICS */
+
+        function toggleTopics(button) {
+
+            const topicList =
+                button
+                    .closest(".subject-card")
+                    .querySelector(".topic-list");
+
+
+            if (topicList.classList.contains("expanded")) {
+
+                topicList.classList.remove("expanded");
+
+                button.textContent =
+                    "View all topics →";
+
+            } else {
+
+                topicList.classList.add("expanded");
+
+                button.textContent =
+                    "Hide topics ↑";
+
+            }
+
+        }
+
+
+
+        /* CHECKBOX */
+
+        function updateProgress(checkbox) {
+
+            const card =
+                checkbox.closest(".subject-card");
+
+
+            const checkboxes =
+                card.querySelectorAll(
+                    'input[type="checkbox"]'
+                );
+
+
+            const checked =
+                card.querySelectorAll(
+                    'input[type="checkbox"]:checked'
+                );
+
+
+            const percentage =
+                Math.round(
+                    (checked.length / checkboxes.length) * 100
+                );
+
+
+            const percentageText =
+                card.querySelector(".subject-progress");
+
+
+            const progressBar =
+                card.querySelector(".progress-line div");
+
+
+            percentageText.textContent =
+                percentage + "%";
+
+
+            progressBar.style.width =
+                percentage + "%";
+
+
+            // Persist this tick to the database
+            saveTopicProgress(
+                checkbox.dataset.topicId,
+                checkbox.checked
+            );
+
+            // Refresh the top "PROGRESS" overview card
+            updateOverallProgress();
+
+        }
+
+
+
+        /* SAVE PROGRESS TO SERVER */
+
+        function saveTopicProgress(topicId, completed) {
+
+            fetch("/api/topic-progress", {
+
+                method: "POST",
+
+                headers: {
+                    "Content-Type": "application/json"
+                },
+
+                body: JSON.stringify({
+                    user_exam_id: CURRENT_USER_EXAM_ID,
+                    topic_id: parseInt(topicId, 10),
+                    completed: completed
+                })
+
+            })
+            .then(function(res) { return res.json(); })
+            .then(function(data) {
+
+                if (!data.success) {
+                    console.error("Failed to save progress:", data.message);
+                }
+
+            })
+            .catch(function(err) {
+                console.error("Progress save error:", err);
+            });
+
+        }
+
+
+
+        /* OVERALL PROGRESS (top overview card) */
+
+        function updateOverallProgress() {
+
+            const allCheckboxes =
+                document.querySelectorAll(
+                    '.syllabus-section#commonSection input[type="checkbox"]'
+                );
+
+            const allChecked =
+                document.querySelectorAll(
+                    '.syllabus-section#commonSection input[type="checkbox"]:checked'
+                );
+
+            const percentage =
+                allCheckboxes.length
+                    ? Math.round((allChecked.length / allCheckboxes.length) * 100)
+                    : 0;
+
+            document.getElementById("overallProgress").textContent =
+                percentage + "%";
+
+            document.getElementById("overallProgressBar").style.width =
+                percentage + "%";
+
+        }
+
+    </script>
+   
+    
+    
+    
+
+</body>
+
+</html>
