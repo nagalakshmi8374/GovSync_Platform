@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Verify OTP | SyllabusSync</title><link rel="stylesheet" href="{{ url_for('static', filename='login.css') }}"></head>
+<body><div class="page-container"><section class="welcome-card"><div class="brand"><div class="brand-icon">S</div><span>Syllabus<span class="highlight">Sync</span></span></div><div class="welcome-content"><p class="small-title">ACCOUNT SECURITY</p><h1>Recover your<br><span>GovSync account.</span></h1><p class="description">Securely reset your password using a one-time verification code sent to your registered email address.</p></div><div class="copyright">© 2026 SyllabusSync</div></section>
+<section class="form-card"><div class="mobile-brand"><div class="brand-icon">S</div><span>Syllabus<span class="highlight">Sync</span></span></div><div class="form-container login-form active">
+<div class="form-header"><h2>Verify OTP</h2><p>Enter the six-digit code sent to your email.</p></div>
+{% with messages=get_flashed_messages(with_categories=true) %}{% if messages %}<div class="messages">{% for category,message in messages %}<div class="message {{category}}">{{message}}</div>{% endfor %}</div>{% endif %}{% endwith %}
+<form method="POST" action="{{ url_for('auth.verify_otp') }}">
+<div class="input-group"><label for="otp">Enter OTP</label><div class="input-box"><span class="input-icon">#</span><input type="text" id="otp" name="otp" inputmode="numeric" pattern="[0-9]{6}" maxlength="6" placeholder="6-digit OTP" required></div><small style="display:block;margin-top:8px;">OTP sent to {{ email }} and expires soon.</small></div>
+<button type="submit" class="main-button"><span class="button-text">Verify OTP</span><span class="arrow">→</span></button>
+</form>
+<p class="switch-text"><a href="{{ url_for('auth.login') }}">← Back to Login</a></p>
+</div></section></div></body></html>
