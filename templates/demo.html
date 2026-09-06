@@ -21,7 +21,7 @@
         href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
         rel="stylesheet">
 
-    <link rel="stylesheet" href="{{ url_for('static', filename='admin.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='demo.css') }}">
 
 </head>
 
@@ -391,7 +391,7 @@
                 </div>
 
                 <h3>
-                    {{ user_count }}
+                    1,248
                 </h3>
 
                 <p>
@@ -932,24 +932,265 @@
          SYLLABUS MANAGEMENT
     ================================================= -->
 
-    <section class="page-section" id="syllabus">
-<div class="page-heading"><div><span>DOCUMENT MANAGEMENT</span><h2>Syllabus Management</h2><p>Add, edit and remove structured syllabus entries.</p></div></div>
-<div class="upload-card">
-<div class="upload-icon">+</div><h2>Add Syllabus Entry</h2><p>Manage exam-wise syllabus without changing the existing dashboard design.</p>
-<div class="upload-form">
-<div class="form-group"><label>Exam</label><select id="syllabusExam">{% for e in exams %}<option value="{{e.code}}">{{e.name}}</option>{% endfor %}</select></div>
-<div class="form-group"><label>Subject</label><input id="syllabusSubject" placeholder="e.g. Quantitative Aptitude"></div>
-<div class="form-group"><label>Topic</label><input id="syllabusTopic" placeholder="e.g. Percentage"></div>
-<div class="form-group"><label>Unit / Module</label><input id="syllabusUnit" placeholder="Optional"></div>
-<div class="form-group"><label>Priority</label><select id="syllabusPriority"><option>Low</option><option selected>Medium</option><option>High</option></select></div>
-<div class="form-group"><label>Status</label><select id="syllabusStatus"><option selected>Active</option><option>Inactive</option></select></div>
-<div class="form-group"><label>Description</label><textarea id="syllabusDescription" rows="3" placeholder="Describe this topic"></textarea></div>
-<button class="primary-button" onclick="addSyllabus()">Add Syllabus</button>
-</div></div>
-<div class="table-card syllabus-table-card"><div class="table-header"><div><h2>Existing Syllabus</h2><span>View, edit or delete entries</span></div></div>
-<div class="table-wrapper"><table><thead><tr><th>Exam</th><th>Subject</th><th>Topic</th><th>Unit</th><th>Priority</th><th>Status</th><th>Action</th></tr></thead><tbody>
-{% for row in syllabus %}<tr><td><strong>{{row.exam_code}}</strong></td><td>{{row.subject}}</td><td>{{row.topic}}</td><td>{{row.unit_module or '-'}}</td><td>{{row.priority}}</td><td><span class="status active">{{row.status}}</span></td><td><button class="small-button" onclick='editSyllabus({{ row|tojson }})'>Edit</button> <button class="small-button" onclick="deleteSyllabus({{row.id}})">Delete</button></td></tr>{% else %}<tr><td colspan="7">No syllabus entries yet.</td></tr>{% endfor %}
-</tbody></table></div></div></section>
+    <section
+        class="page-section"
+        id="syllabus">
+
+
+        <div class="page-heading">
+
+            <div>
+
+                <span>
+                    DOCUMENT MANAGEMENT
+                </span>
+
+                <h2>
+                    Syllabus Management
+                </h2>
+
+                <p>
+                    Upload and manage official examination syllabus documents.
+                </p>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- UPLOAD CARD -->
+
+        <div class="upload-card">
+
+
+            <div class="upload-icon">
+                ↑
+            </div>
+
+
+            <h2>
+                Upload Official Syllabus
+            </h2>
+
+
+            <p>
+                Upload the latest official PDF for an examination.
+            </p>
+
+
+            <div class="upload-form">
+
+
+                <div class="form-group">
+
+                    <label>
+                        Select Examination
+                    </label>
+
+                    <select id="examSelect">
+
+                        <option>
+                            Select Exam
+                        </option>
+
+                        <option>
+                            UPSC Civil Services
+                        </option>
+
+                        <option>
+                            SSC CGL
+                        </option>
+
+                        <option>
+                            RRB NTPC
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+
+                <div class="form-group">
+
+                    <label>
+                        Syllabus PDF
+                    </label>
+
+                    <input
+                        type="file"
+                        id="syllabusFile"
+                        accept=".pdf">
+
+                </div>
+
+
+
+                <button
+                    class="primary-button"
+                    onclick="uploadSyllabus()">
+
+                    Upload PDF
+
+                </button>
+
+
+            </div>
+
+
+        </div>
+
+
+
+        <!-- SYLLABUS TABLE -->
+
+        <div class="table-card syllabus-table-card">
+
+
+            <div class="table-header">
+
+                <div>
+
+                    <h2>
+                        Uploaded Syllabus
+                    </h2>
+
+                    <span>
+                        Manage existing syllabus versions
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <div class="table-wrapper">
+
+                <table>
+
+                    <thead>
+
+                        <tr>
+
+                            <th>
+                                Exam
+                            </th>
+
+                            <th>
+                                File
+                            </th>
+
+                            <th>
+                                Version
+                            </th>
+
+                            <th>
+                                Uploaded
+                            </th>
+
+                            <th>
+                                Status
+                            </th>
+
+                            <th>
+                                Action
+                            </th>
+
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody>
+
+
+                        <tr>
+
+                            <td>
+                                <strong>
+                                    SSC CGL
+                                </strong>
+                            </td>
+
+                            <td>
+                                SSC_CGL_2026.pdf
+                            </td>
+
+                            <td>
+                                v3
+                            </td>
+
+                            <td>
+                                Aug 12, 2026
+                            </td>
+
+                            <td>
+                                <span class="status active">
+                                    Published
+                                </span>
+                            </td>
+
+                            <td>
+                                <button class="small-button">
+                                    View
+                                </button>
+                            </td>
+
+                        </tr>
+
+
+
+                        <tr>
+
+                            <td>
+                                <strong>
+                                    RRB NTPC
+                                </strong>
+                            </td>
+
+                            <td>
+                                RRB_NTPC_2026.pdf
+                            </td>
+
+                            <td>
+                                v2
+                            </td>
+
+                            <td>
+                                Aug 10, 2026
+                            </td>
+
+                            <td>
+                                <span class="status pending">
+                                    Review
+                                </span>
+                            </td>
+
+                            <td>
+                                <button
+                                    class="small-button"
+                                    onclick="showSectionById('changes')">
+
+                                    Review
+
+                                </button>
+                            </td>
+
+                        </tr>
+
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+
+        </div>
+
+
+    </section>
 
 
 
@@ -1385,19 +1626,200 @@
          NOTIFICATIONS
     ================================================= -->
 
-    <section class="page-section" id="notifications">
-<div class="page-heading"><div><span>COMMUNICATION</span><h2>Notifications</h2><p>Send important information to students.</p></div></div>
-<div class="notification-layout"><div class="notification-form-card"><h2>Create Notification</h2><p>Choose who should receive the message.</p>
-<div class="form-group"><label>Title</label><input type="text" id="notificationTitle" placeholder="Example: SSC CGL syllabus updated"></div>
-<div class="form-group"><label>Message</label><textarea id="notificationMessage" rows="6" placeholder="Write notification message..."></textarea></div>
-<div class="form-group"><label>Exam</label><select id="notificationExam"><option value="">All Exams</option>{% for e in exams %}<option value="{{e.code}}">{{e.name}}</option>{% endfor %}</select></div>
-<div class="form-group"><label>Priority</label><select id="notificationPriority"><option value="normal">Normal</option><option value="important">Important</option><option value="urgent">Urgent</option></select></div>
-<div class="form-group"><label>Target</label><select id="notificationTarget" onchange="toggleSpecificTarget()"><option value="all">All Users</option><option value="exam">Exam Users</option><option value="specific">Specific Users</option></select></div>
-<div class="form-group" id="specificUsersGroup" style="display:none"><label>User IDs (comma separated)</label><input id="notificationUsers" placeholder="e.g. 12, 18, 24"></div>
-<button class="primary-button" onclick="sendNotification()">Send Notification</button></div>
-<div class="notification-history"><div class="content-card"><div class="card-header"><div><h2>Recent Notifications</h2><p>Messages stored in the database</p></div></div>
-{% for n in notifications %}<div class="notification-item"><div class="notification-item-icon">🔔</div><div><h3>{{n.title}}</h3><p>{{n.message}}</p><span>{{n.priority|title}} · {{n.recipient_count}} recipients · {{n.created_at}}</span></div></div>{% else %}<p>No notifications have been sent.</p>{% endfor %}
-</div></div></div></section>
+    <section
+        class="page-section"
+        id="notifications">
+
+
+        <div class="page-heading">
+
+            <div>
+
+                <span>
+                    COMMUNICATION
+                </span>
+
+                <h2>
+                    Notifications
+                </h2>
+
+                <p>
+                    Send important syllabus information to students.
+                </p>
+
+            </div>
+
+        </div>
+
+
+
+        <div class="notification-layout">
+
+
+            <div class="notification-form-card">
+
+
+                <h2>
+                    Create Notification
+                </h2>
+
+                <p>
+                    Send a notification to students about an update.
+                </p>
+
+
+                <div class="form-group">
+
+                    <label>
+                        Notification Title
+                    </label>
+
+                    <input
+                        type="text"
+                        id="notificationTitle"
+                        placeholder="Example: SSC CGL syllabus updated">
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label>
+                        Select Exam
+                    </label>
+
+                    <select id="notificationExam">
+
+                        <option>
+                            All Exams
+                        </option>
+
+                        <option>
+                            UPSC Civil Services
+                        </option>
+
+                        <option>
+                            SSC CGL
+                        </option>
+
+                        <option>
+                            RRB NTPC
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label>
+                        Message
+                    </label>
+
+                    <textarea
+                        id="notificationMessage"
+                        rows="6"
+                        placeholder="Write notification message..."></textarea>
+
+                </div>
+
+
+                <button
+                    class="primary-button"
+                    onclick="sendNotification()">
+
+                    Send Notification
+
+                </button>
+
+
+            </div>
+
+
+
+            <div class="notification-history">
+
+
+                <div class="content-card">
+
+                    <div class="card-header">
+
+                        <div>
+
+                            <h2>
+                                Recent Notifications
+                            </h2>
+
+                            <p>
+                                Previously sent messages
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="notification-item">
+
+                        <div class="notification-item-icon">
+                            🔔
+                        </div>
+
+                        <div>
+
+                            <h3>
+                                SSC CGL syllabus updated
+                            </h3>
+
+                            <p>
+                                Sent to SSC CGL aspirants.
+                            </p>
+
+                            <span>
+                                2 days ago
+                            </span>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="notification-item">
+
+                        <div class="notification-item-icon">
+                            🔔
+                        </div>
+
+                        <div>
+
+                            <h3>
+                                RRB NTPC changes available
+                            </h3>
+
+                            <p>
+                                New syllabus version published.
+                            </p>
+
+                            <span>
+                                5 days ago
+                            </span>
+
+                        </div>
+
+                    </div>
+
+
+                </div>
+
+
+            </div>
+
+
+        </div>
+
+
+    </section>
 
 
 
@@ -1444,7 +1866,7 @@
                     </h2>
 
                     <span>
-                        {{ user_count }} users
+                        1,248 users
                     </span>
 
                 </div>
@@ -1485,9 +1907,69 @@
                     </thead>
 
 
-                    <tbody>{% for u in users %}
-<tr><td><strong>{{u.full_name or 'User'}}</strong></td><td>{{u.email}}</td><td>Database account</td><td><span class="status active">{{u.role|title}}</span></td><td>{{u.created_at}}</td></tr>
-{% else %}<tr><td colspan="5">No registered users.</td></tr>{% endfor %}</tbody>
+                    <tbody>
+
+
+                        <tr>
+
+                            <td>
+                                <strong>
+                                    Student One
+                                </strong>
+                            </td>
+
+                            <td>
+                                student1@email.com
+                            </td>
+
+                            <td>
+                                3 Exams
+                            </td>
+
+                            <td>
+                                <span class="status active">
+                                    Active
+                                </span>
+                            </td>
+
+                            <td>
+                                Aug 10, 2026
+                            </td>
+
+                        </tr>
+
+
+
+                        <tr>
+
+                            <td>
+                                <strong>
+                                    Student Two
+                                </strong>
+                            </td>
+
+                            <td>
+                                student2@email.com
+                            </td>
+
+                            <td>
+                                2 Exams
+                            </td>
+
+                            <td>
+                                <span class="status active">
+                                    Active
+                                </span>
+                            </td>
+
+                            <td>
+                                Aug 8, 2026
+                            </td>
+
+                        </tr>
+
+
+                    </tbody>
 
                 </table>
 
@@ -2039,51 +2521,213 @@ function showSectionById(sectionId) {
    ADD EXAM
 ===================================================== */
 
-async function api(url, options={}) {
-    const response = await fetch(url, {headers: {"Content-Type":"application/json"}, ...options});
-    const data = await response.json().catch(()=>({success:false,message:"Invalid server response."}));
-    if (!response.ok || !data.success) throw new Error(data.message || "Request failed.");
-    return data;
+function addExam() {
+
+    alert(
+        "Add Exam feature will be connected to Flask + MySQL later."
+    );
+
 }
-function addExam(){ alert("Use the Syllabus section to add structured syllabus entries."); }
-function uploadSyllabus(){ alert("Syllabus PDF upload is not enabled in this database-backed version. Use structured syllabus entries."); }
-function viewChanges(){ showSection("changes"); }
-function publishUpdate(){ alert("Use the notification panel to publish student notifications."); }
-function toggleSpecificTarget(){ document.getElementById("specificUsersGroup").style.display = document.getElementById("notificationTarget").value==="specific" ? "block":"none"; }
-async function addSyllabus(){
-    const payload={exam_code:document.getElementById("syllabusExam").value,subject:document.getElementById("syllabusSubject").value,
-    topic:document.getElementById("syllabusTopic").value,unit_module:document.getElementById("syllabusUnit").value,
-    priority:document.getElementById("syllabusPriority").value,status:document.getElementById("syllabusStatus").value,
-    description:document.getElementById("syllabusDescription").value};
-    try{await api("/api/admin/syllabus",{method:"POST",body:JSON.stringify(payload)}); alert("Syllabus added successfully."); location.reload();}
-    catch(e){alert(e.message);}
+
+
+
+/* =====================================================
+   UPLOAD SYLLABUS
+===================================================== */
+
+function uploadSyllabus() {
+
+
+    const exam =
+        document.getElementById("examSelect").value;
+
+
+    const file =
+        document.getElementById("syllabusFile").files[0];
+
+
+    if (exam === "Select Exam") {
+
+        alert("Please select an examination.");
+
+        return;
+
+    }
+
+
+    if (!file) {
+
+        alert("Please select a PDF file.");
+
+        return;
+
+    }
+
+
+    if (file.type !== "application/pdf") {
+
+        alert("Please upload a PDF file only.");
+
+        return;
+
+    }
+
+
+    alert(
+        "PDF selected successfully.\n\n" +
+        "Later this will connect to Flask and extract the syllabus text automatically."
+    );
+
 }
-async function editSyllabus(row){
-    const exam=prompt("Exam code",row.exam_code); if(exam===null)return;
-    const subject=prompt("Subject",row.subject); if(subject===null)return;
-    const topic=prompt("Topic",row.topic); if(topic===null)return;
-    const unit=prompt("Unit / Module",row.unit_module||""); if(unit===null)return;
-    const priority=prompt("Priority (Low / Medium / High)",row.priority); if(priority===null)return;
-    const status=prompt("Status (Active / Inactive)",row.status); if(status===null)return;
-    const description=prompt("Description",row.description||""); if(description===null)return;
-    const payload={exam_code:exam,subject:subject,topic:topic,unit_module:unit,priority:priority,status:status,description:description};
-    try{await api("/api/admin/syllabus/"+row.id,{method:"PUT",body:JSON.stringify(payload)}); location.reload();}catch(e){alert(e.message);}
+
+
+
+/* =====================================================
+   VIEW CHANGES
+===================================================== */
+
+function viewChanges() {
+
+    alert(
+        "Detailed syllabus comparison will be connected to the backend later."
+    );
+
 }
-async function deleteSyllabus(id){
-    if(!confirm("Delete this syllabus entry? This cannot be undone."))return;
-    try{await api("/api/admin/syllabus/"+id,{method:"DELETE"}); location.reload();}catch(e){alert(e.message);}
+
+
+
+/* =====================================================
+   PUBLISH UPDATE
+===================================================== */
+
+function publishUpdate() {
+
+    const confirmPublish =
+        confirm(
+            "Are you sure you want to publish this syllabus update?"
+        );
+
+
+    if (confirmPublish) {
+
+        alert(
+            "Update published successfully.\n\nStudents will receive a notification."
+        );
+
+    }
+
 }
-async function sendNotification(){
-    const target=document.getElementById("notificationTarget").value;
-    const payload={title:document.getElementById("notificationTitle").value.trim(),message:document.getElementById("notificationMessage").value.trim(),
-      exam_code:document.getElementById("notificationExam").value,target:target,priority:document.getElementById("notificationPriority").value,
-      user_ids:document.getElementById("notificationUsers").value.split(",").map(x=>x.trim()).filter(Boolean)};
-    if(!payload.title||!payload.message){alert("Please enter title and message.");return;}
-    try{const result=await api("/api/admin/notifications",{method:"POST",body:JSON.stringify(payload)}); alert("Notification sent to "+result.recipient_count+" users."); location.reload();}
-    catch(e){alert(e.message);}
+
+
+
+/* =====================================================
+   SEND NOTIFICATION
+===================================================== */
+
+function sendNotification() {
+
+
+    const title =
+        document
+            .getElementById("notificationTitle")
+            .value
+            .trim();
+
+
+    const message =
+        document
+            .getElementById("notificationMessage")
+            .value
+            .trim();
+
+
+    if (title === "") {
+
+        alert("Please enter notification title.");
+
+        return;
+
+    }
+
+
+    if (message === "") {
+
+        alert("Please enter notification message.");
+
+        return;
+
+    }
+
+
+    alert(
+        "Notification created successfully.\n\n" +
+        "This will later be stored in MySQL and shown to students."
+    );
+
+
+    document
+        .getElementById("notificationTitle")
+        .value = "";
+
+
+    document
+        .getElementById("notificationMessage")
+        .value = "";
+
 }
-function showNotification(){ showSection("notifications"); }
-function logout(){ if(confirm("Are you sure you want to logout?")) window.location.href="/logout"; }
+
+
+
+/* =====================================================
+   NOTIFICATION ICON
+===================================================== */
+
+function showNotification() {
+
+    alert(
+        "You have 3 new administration notifications."
+    );
+
+}
+
+
+
+/* =====================================================
+   PROFILE
+===================================================== */
+
+function editProfile() {
+
+    alert(
+        "Admin profile editing will be connected to Flask + MySQL later."
+    );
+
+}
+
+
+
+/* =====================================================
+   LOGOUT
+===================================================== */
+
+function logout() {
+
+
+    const confirmLogout =
+        confirm(
+            "Are you sure you want to logout?"
+        );
+
+
+    if (confirmLogout) {
+
+        window.location.href = "/login";
+
+    }
+
+}
+
+
 </script>
 
 

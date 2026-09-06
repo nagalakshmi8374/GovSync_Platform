@@ -34,7 +34,7 @@
 
                 <button
                     class="back-button"
-                    onclick="window.location.href='{{ url_for('dashboard') }}'"
+                    onclick="window.location.href='{{ url_for('dashboard.dashboard') }}'"
                     aria-label="Back to Dashboard"
                 >
                     ←
@@ -745,7 +745,7 @@
 
         function goDashboard() {
 
-            window.location.href = "{{ url_for('dashboard') }}";
+            window.location.href = "{{ url_for('dashboard.dashboard') }}";
 
         }
 
@@ -765,7 +765,7 @@
                 select.value;
 
             window.location.href =
-                "{{ url_for('syllabus') }}?exam=" + encodeURIComponent(selectedExam);
+                "{{ url_for('dashboard.syllabus') }}?exam=" + encodeURIComponent(selectedExam);
 
         }
 

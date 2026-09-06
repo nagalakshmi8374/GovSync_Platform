@@ -828,6 +828,8 @@
         // If the password fields were opened and filled in, update
         // the password too.
 
+        let passwordChanged = false;
+
         if (passwordMode) {
 
             const currentPassword =
@@ -863,7 +865,8 @@
 
                     } else {
 
-                        alert("Password updated successfully.");
+                        passwordChanged = true;
+                        alert("Password updated successfully. Please sign in again with your new password.");
                     }
 
                 } catch (err) {
@@ -871,6 +874,11 @@
                     alert("Could not update password. Please try again.");
                 }
             }
+        }
+
+        if (passwordChanged) {
+            window.location.href = "/logout";
+            return;
         }
 
         cancelSettingsProfile();

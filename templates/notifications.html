@@ -108,9 +108,7 @@
 
             <div class="summary-count">
 
-                <strong id="unreadCount">
-                    3
-                </strong>
+                <strong id="unreadCount">{{ unread_count }}</strong>
 
                 <span>
                     Unread
@@ -170,278 +168,15 @@
         ================================= -->
 
         <section class="notification-list" id="notificationList">
-
-
-            <!-- NOTIFICATION 1 -->
-
-            <article
-                class="notification-card unread"
-                data-type="syllabus"
-            >
-
-                <div class="notification-icon syllabus-icon">
-                    ↑
-                </div>
-
-
-                <div class="notification-content">
-
-                    <div class="notification-title-row">
-
-                        <h3>
-                            UPSC Civil Services syllabus updated
-                        </h3>
-
-                        <span class="unread-dot"></span>
-
-                    </div>
-
-                    <p>
-                        New changes have been detected in the UPSC Civil Services
-                        examination syllabus. Review the updated topics before
-                        continuing your preparation.
-                    </p>
-
-
-                    <div class="notification-meta">
-
-                        <span>
-                            📚 UPSC Civil Services
-                        </span>
-
-                        <span>
-                            2 hours ago
-                        </span>
-
-                    </div>
-
-                </div>
-
-
-                <button
-                    class="notification-action"
-                    onclick="markRead(this)"
-                >
-                    Mark read
-                </button>
-
-            </article>
-
-
-
-            <!-- NOTIFICATION 2 -->
-
-            <article
-                class="notification-card unread"
-                data-type="syllabus"
-            >
-
-                <div class="notification-icon exam-icon">
-                    S
-                </div>
-
-
-                <div class="notification-content">
-
-                    <div class="notification-title-row">
-
-                        <h3>
-                            SSC CGL syllabus reviewed
-                        </h3>
-
-                        <span class="unread-dot"></span>
-
-                    </div>
-
-                    <p>
-                        Important topic changes have been synchronized for
-                        SSC CGL. Your syllabus is now updated with the latest
-                        available information.
-                    </p>
-
-
-                    <div class="notification-meta">
-
-                        <span>
-                            📚 SSC CGL
-                        </span>
-
-                        <span>
-                            Yesterday
-                        </span>
-
-                    </div>
-
-                </div>
-
-
-                <button
-                    class="notification-action"
-                    onclick="markRead(this)"
-                >
-                    Mark read
-                </button>
-
-            </article>
-
-
-
-            <!-- NOTIFICATION 3 -->
-
-            <article
-                class="notification-card unread"
-                data-type="exam"
-            >
-
-                <div class="notification-icon exam-icon">
-                    R
-                </div>
-
-
-                <div class="notification-content">
-
-                    <div class="notification-title-row">
-
-                        <h3>
-                            RRB NTPC exam notification
-                        </h3>
-
-                        <span class="unread-dot"></span>
-
-                    </div>
-
-                    <p>
-                        A new notification related to RRB NTPC has been added.
-                        Check the latest examination information and updates.
-                    </p>
-
-
-                    <div class="notification-meta">
-
-                        <span>
-                            📚 RRB NTPC
-                        </span>
-
-                        <span>
-                            2 days ago
-                        </span>
-
-                    </div>
-
-                </div>
-
-
-                <button
-                    class="notification-action"
-                    onclick="markRead(this)"
-                >
-                    Mark read
-                </button>
-
-            </article>
-
-
-
-            <!-- NOTIFICATION 4 -->
-
-            <article
-                class="notification-card"
-                data-type="syllabus"
-            >
-
-                <div class="notification-icon update-icon">
-                    ✓
-                </div>
-
-
-                <div class="notification-content">
-
-                    <div class="notification-title-row">
-
-                        <h3>
-                            Syllabus synchronization completed
-                        </h3>
-
-                    </div>
-
-                    <p>
-                        Your selected exam syllabi have been successfully
-                        synchronized with the latest available updates.
-                    </p>
-
-
-                    <div class="notification-meta">
-
-                        <span>
-                            🔄 SyllabusSync
-                        </span>
-
-                        <span>
-                            5 days ago
-                        </span>
-
-                    </div>
-
-                </div>
-
-                <span class="read-status">
-                    Read
-                </span>
-
-            </article>
-
-
-
-            <!-- NOTIFICATION 5 -->
-
-            <article
-                class="notification-card"
-                data-type="exam"
-            >
-
-                <div class="notification-icon reminder-icon">
-                    !
-                </div>
-
-
-                <div class="notification-content">
-
-                    <div class="notification-title-row">
-
-                        <h3>
-                            Preparation reminder
-                        </h3>
-
-                    </div>
-
-                    <p>
-                        You have pending topics in your selected exams.
-                        Continue your preparation to improve your overall progress.
-                    </p>
-
-
-                    <div class="notification-meta">
-
-                        <span>
-                            🎯 Preparation
-                        </span>
-
-                        <span>
-                            1 week ago
-                        </span>
-
-                    </div>
-
-                </div>
-
-                <span class="read-status">
-                    Read
-                </span>
-
-            </article>
-
-
-        </section>
+{% for n in notifications %}
+<article class="notification-card{% if not n.is_read %} unread{% endif %}" data-type="{{ 'syllabus' if n.exam_code else 'general' }}" data-id="{{n.id}}">
+<div class="notification-icon {% if n.exam_code %}syllabus-icon{% else %}update-icon{% endif %}">{% if n.exam_code %}↑{% else %}✓{% endif %}</div>
+<div class="notification-content"><div class="notification-title-row"><h3>{{n.title}}</h3>{% if not n.is_read %}<span class="unread-dot"></span>{% endif %}</div>
+<p>{{n.message}}</p><div class="notification-meta"><span>📚 {{n.exam_code or 'All Exams'}}</span><span>{{n.created_at}}</span></div></div>
+{% if not n.is_read %}<button class="notification-action" onclick="markRead(this)">Mark read</button>{% else %}<span class="read-status">Read</span>{% endif %}
+</article>
+{% endfor %}
+</section>
 
 
 
@@ -529,228 +264,32 @@
            FILTER
         ================================= */
 
-        function filterNotifications(type, button) {
-
-            const buttons =
-                document.querySelectorAll(".notification-tab");
-
-            buttons.forEach(function(btn) {
-
-                btn.classList.remove("active");
-
-            });
-
-            button.classList.add("active");
-
-
-            const cards =
-                document.querySelectorAll(".notification-card");
-
-            let visibleCount = 0;
-
-
-            cards.forEach(function(card) {
-
-                const cardType =
-                    card.getAttribute("data-type");
-
-                const isUnread =
-                    card.classList.contains("unread");
-
-
-                let show = false;
-
-
-                if (type === "all") {
-
-                    show = true;
-
-                }
-
-
-                else if (type === "unread") {
-
-                    show = isUnread;
-
-                }
-
-
-                else if (type === "syllabus") {
-
-                    show = cardType === "syllabus";
-
-                }
-
-
-                if (show) {
-
-                    card.style.display = "flex";
-
-                    visibleCount++;
-
-                }
-
-                else {
-
-                    card.style.display = "none";
-
-                }
-
-            });
-
-
-            const empty =
-                document.getElementById("emptyState");
-
-
-            if (visibleCount === 0) {
-
-                empty.classList.add("show");
-
-            }
-
-            else {
-
-                empty.classList.remove("show");
-
-            }
-
-        }
-
-
-
-        /* ================================
-           MARK SINGLE READ
-        ================================= */
-
-        function markRead(button) {
-
-            const card =
-                button.closest(".notification-card");
-
-
-            if (!card.classList.contains("unread")) {
-
-                return;
-
-            }
-
-
-            card.classList.remove("unread");
-
-
-            const dot =
-                card.querySelector(".unread-dot");
-
-
-            if (dot) {
-
-                dot.remove();
-
-            }
-
-
-            button.remove();
-
-
-            const readStatus =
-                document.createElement("span");
-
-            readStatus.className =
-                "read-status";
-
-            readStatus.textContent =
-                "Read";
-
-
-            card.appendChild(readStatus);
-
-
-            updateUnreadCount();
-
-        }
-
-
-
-        /* ================================
-           MARK ALL READ
-        ================================= */
-
-        function markAllRead() {
-
-            const unreadCards =
-                document.querySelectorAll(
-                    ".notification-card.unread"
-                );
-
-
-            unreadCards.forEach(function(card) {
-
-                card.classList.remove("unread");
-
-
-                const dot =
-                    card.querySelector(".unread-dot");
-
-
-                if (dot) {
-
-                    dot.remove();
-
-                }
-
-
-                const button =
-                    card.querySelector(".notification-action");
-
-
-                if (button) {
-
-                    button.remove();
-
-                }
-
-
-                const status =
-                    document.createElement("span");
-
-                status.className =
-                    "read-status";
-
-                status.textContent =
-                    "Read";
-
-
-                card.appendChild(status);
-
-            });
-
-
-            updateUnreadCount();
-
-        }
-
-
-
-        /* ================================
-           UPDATE COUNT
-        ================================= */
-
-        function updateUnreadCount() {
-
-            const unread =
-                document.querySelectorAll(
-                    ".notification-card.unread"
-                ).length;
-
-
-            document.getElementById(
-                "unreadCount"
-            ).textContent = unread;
-
-        }
-
-    </script>
+        function filterNotifications(type, button){
+ document.querySelectorAll(".notification-tab").forEach(b=>b.classList.remove("active")); button.classList.add("active");
+ let count=0; document.querySelectorAll(".notification-card").forEach(card=>{
+   const show=type==="all" || (type==="unread" && card.classList.contains("unread")) || (type==="syllabus" && card.dataset.type==="syllabus");
+   card.style.display=show?"flex":"none"; if(show)count++;
+ }); document.getElementById("emptyState").classList.toggle("show",count===0);
+}
+async function markRead(button){
+ const card=button.closest(".notification-card");
+ try{
+   const r=await fetch("/api/notifications/"+card.dataset.id+"/read",{method:"POST",headers:{"Content-Type":"application/json"}});
+   const data=await r.json(); if(!data.success)throw new Error(data.message||"Could not mark as read.");
+   card.classList.remove("unread"); const dot=card.querySelector(".unread-dot"); if(dot)dot.remove(); button.outerHTML='<span class="read-status">Read</span>'; updateUnreadCount();
+ }catch(e){alert(e.message);}
+}
+async function markAllRead(){
+ try{
+   const r=await fetch("/api/notifications/read-all",{method:"POST",headers:{"Content-Type":"application/json"}});
+   const data=await r.json(); if(!data.success)throw new Error(data.message||"Could not update notifications.");
+   document.querySelectorAll(".notification-card.unread").forEach(card=>{card.classList.remove("unread");const dot=card.querySelector(".unread-dot");if(dot)dot.remove();const b=card.querySelector(".notification-action");if(b)b.outerHTML='<span class="read-status">Read</span>';});
+   updateUnreadCount();
+ }catch(e){alert(e.message);}
+}
+function updateUnreadCount(){document.getElementById("unreadCount").textContent=document.querySelectorAll(".notification-card.unread").length;}
+function goDashboard(){window.location.href="/dashboard";}
+</script>
 
 </body>
 

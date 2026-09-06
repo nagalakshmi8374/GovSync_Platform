@@ -63,7 +63,7 @@
 
             <div class="header-right">
 
-               <a href=notifications.html>
+               <a href="/notifications">
                 <button class="notification">
                     🔔
                     <i></i>
@@ -338,7 +338,7 @@
 
                         <button
                             class="open-btn"
-                            onclick="window.location.href='{{ url_for('syllabus') }}?exam={{ exam.exam_code }}'"
+                            onclick="window.location.href='{{ url_for('dashboard.syllabus') }}?exam={{ exam.exam_code }}'"
                         >
                             Open
                         </button>
@@ -348,7 +348,7 @@
                     {% else %}
                     <p>
                         You haven't selected any exams yet.
-                        <a href="{{ url_for('preference') }}">Choose your exams</a>
+                        <a href="{{ url_for('preferences.preference') }}">Choose your exams</a>
                     </p>
                     {% endif %}
 
@@ -426,7 +426,7 @@
 
                 </div>
 
-<a href="{{ url_for('progress') }}">
+<a href="{{ url_for('dashboard.progress') }}">
                 <button class="details-btn">
                     View Detailed Progress
                 </button>
@@ -457,7 +457,7 @@
 
                 </div>
 
-                <a href="{{ url_for('updates') }}">
+                <a href="{{ url_for('dashboard.updates') }}">
                     View all
                 </a>
 
@@ -512,7 +512,7 @@
             <div class="quick-grid">
 
                <!-- ADD EXAM -->
-<a href="{{ url_for('preference') }}" class="quick-card">
+<a href="{{ url_for('preferences.preference') }}" class="quick-card">
 
     <div class="quick-icon">
         +
@@ -537,7 +537,7 @@
 </a>
 
 
-                <a href="{{ url_for('progress') }}" class="quick-card">
+                <a href="{{ url_for('dashboard.progress') }}" class="quick-card">
 
                     <div class="quick-icon">
                         ✓
@@ -562,7 +562,7 @@
                 </a>
 
 
-                <a href="{{ url_for('updates') }}" class="quick-card">
+                <a href="{{ url_for('dashboard.updates') }}" class="quick-card">
 
                     <div class="quick-icon">
                         ↻
